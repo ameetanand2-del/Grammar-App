@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>GrammarForge · PTE</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#F4F6FA;--w:#FFF;--c1:#FFF;--c2:#F8FAFB;--bd:#E4E8EF;--bd2:#D1D7E0;--tl:#2ABFAC;--tl2:#23A696;--tlb:rgba(42,191,172,.1);--pr:#7C6AF0;--prb:rgba(124,106,240,.08);--am:#EFA430;--amb:rgba(239,164,48,.08);--rd:#E05A5A;--rdb:rgba(224,90,90,.08);--bl:#4A90D9;--t1:#1A2138;--t2:#374155;--t3:#5A6580;--t4:#8994A7;--t5:#B0B8C8;--f:'Plus Jakarta Sans',system-ui,sans-serif;--m:'JetBrains Mono',monospace}
+html,body{background:var(--bg);color:var(--t1);font-family:var(--f);min-height:100vh}
+button{font-family:var(--f);cursor:pointer}input,select{font-family:var(--f)}
+.app{max-width:460px;margin:0 auto;padding:16px 14px 80px}
+.hdr{margin-bottom:20px}.hdr .lb{color:var(--tl);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}.hdr h1{font-size:22px;font-weight:800;color:var(--t1)}.hdr .su{font-size:11px;color:var(--t4);margin-top:2px}
+.cd{background:var(--c1);border:1px solid var(--bd);border-radius:14px;padding:16px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.pb{height:7px;background:var(--bd);border-radius:7px;overflow:hidden}.pb .fl{height:100%;border-radius:7px;transition:width .4s}
+.tabs{display:flex;gap:3px;background:var(--c2);border:1px solid var(--bd);border-radius:12px;padding:3px;margin-bottom:16px}.tabs button{flex:1;padding:11px 0;border:none;border-radius:10px;background:transparent;color:var(--t4);font-size:12px;font-weight:600;transition:.15s}.tabs button.on{background:var(--tl);color:#fff;box-shadow:0 2px 6px rgba(42,191,172,.25)}
+.ti{background:var(--c1);border:1px solid var(--bd);border-radius:14px;padding:16px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.04);cursor:pointer;transition:.15s}.ti:active{border-color:var(--tl)}.ti .tp{display:flex;align-items:center;gap:10px;margin-bottom:8px}.ti .ico{font-size:22px}.ti .tit{font-size:15px;font-weight:700}.ti .st{margin-left:auto;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px}.ti .mt{font-size:11px;color:var(--t4);margin-bottom:8px}.ti .pr{display:flex;align-items:center;gap:8px}.ti .pr .pc{font-size:12px;font-family:var(--m);font-weight:700;min-width:32px}
+.cts{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:14px}.ct{background:var(--c1);border:1px solid var(--bd);border-radius:12px;text-align:center;padding:10px 4px}.ct .n{font-size:18px;font-weight:800;font-family:var(--m)}.ct .l{font-size:9px;color:var(--t4);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+.ar{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}.ab{padding:14px;border-radius:14px;border:none;font-size:13px;font-weight:700;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.06)}.at{background:var(--tl);color:#fff}.ao{background:var(--c1);border:1px solid var(--bd);color:var(--t2)}
+.kc{background:var(--c1);border:1px solid var(--bd);border-radius:14px;padding:16px;margin-bottom:10px;border-left:4px solid var(--tl);box-shadow:0 1px 3px rgba(0,0,0,.04)}.kc h3{font-size:15px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:8px}.kc .bg{font-size:9px;font-weight:700;padding:3px 10px;border-radius:12px;text-transform:uppercase;letter-spacing:.06em;background:var(--tlb);color:var(--tl)}.kc p{font-size:13px;color:var(--t2);line-height:1.8;margin-bottom:10px}.kc .po{font-size:10px;font-weight:700;color:var(--tl);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}.kc .pv{font-size:12px;color:var(--t3);background:var(--c2);padding:10px 12px;border-radius:10px;margin-bottom:10px;border:1px solid var(--bd)}.kc .el{font-size:10px;font-weight:700;color:var(--tl);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}.kc .ex{border-left:3px solid var(--tl);padding:8px 12px;font-size:12px;color:var(--t2);font-style:italic;margin-bottom:6px;background:var(--c2);border-radius:0 10px 10px 0}.kc .tl2{font-size:10px;font-weight:700;color:var(--rd);text-transform:uppercase;letter-spacing:.06em;margin:10px 0 6px}.kc .trp{background:var(--rdb);border:1px solid rgba(224,90,90,.15);border-radius:10px;padding:10px 12px;font-size:12px;margin-bottom:6px}.kc .trp .wr{color:var(--rd);font-weight:600}.kc .trp .rt{color:var(--tl);font-weight:600}.kc .trp .wy{color:var(--t3);margin-top:4px;font-size:11px}
+.qc{background:var(--c1);border:1px solid var(--bd);border-radius:14px;padding:18px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.04)}.qc .qh{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.qc .qt{font-size:9px;font-weight:700;padding:3px 10px;border-radius:8px;text-transform:uppercase;letter-spacing:.06em;font-family:var(--m)}.qc .qn{font-size:11px;color:var(--t4);font-family:var(--m)}.qc .ps{font-size:14px;color:var(--t2);line-height:1.9;margin-bottom:16px}
+.qc select{padding:8px 12px;border-radius:8px;border:2px solid var(--bd);background:var(--c2);color:var(--t1);font-size:13px;min-width:110px;outline:none;-webkit-appearance:none}.qc select:focus{border-color:var(--tl)}
+.wb{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;padding:12px;background:var(--c2);border:1px dashed var(--bd2);border-radius:12px}.wc{padding:8px 14px;border-radius:10px;background:var(--c1);border:1px solid var(--bd);color:var(--t2);font-size:13px;font-weight:600;cursor:pointer;transition:.15s;user-select:none}.wc:active{transform:scale(.95)}.wc.us{opacity:.25;pointer-events:none}.wc.pl{background:var(--tlb);border-color:var(--tl);color:var(--tl2)}
+.dz{display:inline-block;min-width:80px;padding:4px 10px;border:2px dashed var(--bd2);border-radius:8px;color:var(--t4);font-size:13px;cursor:pointer;transition:.15s;margin:0 2px;vertical-align:baseline}.dz.fd{border-color:var(--tl);background:var(--tlb);color:var(--tl2);border-style:solid}.dz.ok{border-color:var(--tl);background:var(--tlb);color:var(--tl2);border-style:solid}.dz.no{border-color:var(--rd);background:var(--rdb);color:var(--rd);border-style:solid}
+.sm{width:100%;padding:14px;border:none;border-radius:12px;background:var(--tl);color:#fff;font-size:14px;font-weight:700;box-shadow:0 2px 8px rgba(42,191,172,.25)}.sm:disabled{opacity:.35}
+.fb{border-radius:12px;padding:16px;margin-bottom:12px}.fb.ok{background:var(--tlb);border:1px solid rgba(42,191,172,.25)}.fb.no{background:var(--rdb);border:1px solid rgba(224,90,90,.2)}.fb .ft2{font-weight:700;font-size:14px;margin-bottom:6px}.fb .fa{font-size:12px;color:var(--t2);margin-bottom:6px}.fb .fr{font-size:12px;font-weight:700;color:var(--am);margin-top:8px}.fb .fe{font-size:13px;color:var(--t2);line-height:1.8}.fb .fs{margin-top:8px;font-size:11px;padding:6px 10px;border-radius:8px;background:var(--amb);color:var(--am);font-weight:600}
+.rb{background:var(--rdb);border:1px solid rgba(224,90,90,.2);border-radius:12px;padding:14px 16px;margin-bottom:14px;display:flex;align-items:center;gap:10px}.rb .ri{font-size:20px}.rb .rx{font-size:12px;font-weight:600;color:var(--rd);flex:1}
+.nb{display:inline-flex;align-items:center;gap:4px;padding:7px 16px;border-radius:10px;border:1px solid var(--bd);background:var(--c1);color:var(--t3);font-size:11px;font-weight:600;margin-bottom:16px}
+.seq-prog{display:flex;align-items:center;gap:4px;margin-bottom:14px}.seq-dot{width:10px;height:10px;border-radius:50%;border:2px solid var(--bd2);flex-shrink:0}.seq-dot.done{background:var(--tl);border-color:var(--tl)}.seq-dot.cur{border-color:var(--tl);background:var(--tlb)}.seq-line{flex:1;height:2px;background:var(--bd)}.seq-line.done{background:var(--tl)}
+.wm{text-align:center;margin-top:32px;opacity:.3;font-size:10px;color:var(--t5);letter-spacing:.1em;text-transform:uppercase}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}.fi{animation:fi .2s ease}
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+<script>
+// ══════════════════════════════════════════════════════════════
+// TOPICS & SUBSKILLS DATA
+// ══════════════════════════════════════════════════════════════
+const T={
+tenses:{id:"tenses",title:"Tenses",icon:"\u23F3",desc:"Verb tenses, modals, perfect forms",subs:{
+"t-sp":{title:"Simple Present vs Continuous",rule:"Simple Present = habits, facts. Continuous = temporary, now.",pos:"V1(+s/es) vs am/is/are+V-ing",exs:["She works at a bank.","She is working from home this week."],trap:{w:"I am knowing the answer.",r:"I know the answer.",y:"Stative verb."}},
+"t-past":{title:"Simple Past vs Past Continuous",rule:"SP = completed. PC = background/interrupted.",pos:"V2 vs was/were+V-ing",exs:["The experiment failed.","They were analyzing when power went out."],trap:{w:"When he arrived, she cooked.",r:"When he arrived, she was cooking.",y:"In progress."}},
+"t-pp":{title:"Present Perfect vs Simple Past",rule:"SP = specific time. PP = connects to now.",pos:"V2 vs have/has+V3. since/for = PP.",exs:["She visited in 2019.","She has visited three times."],trap:{w:"I have seen it last night.",r:"I saw it last night.",y:"Specific time = SP."}},
+"t-ppast":{title:"Past Perfect vs Simple Past",rule:"PP = earlier of two past events.",pos:"had+V3 (earlier) vs V2 (later).",exs:["The train had left when we arrived."],trap:{w:"She never saw snow before she moved.",r:"She had never seen snow before she moved.",y:"Earlier = PP."}},
+"t-fut":{title:"Will vs Going To vs Pres Cont",rule:"Will = spontaneous. Going to = planned. PC = fixed.",pos:"will+V1 / going to+V1 / V-ing+time",exs:["I will help.","I am meeting her at 3."],trap:{w:"Look, it will rain!",r:"Look, it is going to rain!",y:"Evidence = going to."}},
+"t-mod":{title:"Modals + Base Form",rule:"After modals, ALWAYS base V1.",pos:"modal+V1. modal+have+V3.",exs:["She can speak French.","He should have finished."],trap:{w:"She can speaks.",r:"She can speak.",y:"No conjugation after modal."}},
+"t-perf":{title:"Have/Has/Had + V3",rule:"After have/has/had = always V3.",pos:"have/has+V3. had+V3.",exs:["The committee has approved it."],trap:{w:"She has went.",r:"She has gone.",y:"went=V2, gone=V3."}},
+"t-svf":{title:"Do/Does + Base Verb",rule:"After does/doesn't, main verb stays BASE.",pos:"does+V1 / doesn't+V1.",exs:["The policy doesn't apply."],trap:{w:"He doesn't eats.",r:"He doesn't eat.",y:"Doesn't carries conjugation."}},
+"t-hto":{title:"Has to / Have to",rule:"Have to follows SVA. Must never changes.",pos:"Singular=has to. Plural=have to.",exs:["Every employee has to complete it."],trap:{w:"Each candidate have to submit.",r:"Each candidate has to submit.",y:"Singular=has to."}},
+"t-irr":{title:"Irregular Past Tense",rule:"Past same for all subjects. No -ed for irregulars.",pos:"go=went, think=thought, know=knew.",exs:["The researchers found differences."],trap:{w:"They thinked carefully.",r:"They thought carefully.",y:"think=thought."}}
+}},
+articles:{id:"articles",title:"Articles",icon:"\uD83D\uDCCE",desc:"A, An, The, Zero article rules",subs:{
+"a-basic":{title:"A / An / The / Zero",rule:"A/An = non-specific. The = specific. Zero = general.",pos:"A+consonant sound. An+vowel sound.",exs:["A university.","An hour.","Water is essential."],trap:{w:"She is a honest person.",r:"She is an honest person.",y:"Vowel sound = an."}},
+"a-the":{title:"When to Use The",rule:"The for: second mention, unique, superlatives, specific.",pos:"The+superlative. The+of. The+ordinal.",exs:["The sun.","The results of the study."],trap:{w:"He wants to become the engineer.",r:"He wants to become an engineer.",y:"Non-specific = a/an."}},
+"a-zero":{title:"Zero Article Rules",rule:"No article: uncountable general, plural general, languages, meals.",pos:"No article + general noun.",exs:["Education is important.","Dogs are loyal."],trap:{w:"The water is essential for life.",r:"Water is essential for life.",y:"General = zero."}}
+}},
+sva:{id:"sva",title:"Subject-Verb Agreement",icon:"\uD83D\uDD17",desc:"Singular/plural matching, tricky subjects",subs:{
+"s-core":{title:"Core SVA Rules",rule:"Singular = singular verb. Plural = plural. Ignore prep phrases.",pos:"List of items IS. Results of study SHOW.",exs:["The quality of products has improved."],trap:{w:"The group of students were late.",r:"The group of students was late.",y:"Group = subject."}},
+"s-tricky":{title:"Neither/Nor, Each, Every",rule:"Nor = nearest subject. Each/every = singular.",pos:"Neither A nor B = verb matches B.",exs:["Neither teacher nor students were present."],trap:{w:"Each of the boys have finished.",r:"Each of the boys has finished.",y:"Each = singular."}},
+"s-there":{title:"There is/are",rule:"There/here: verb agrees with real subject after it.",pos:"There is+singular. There are+plural.",exs:["There are several reasons."],trap:{w:"There is many problems.",r:"There are many problems.",y:"Problems = plural."}}
+}},
+preps:{id:"preps",title:"Prepositions",icon:"\uD83C\uDFF7\uFE0F",desc:"Fixed pairs, gerund after prep, time/place",subs:{
+"p-ger":{title:"Preposition + Gerund",rule:"After prepositions, verbs take -ing form.",pos:"prep+V-ing. Look forward to meeting.",exs:["Thanks for helping.","I look forward to meeting you."],trap:{w:"I look forward to meet you.",r:"I look forward to meeting you.",y:"To = prep here."}},
+"p-fix":{title:"Fixed Verb/Adj + Prep",rule:"Certain verbs/adj always take specific prepositions.",pos:"depend ON, consist OF, interested IN.",exs:["Success depends on preparation."],trap:{w:"She is responsible of the project.",r:"She is responsible for the project.",y:"Responsible for."}},
+"p-time":{title:"Time & Place Prepositions",rule:"At = specific time. On = days. In = months/years.",pos:"at 5PM, on Monday, in July.",exs:["The meeting is at 3 PM on Friday."],trap:{w:"I will see you in Monday.",r:"I will see you on Monday.",y:"Days = on."}}
+}},
+passive:{id:"passive",title:"Active & Passive Voice",icon:"\uD83D\uDD04",desc:"be + V3, passive across tenses",subs:{
+"v-basic":{title:"Basic Passive: be + V3",rule:"Passive = subject receives action. be + V3.",pos:"is/are/was/were + V3.",exs:["The report was submitted.","Policies are being implemented."],trap:{w:"The building built in 1990.",r:"The building was built in 1990.",y:"Missing be."}},
+"v-tense":{title:"Passive Across Tenses",rule:"Match be to tense: is done, was done, has been done, will be done.",pos:"Pres=is+V3. Past=was+V3. PP=has been+V3.",exs:["Data is collected monthly.","Results have been published."],trap:{w:"The report has been wrote.",r:"The report has been written.",y:"wrote=V2, written=V3."}},
+"v-modal":{title:"Passive with Modals",rule:"modal + be + V3.",pos:"must be done, can be seen, could have been prevented.",exs:["The issue must be addressed.","Errors could have been prevented."],trap:{w:"This can solved easily.",r:"This can be solved easily.",y:"Need be between modal and V3."}}
+}},
+gerinf:{id:"gerinf",title:"Gerunds & Infinitives",icon:"\uD83D\uDD24",desc:"When to use -ing vs to + verb",subs:{
+"g-after":{title:"Verbs + Gerund vs Infinitive",rule:"Some verbs take gerund (enjoy, avoid, suggest). Some take infinitive (want, decide, agree).",pos:"enjoy+V-ing. want+to V.",exs:["She enjoys reading.","They decided to postpone."],trap:{w:"He avoided to answer.",r:"He avoided answering.",y:"Avoid takes gerund."}},
+"g-meaning":{title:"Meaning Change: stop, remember, try",rule:"stop doing=quit. stop to do=pause. remember doing=recall. remember to do=don't forget.",pos:"stop+V-ing vs stop+to V.",exs:["She stopped smoking. (quit)","She stopped to smoke. (paused)"],trap:{w:"I remember to lock the door. (meaning recall)",r:"I remember locking the door.",y:"Recall = gerund."}},
+"g-prep":{title:"Preposition + Gerund in Context",rule:"After all prepositions, use gerund. committed to, capable of, in addition to.",pos:"prep+V-ing always.",exs:["She is capable of managing teams."],trap:{w:"He is committed to reduce.",r:"He is committed to reducing.",y:"To = prep here."}}
+}},
+cond:{id:"cond",title:"Conditionals",icon:"\uD83D\uDD00",desc:"Zero, first, second, third conditional",subs:{
+"c-zero":{title:"Zero Conditional (Facts)",rule:"If + present, present. General truths.",pos:"If+V1, V1.",exs:["If you heat water, it boils."],trap:{w:"If water is heated, it will boil.",r:"If water is heated, it boils.",y:"Fact = zero, not first."}},
+"c-first":{title:"First Conditional (Real Future)",rule:"If + present, will + V1. Likely future.",pos:"If+V1, will+V1.",exs:["If it rains, we will cancel."],trap:{w:"If it will rain, we stay.",r:"If it rains, we will stay.",y:"No will after if."}},
+"c-second":{title:"Second Conditional (Unreal Present)",rule:"If + past, would + V1. Hypothetical.",pos:"If+V2, would+V1.",exs:["If I had time, I would travel."],trap:{w:"If I would have time, I would travel.",r:"If I had time, I would travel.",y:"No would after if."}},
+"c-third":{title:"Third Conditional (Unreal Past)",rule:"If + had + V3, would have + V3. Didn't happen.",pos:"If+had+V3, would/could have+V3.",exs:["If they had invested, they would have profited."],trap:{w:"If they would have known, they would have acted.",r:"If they had known, they would have acted.",y:"No would have after if."}}
+}}
+};
+const TO=["tenses","articles","sva","preps","passive","gerinf","cond"];
+function gS(tid){return Object.keys(T[tid].subs)}
+function gSk(tid,sid){return T[tid]?.subs?.[sid]}
+function allSL(){const r=[];TO.forEach(tid=>{gS(tid).forEach(sid=>{r.push({tid,sid})})});return r}
+
+// ══════════════════════════════════════════════════════════════
+// LEVEL 1 QUESTIONS (Grammar Topics FIBs) - 91 questions
+// ══════════════════════════════════════════════════════════════
+const L1=[
+// TENSES (27)
+{id:"L1t01",ty:"dd",tid:"tenses",sid:"t-sp",p:"The university currently ___1___ over 40,000 students and ___2___ plans to expand.",b:[{id:"b1",o:["enrolls","is enrolling","enrolled","has enrolled"],c:1,l:"___1___"},{id:"b2",o:["has","is having","had","have"],c:0,l:"___2___"}],x:{b1:"General fact = SP.",b2:"Possession = has."},r:"Facts = SP."},
+{id:"L1t02",ty:"dd",tid:"tenses",sid:"t-past",p:"While the researcher ___1___ results, her colleague ___2___ an anomaly.",b:[{id:"b1",o:["reviewed","was reviewing","had reviewed","has reviewed"],c:1,l:"___1___"},{id:"b2",o:["was discovering","discovered","had discovered","discovers"],c:1,l:"___2___"}],x:{b1:"While = background = PC.",b2:"Interruption = SP."},r:"While+PC. Interrupt=SP."},
+{id:"L1t03",ty:"dd",tid:"tenses",sid:"t-pp",p:"Climate change ___1___ a concern since the 1990s. Agreements ___2___ in response.",b:[{id:"b1",o:["was","has been","had been","is being"],c:1,l:"___1___"},{id:"b2",o:["were signed","have been signed","had signed","are signing"],c:1,l:"___2___"}],x:{b1:"Since = PP.",b2:"Still relevant = PP passive."},r:"Since = PP."},
+{id:"L1t04",ty:"dd",tid:"tenses",sid:"t-ppast",p:"By the time the team ___1___ funding, the deadline ___2___ already passed.",b:[{id:"b1",o:["secured","had secured","has secured","secures"],c:0,l:"___1___"},{id:"b2",o:["has","have","had","was"],c:2,l:"___2___"}],x:{b1:"Later event = SP.",b2:"Earlier = PP: had."},r:"Earlier = Past Perfect."},
+{id:"L1t05",ty:"dd",tid:"tenses",sid:"t-fut",p:"The government ___1___ a plan next month. The date ___2___ been confirmed.",b:[{id:"b1",o:["will launch","is launching","launches","launched"],c:1,l:"___1___"},{id:"b2",o:["has","had","is","will"],c:0,l:"___2___"}],x:{b1:"Confirmed = fixed = PC.",b2:"PP: has been confirmed."},r:"Fixed = PC for future."},
+{id:"L1t06",ty:"dd",tid:"tenses",sid:"t-mod",p:"Applicants ___1___ provide valid ID. Those who fail ___2___ be disqualified.",b:[{id:"b1",o:["must","musts","must to","must be"],c:0,l:"___1___"},{id:"b2",o:["will","shall be","will to","are"],c:0,l:"___2___"}],x:{b1:"Modal + base.",b2:"Will + base."},r:"Modal + base V1."},
+{id:"L1t07",ty:"dd",tid:"tenses",sid:"t-perf",p:"Researchers have ___1___ extensive work and have ___2___ that deforestation is accelerating.",b:[{id:"b1",o:["conduct","conducted","conducting","conducts"],c:1,l:"___1___"},{id:"b2",o:["find","found","finding","finds"],c:1,l:"___2___"}],x:{b1:"have + V3.",b2:"have + V3: found."},r:"After have = V3."},
+{id:"L1t08",ty:"dd",tid:"tenses",sid:"t-svf",p:"The regulation ___1___ not require disclosure, but it ___2___ mandate reporting.",b:[{id:"b1",o:["do","does","is","has"],c:1,l:"___1___"},{id:"b2",o:["do","does","is","has"],c:1,l:"___2___"}],x:{b1:"Singular = does.",b2:"Same = does."},r:"Singular = does."},
+{id:"L1t09",ty:"dd",tid:"tenses",sid:"t-hto",p:"Each head ___1___ to submit reviews, while all staff ___2___ to complete assessments.",b:[{id:"b1",o:["have","has","had","having"],c:1,l:"___1___"},{id:"b2",o:["have","has","had","having"],c:0,l:"___2___"}],x:{b1:"Singular = has to.",b2:"Plural = have to."},r:"has to (sing) vs have to (pl)."},
+{id:"L1t10",ty:"dd",tid:"tenses",sid:"t-irr",p:"The committee ___1___ to revise guidelines after members ___2___ concerns.",b:[{id:"b1",o:["chose","choosed","has chosen","choosing"],c:0,l:"___1___"},{id:"b2",o:["raised","rised","have raised","raising"],c:0,l:"___2___"}],x:{b1:"choose=chose.",b2:"raise=raised."},r:"Irregular past."},
+{id:"L1t11",ty:"dg",tid:"tenses",sid:"t-perf",p:"The company has _B1_ a drug that has _B2_ promising results.",bl:["developed","shown"],bk:["developed","developing","shown","showed","shows","develop","showing","grew"],x:"After has = V3.",r:"After has/have = V3."},
+{id:"L1t12",ty:"dg",tid:"tenses",sid:"t-sp",p:"The economy _B1_ at a slower pace this quarter, while inflation _B2_ to affect spending.",bl:["is growing","continues"],bk:["is growing","grows","growing","continues","is continuing","continued","continue","has grown"],x:"Temporary = is growing. Fact = continues.",r:"Temporary = cont."},
+{id:"L1t13",ty:"dg",tid:"tenses",sid:"t-ppast",p:"The civilization _B1_ a system before explorers _B2_ the region.",bl:["had built","reached"],bk:["had built","built","has built","reached","had reached","reaching","were reaching","builds"],x:"Earlier = had built. Later = reached.",r:"Earlier = Past Perfect."},
+{id:"L1t14",ty:"dg",tid:"tenses",sid:"t-fut",p:"The delegation _B1_ with the minister at 2 PM, and the conference _B2_ begin after.",bl:["is meeting","will"],bk:["is meeting","will","meets","going to","shall","would","met","meeting"],x:"Fixed = is meeting. Prediction = will.",r:"Fixed = PC."},
+{id:"L1t15",ty:"dg",tid:"tenses",sid:"t-past",p:"The team _B1_ the prototype when a flaw _B2_ apparent.",bl:["was testing","became"],bk:["was testing","tested","became","was becoming","had tested","becomes","testing","become"],x:"Background = was testing. Interrupt = became.",r:"Background = PC."},
+{id:"L1t16",ty:"dg",tid:"tenses",sid:"t-hto",p:"Every student _B1_ to register, and those who miss it _B2_ to reapply.",bl:["has","have"],bk:["has","have","had","must","having","is","does","will"],x:"Singular = has to. Plural = have to.",r:"SVA with have to."},
+{id:"L1t17",ty:"dg",tid:"tenses",sid:"t-irr",p:"The author _B1_ the manuscript and _B2_ it to five publishers.",bl:["wrote","sent"],bk:["wrote","writed","sent","sended","written","sending","write","send"],x:"write=wrote. send=sent.",r:"Irregular past."},
+{id:"L1t18",ty:"dg",tid:"tenses",sid:"t-pp",p:"The organization _B1_ over $2M since founding, and last year it _B2_ $500K.",bl:["has raised","donated"],bk:["has raised","raised","donated","has donated","donates","raising","had raised","donating"],x:"Since = PP. Last year = SP.",r:"Since=PP. Specific=SP."},
+{id:"L1t19",ty:"dg",tid:"tenses",sid:"t-mod",p:"Emissions _B1_ have been reduced if governments _B2_ acted sooner.",bl:["could","had"],bk:["could","can","had","have","would","has","should","did"],x:"Past possibility = could. Conditional = had.",r:"Could+have+V3."},
+{id:"L1t20",ty:"dd",tid:"tenses",sid:"t-pp",p:"The university ___1___ criteria since 2015. The latest change ___2___ effect last September.",b:[{id:"b1",o:["revised","has revised","had revised","revises"],c:1,l:"___1___"},{id:"b2",o:["took","has taken","takes","had taken"],c:0,l:"___2___"}],x:{b1:"Since = PP.",b2:"Last September = SP."},r:"Since=PP. Specific=SP."},
+{id:"L1t21",ty:"dd",tid:"tenses",sid:"t-sp",p:"Water ___1___ at 100C. Currently, scientists ___2___ whether this changes under extreme conditions.",b:[{id:"b1",o:["boils","is boiling","boiled","has boiled"],c:0,l:"___1___"},{id:"b2",o:["investigate","are investigating","investigated","had investigated"],c:1,l:"___2___"}],x:{b1:"Fact = SP.",b2:"Currently = PC."},r:"Fact=SP. Currently=PC."},
+{id:"L1t22",ty:"dd",tid:"tenses",sid:"t-perf",p:"Ocean temps have ___1___ steadily and sea levels have ___2___ by 8 cm.",b:[{id:"b1",o:["rise","risen","rose","rising"],c:1,l:"___1___"},{id:"b2",o:["increase","increased","increasing","increases"],c:1,l:"___2___"}],x:{b1:"have=V3: risen.",b2:"have=V3: increased."},r:"After have = V3."},
+{id:"L1t23",ty:"dd",tid:"tenses",sid:"t-ppast",p:"The species ___1___ before conservation ___2___ in 2010.",b:[{id:"b1",o:["disappeared","had disappeared","has disappeared","was disappearing"],c:1,l:"___1___"},{id:"b2",o:["began","had begun","begin","were beginning"],c:0,l:"___2___"}],x:{b1:"Earlier = PP.",b2:"Later = SP."},r:"Earlier=PP. Later=SP."},
+{id:"L1t24",ty:"dd",tid:"tenses",sid:"t-svf",p:"The investigator ___1___ not believe results are conclusive and ___2___ recommend extending.",b:[{id:"b1",o:["do","does","is","has"],c:1,l:"___1___"},{id:"b2",o:["do","does","is","has"],c:1,l:"___2___"}],x:{b1:"Singular = does.",b2:"Same = does."},r:"Singular = does."},
+{id:"L1t25",ty:"dd",tid:"tenses",sid:"t-mod",p:"The treatment ___1___ have been effective if dosage ___2___ been adjusted earlier.",b:[{id:"b1",o:["could","can","will","should to"],c:0,l:"___1___"},{id:"b2",o:["has","had","have","would"],c:1,l:"___2___"}],x:{b1:"Past possibility = could.",b2:"Third conditional = had."},r:"Could+have+V3."},
+{id:"L1t26",ty:"dg",tid:"tenses",sid:"t-pp",p:"Since the new curriculum, performance _B1_ significantly. Last semester, rates _B2_ 94%.",bl:["has improved","reached"],bk:["has improved","improved","reached","has reached","reaching","improves","had improved","reach"],x:"Since=PP. Last semester=SP.",r:"Since=PP."},
+{id:"L1t27",ty:"dg",tid:"tenses",sid:"t-mod",p:"Participants _B1_ complete consent before the experiment. Anyone who _B2_ not comply will be excluded.",bl:["must","does"],bk:["must","musts","does","do","should to","is","has","can"],x:"Modal must+base. Anyone=singular=does.",r:"Modals never conjugate."},
+// ARTICLES (10)
+{id:"L1a01",ty:"dd",tid:"articles",sid:"a-basic",p:"She is ___1___ honest woman who works as ___2___ engineer.",b:[{id:"b1",o:["a","an","the","\u2014"],c:1,l:"___1___"},{id:"b2",o:["a","an","the","\u2014"],c:1,l:"___2___"}],x:{b1:"Vowel sound=an.",b2:"Non-specific=an."},r:"Sound determines a/an."},
+{id:"L1a02",ty:"dd",tid:"articles",sid:"a-the",p:"___1___ results of ___2___ study confirmed the hypothesis.",b:[{id:"b1",o:["A","An","The","\u2014"],c:2,l:"___1___"},{id:"b2",o:["a","an","the","\u2014"],c:2,l:"___2___"}],x:{b1:"Specific=the.",b2:"Known study=the."},r:"Specific=the."},
+{id:"L1a03",ty:"dd",tid:"articles",sid:"a-zero",p:"___1___ education is widely regarded as ___2___ key to development.",b:[{id:"b1",o:["A","An","The","\u2014"],c:3,l:"___1___"},{id:"b2",o:["a","an","the","\u2014"],c:2,l:"___2___"}],x:{b1:"General=zero.",b2:"The key=unique=the."},r:"General=zero. Unique=the."},
+{id:"L1a04",ty:"dg",tid:"articles",sid:"a-basic",p:"He enrolled in _B1_ MBA program at _B2_ European university.",bl:["an","a"],bk:["a","an","the","\u2014"],x:"MBA=/em/=an. European=/j/=a.",r:"Sound, not spelling."},
+{id:"L1a05",ty:"dd",tid:"articles",sid:"a-the",p:"___1___ Amazon River is ___2___ longest river in South America.",b:[{id:"b1",o:["A","An","The","\u2014"],c:2,l:"___1___"},{id:"b2",o:["a","an","the","\u2014"],c:2,l:"___2___"}],x:{b1:"Rivers=the.",b2:"Superlative=the."},r:"Rivers+superlative=the."},
+{id:"L1a06",ty:"dd",tid:"articles",sid:"a-basic",p:"She ate ___1___ apple and ___2___ banana for lunch.",b:[{id:"b1",o:["a","an","the","\u2014"],c:1,l:"___1___"},{id:"b2",o:["a","an","the","\u2014"],c:0,l:"___2___"}],x:{b1:"Vowel=an.",b2:"Consonant=a."},r:"A+consonant. An+vowel."},
+{id:"L1a07",ty:"dd",tid:"articles",sid:"a-the",p:"___1___ government announced ___2___ new policy would take effect.",b:[{id:"b1",o:["A","An","The","\u2014"],c:2,l:"___1___"},{id:"b2",o:["a","an","the","\u2014"],c:2,l:"___2___"}],x:{b1:"Known=the.",b2:"Just mentioned=the."},r:"Known to reader=the."},
+{id:"L1a08",ty:"dg",tid:"articles",sid:"a-zero",p:"_B1_ children learn best through _B2_ play and interaction.",bl:["\u2014","\u2014"],bk:["The","A","An","\u2014"],x:"General categories=zero article.",r:"General=zero."},
+{id:"L1a09",ty:"dg",tid:"articles",sid:"a-zero",p:"_B1_ honesty is _B2_ best policy in professional settings.",bl:["\u2014","the"],bk:["A","An","The","\u2014"],x:"Abstract=zero. Superlative=the.",r:"Abstract=zero. Super=the."},
+{id:"L1a10",ty:"dd",tid:"articles",sid:"a-basic",p:"He bought ___1___ umbrella because it was ___2___ rainy day.",b:[{id:"b1",o:["a","an","the","\u2014"],c:1,l:"___1___"},{id:"b2",o:["a","an","the","\u2014"],c:0,l:"___2___"}],x:{b1:"Vowel=an.",b2:"Consonant=a."},r:"Sound determines a/an."},
+// SVA (10)
+{id:"L1s01",ty:"dd",tid:"sva",sid:"s-core",p:"The quality of products ___1___ improved, and results of the study ___2___ this.",b:[{id:"b1",o:["have","has","are","is"],c:1,l:"___1___"},{id:"b2",o:["supports","support","supporting","supported"],c:1,l:"___2___"}],x:{b1:"Quality=singular=has.",b2:"Results=plural=support."},r:"True subject determines verb."},
+{id:"L1s02",ty:"dd",tid:"sva",sid:"s-tricky",p:"Neither the manager nor employees ___1___ satisfied. Each department ___2___ required to report.",b:[{id:"b1",o:["was","were","is","has been"],c:1,l:"___1___"},{id:"b2",o:["are","is","were","have been"],c:1,l:"___2___"}],x:{b1:"Nor=nearest(pl)=were.",b2:"Each=singular=is."},r:"Nor=nearest. Each=singular."},
+{id:"L1s03",ty:"dd",tid:"sva",sid:"s-there",p:"There ___1___ several factors, and there ___2___ no simple solution.",b:[{id:"b1",o:["is","are","was","has been"],c:1,l:"___1___"},{id:"b2",o:["is","are","was","have been"],c:0,l:"___2___"}],x:{b1:"Factors=plural=are.",b2:"Solution=singular=is."},r:"Verb matches real subject."},
+{id:"L1s04",ty:"dg",tid:"sva",sid:"s-core",p:"The list of candidates _B1_ been narrowed, and the final selection _B2_ next week.",bl:["has","begins"],bk:["has","have","begins","begin","are","is","starting","started"],x:"List=singular=has. Selection=singular=begins.",r:"Ignore prep phrases."},
+{id:"L1s05",ty:"dg",tid:"sva",sid:"s-tricky",p:"Either the professor or students _B1_ responsible. Every participant _B2_ to confirm.",bl:["are","needs"],bk:["are","is","needs","need","were","was","has","have"],x:"Or=nearest(pl)=are. Every=singular=needs.",r:"Or=nearest. Every=singular."},
+{id:"L1s06",ty:"dd",tid:"sva",sid:"s-core",p:"The number of applications ___1___ increased, while a number of candidates ___2___ been interviewed.",b:[{id:"b1",o:["have","has","are","is"],c:1,l:"___1___"},{id:"b2",o:["have","has","are","is"],c:0,l:"___2___"}],x:{b1:"The number=singular=has.",b2:"A number of=plural=have."},r:"The number=sing. A number of=pl."},
+{id:"L1s07",ty:"dg",tid:"sva",sid:"s-there",p:"There _B1_ a significant gap between theory and practice. Here _B2_ the documents.",bl:["is","are"],bk:["is","are","was","were","has","have","being","been"],x:"Gap=singular=is. Documents=plural=are.",r:"There/Here=real subject."},
+{id:"L1s08",ty:"dd",tid:"sva",sid:"s-tricky",p:"Each student ___1___ completed the assignment. Nobody ___2___ expected the results.",b:[{id:"b1",o:["have","has","are","were"],c:1,l:"___1___"},{id:"b2",o:["have","has","are","were"],c:1,l:"___2___"}],x:{b1:"Each=singular=has.",b2:"Nobody=singular=has."},r:"Each, nobody=singular."},
+{id:"L1s09",ty:"dd",tid:"sva",sid:"s-core",p:"The team, along with coaches, ___1___ preparing. The data ___2___ inconclusive.",b:[{id:"b1",o:["are","is","were","have been"],c:1,l:"___1___"},{id:"b2",o:["are","is","were","have been"],c:1,l:"___2___"}],x:{b1:"Team=singular. Along with doesnt change=is.",b2:"Data=singular in modern usage=is."},r:"Along with doesnt change subject."},
+{id:"L1s10",ty:"dg",tid:"sva",sid:"s-tricky",p:"Neither the CEO nor directors _B1_ aware. Every employee _B2_ been notified.",bl:["were","has"],bk:["were","was","has","have","is","are","had","being"],x:"Nor=nearest(pl)=were. Every=singular=has.",r:"Nor=nearest. Every=singular."},
+// PREPS (10)
+{id:"L1p01",ty:"dd",tid:"preps",sid:"p-ger",p:"The company succeeded ___1___ reducing costs without ___2___ quality.",b:[{id:"b1",o:["in","on","at","for"],c:0,l:"___1___"},{id:"b2",o:["sacrifice","sacrificing","to sacrifice","sacrificed"],c:1,l:"___2___"}],x:{b1:"Succeed in.",b2:"After without=gerund."},r:"After prep=gerund."},
+{id:"L1p02",ty:"dd",tid:"preps",sid:"p-fix",p:"The outcome depends ___1___ several factors, and researchers are aware ___2___ the limitations.",b:[{id:"b1",o:["in","on","at","for"],c:1,l:"___1___"},{id:"b2",o:["in","on","of","for"],c:2,l:"___2___"}],x:{b1:"Depend on.",b2:"Aware of."},r:"Fixed pairs."},
+{id:"L1p03",ty:"dd",tid:"preps",sid:"p-time",p:"The conference starts ___1___ Monday ___2___ 9 AM.",b:[{id:"b1",o:["in","on","at","by"],c:1,l:"___1___"},{id:"b2",o:["in","on","at","by"],c:2,l:"___2___"}],x:{b1:"Days=on.",b2:"Time=at."},r:"On+day. At+time."},
+{id:"L1p04",ty:"dg",tid:"preps",sid:"p-ger",p:"She is interested _B1_ learning more without _B2_ too much time.",bl:["in","spending"],bk:["in","on","at","spending","to spend","spend","spent","for"],x:"Interested in. After without=gerund.",r:"Fixed prep+gerund."},
+{id:"L1p05",ty:"dg",tid:"preps",sid:"p-fix",p:"Students are capable _B1_ solving problems and committed _B2_ improving skills.",bl:["of","to"],bk:["of","to","in","on","at","for","with","about"],x:"Capable of. Committed to.",r:"Fixed adj+prep."},
+{id:"L1p06",ty:"dd",tid:"preps",sid:"p-ger",p:"I look forward ___1___ you at the conference.",b:[{id:"b1",o:["for meeting","to meeting","to meet","for meet"],c:1,l:"___1___"}],x:{b1:"Look forward to=prep=gerund: to meeting."},r:"Look forward to+gerund."},
+{id:"L1p07",ty:"dd",tid:"preps",sid:"p-fix",p:"The report consists ___1___ three sections, each focusing ___2___ a different aspect.",b:[{id:"b1",o:["of","in","on","at"],c:0,l:"___1___"},{id:"b2",o:["in","on","at","of"],c:1,l:"___2___"}],x:{b1:"Consist of.",b2:"Focus on."},r:"Consist of. Focus on."},
+{id:"L1p08",ty:"dg",tid:"preps",sid:"p-time",p:"The report was submitted _B1_ Friday _B2_ 5 PM.",bl:["on","at"],bk:["on","in","at","by","during","for","since","from"],x:"Days=on. Time=at.",r:"On+day. At+time."},
+{id:"L1p09",ty:"dd",tid:"preps",sid:"p-ger",p:"In addition ___1___ full-time, she volunteers at a charity.",b:[{id:"b1",o:["to work","to working","for working","of working"],c:1,l:"___1___"}],x:{b1:"In addition to=prep=gerund: to working."},r:"In addition to+gerund."},
+{id:"L1p10",ty:"dg",tid:"preps",sid:"p-fix",p:"The company is responsible _B1_ compliance, and its success resulted _B2_ planning.",bl:["for","from"],bk:["for","from","in","on","of","to","at","about"],x:"Responsible for. Result from.",r:"Responsible for. Result from."},
+// PASSIVE (10)
+{id:"L1v01",ty:"dd",tid:"passive",sid:"v-basic",p:"The policy ___1___ by the board last month and ___2___ expected to reduce costs.",b:[{id:"b1",o:["approved","was approved","has approved","is approving"],c:1,l:"___1___"},{id:"b2",o:["is","was","has","being"],c:0,l:"___2___"}],x:{b1:"By the board=passive=was approved.",b2:"Current=is expected."},r:"be+V3."},
+{id:"L1v02",ty:"dd",tid:"passive",sid:"v-tense",p:"Data ___1___ collected monthly, and results ___2___ already been published.",b:[{id:"b1",o:["is","are","was","has"],c:0,l:"___1___"},{id:"b2",o:["has","have","had","was"],c:1,l:"___2___"}],x:{b1:"Data(sing)=is collected.",b2:"Results(pl)=have been."},r:"Match be to tense."},
+{id:"L1v03",ty:"dd",tid:"passive",sid:"v-modal",p:"This issue ___1___ be addressed. Errors ___2___ have been prevented.",b:[{id:"b1",o:["must","must be","can","should to"],c:0,l:"___1___"},{id:"b2",o:["could","can","must","should to"],c:0,l:"___2___"}],x:{b1:"Must be addressed.",b2:"Could have been prevented."},r:"Modal+be+V3."},
+{id:"L1v04",ty:"dg",tid:"passive",sid:"v-basic",p:"The bridge _B1_ designed by a famous architect and _B2_ completed in 2019.",bl:["was","was"],bk:["was","were","is","has","been","being","had","are"],x:"Past passive=was+V3.",r:"Past passive: was/were+V3."},
+{id:"L1v05",ty:"dg",tid:"passive",sid:"v-tense",p:"Reforms _B1_ been introduced since 2020, and more changes _B2_ being planned.",bl:["have","are"],bk:["have","has","are","is","were","was","been","being"],x:"Since=PP passive: have been. Current=are being.",r:"PP passive. Cont passive."},
+{id:"L1v06",ty:"dd",tid:"passive",sid:"v-basic",p:"The report ___1___ written by the team and ___2___ submitted to the journal.",b:[{id:"b1",o:["was","were","is","has"],c:0,l:"___1___"},{id:"b2",o:["was","were","is","has"],c:0,l:"___2___"}],x:{b1:"Singular past=was.",b2:"Same=was."},r:"Singular past passive=was+V3."},
+{id:"L1v07",ty:"dd",tid:"passive",sid:"v-tense",p:"The vaccine ___1___ being tested. Once approved, it ___2___ be distributed globally.",b:[{id:"b1",o:["is","was","has","are"],c:0,l:"___1___"},{id:"b2",o:["will","would","can","must"],c:0,l:"___2___"}],x:{b1:"Current=is being tested.",b2:"Future=will be distributed."},r:"Cont passive. Future passive."},
+{id:"L1v08",ty:"dg",tid:"passive",sid:"v-modal",p:"The problem _B1_ be solved with resources. The damage could _B2_ been avoided.",bl:["can","have"],bk:["can","could","have","has","be","been","must","should"],x:"Can be solved. Could have been avoided.",r:"Modal passive."},
+{id:"L1v09",ty:"dd",tid:"passive",sid:"v-tense",p:"The manuscript ___1___ been reviewed before it ___2___ accepted.",b:[{id:"b1",o:["has","had","have","was"],c:1,l:"___1___"},{id:"b2",o:["was","is","has been","had been"],c:0,l:"___2___"}],x:{b1:"Earlier=PP passive: had been.",b2:"Later=SP passive: was."},r:"Earlier passive=had been+V3."},
+{id:"L1v10",ty:"dg",tid:"passive",sid:"v-basic",p:"All employees _B1_ required to attend. The schedule _B2_ been posted.",bl:["are","has"],bk:["are","is","has been","have been","was","were","being","had been"],x:"Current=are required. Recent=has been posted.",r:"Pres passive. PP passive."},
+// GERUNDS & INFINITIVES (12)
+{id:"L1g01",ty:"dd",tid:"gerinf",sid:"g-after",p:"The committee recommended ___1___ the policy, but members refused ___2___ changes.",b:[{id:"b1",o:["revising","to revise","revise","revised"],c:0,l:"___1___"},{id:"b2",o:["accepting","to accept","accept","accepted"],c:1,l:"___2___"}],x:{b1:"Recommend=gerund.",b2:"Refuse=infinitive."},r:"Recommend+gerund. Refuse+inf."},
+{id:"L1g02",ty:"dd",tid:"gerinf",sid:"g-after",p:"She avoided ___1___ the question and suggested ___2___ it later.",b:[{id:"b1",o:["to answer","answering","answer","answered"],c:1,l:"___1___"},{id:"b2",o:["to discuss","discussing","discuss","discussed"],c:1,l:"___2___"}],x:{b1:"Avoid=gerund.",b2:"Suggest=gerund."},r:"Avoid, suggest=gerund."},
+{id:"L1g03",ty:"dd",tid:"gerinf",sid:"g-meaning",p:"She stopped ___1___ cigarettes last year. On the way, she stopped ___2___ fuel.",b:[{id:"b1",o:["smoking","to smoke","smoke","smoked"],c:0,l:"___1___"},{id:"b2",o:["getting","to get","get","got"],c:1,l:"___2___"}],x:{b1:"Stop+gerund=quit.",b2:"Stop+infinitive=pause for."},r:"Stop+ger=quit. Stop+to=pause."},
+{id:"L1g04",ty:"dd",tid:"gerinf",sid:"g-prep",p:"He is committed ___1___ reducing emissions and capable ___2___ leading.",b:[{id:"b1",o:["to","for","in","of"],c:0,l:"___1___"},{id:"b2",o:["to","for","in","of"],c:3,l:"___2___"}],x:{b1:"Committed to.",b2:"Capable of."},r:"Committed to. Capable of."},
+{id:"L1g05",ty:"dg",tid:"gerinf",sid:"g-after",p:"The company decided _B1_ expand. They enjoy _B2_ new markets.",bl:["to","exploring"],bk:["to","exploring","explore","explored","to explore","exploration","for","in"],x:"Decide=inf. Enjoy=gerund.",r:"Decide+inf. Enjoy+ger."},
+{id:"L1g06",ty:"dg",tid:"gerinf",sid:"g-meaning",p:"I remember _B1_ the door last night. Please remember _B2_ the door tonight.",bl:["locking","to lock"],bk:["locking","to lock","lock","locked","locks","to locking","for locking","unlocking"],x:"Remember+ger=recall. Remember+inf=dont forget.",r:"Recall=ger. Dont forget=inf."},
+{id:"L1g07",ty:"dd",tid:"gerinf",sid:"g-after",p:"Students agreed ___1___ the deadline but considered ___2___ an extension.",b:[{id:"b1",o:["meeting","to meet","meet","met"],c:1,l:"___1___"},{id:"b2",o:["requesting","to request","request","requested"],c:0,l:"___2___"}],x:{b1:"Agree=infinitive.",b2:"Consider=gerund."},r:"Agree+inf. Consider+ger."},
+{id:"L1g08",ty:"dg",tid:"gerinf",sid:"g-prep",p:"In addition to _B1_ full-time, she is interested _B2_ volunteering.",bl:["working","in"],bk:["working","to work","work","in","on","at","for","of"],x:"In addition to=gerund. Interested in.",r:"Prep+gerund."},
+{id:"L1g09",ty:"dd",tid:"gerinf",sid:"g-after",p:"The manager promised ___1___ the issue. Staff kept ___2___ about the delay.",b:[{id:"b1",o:["addressing","to address","address","addressed"],c:1,l:"___1___"},{id:"b2",o:["complaining","to complain","complain","complained"],c:0,l:"___2___"}],x:{b1:"Promise=inf.",b2:"Keep=gerund."},r:"Promise+inf. Keep+ger."},
+{id:"L1g10",ty:"dd",tid:"gerinf",sid:"g-meaning",p:"He tried ___1___ the window but it was stuck. Then he tried ___2___ oil on it.",b:[{id:"b1",o:["opening","to open","open","opened"],c:1,l:"___1___"},{id:"b2",o:["putting","to put","put","to putting"],c:0,l:"___2___"}],x:{b1:"Try+inf=attempt.",b2:"Try+ger=experiment."},r:"Try+inf=attempt. Try+ger=experiment."},
+{id:"L1g11",ty:"dg",tid:"gerinf",sid:"g-prep",p:"She apologized _B1_ being late and thanked them _B2_ waiting.",bl:["for","for"],bk:["for","to","in","on","about","of","at","with"],x:"Apologize for. Thank for.",r:"Fixed prep+gerund."},
+{id:"L1g12",ty:"dg",tid:"gerinf",sid:"g-after",p:"They plan _B1_ launch next quarter. They risk _B2_ market share if delayed.",bl:["to","losing"],bk:["to","losing","lose","lost","for","launch","launching","in"],x:"Plan=inf. Risk=gerund.",r:"Plan+inf. Risk+ger."},
+// CONDITIONALS (12)
+{id:"L1c01",ty:"dd",tid:"cond",sid:"c-zero",p:"If you ___1___ water to 100C, it ___2___.",b:[{id:"b1",o:["heat","heated","will heat","would heat"],c:0,l:"___1___"},{id:"b2",o:["boils","boiled","will boil","would boil"],c:0,l:"___2___"}],x:{b1:"Zero=present both.",b2:"Fact=boils."},r:"Zero: If+pres, pres."},
+{id:"L1c02",ty:"dd",tid:"cond",sid:"c-first",p:"If the economy ___1___, unemployment ___2___ decrease.",b:[{id:"b1",o:["improves","improved","will improve","would improve"],c:0,l:"___1___"},{id:"b2",o:["will","would","can","could"],c:0,l:"___2___"}],x:{b1:"First: if+present.",b2:"Result: will."},r:"First: If+pres, will+V1."},
+{id:"L1c03",ty:"dd",tid:"cond",sid:"c-second",p:"If she ___1___ the manager, she ___2___ change the policy.",b:[{id:"b1",o:["is","were","would be","has been"],c:1,l:"___1___"},{id:"b2",o:["will","would","can","is going to"],c:1,l:"___2___"}],x:{b1:"Second: if+past (were).",b2:"Would+V1."},r:"Second: If+past, would+V1."},
+{id:"L1c04",ty:"dd",tid:"cond",sid:"c-third",p:"If they ___1___ invested, they ___2___ have profited.",b:[{id:"b1",o:["have","had","would","could"],c:1,l:"___1___"},{id:"b2",o:["will","would","can","shall"],c:1,l:"___2___"}],x:{b1:"Third: if+had+V3.",b2:"Would have+V3."},r:"Third: If+had+V3, would have+V3."},
+{id:"L1c05",ty:"dg",tid:"cond",sid:"c-zero",p:"If students _B1_ regularly, they _B2_ better on exams.",bl:["study","perform"],bk:["study","studied","will study","perform","performed","will perform","would perform","performing"],x:"Zero: present+present.",r:"Zero: both present."},
+{id:"L1c06",ty:"dg",tid:"cond",sid:"c-first",p:"If it _B1_ tomorrow, we _B2_ cancel the event.",bl:["rains","will"],bk:["rains","rained","will rain","will","would","can","could","should"],x:"First: if+pres, will+V1.",r:"First: if+pres, will."},
+{id:"L1c07",ty:"dg",tid:"cond",sid:"c-second",p:"If I _B1_ more time, I _B2_ learn another language.",bl:["had","would"],bk:["had","have","has","would","will","could","can","should"],x:"Second: if+past, would+V1.",r:"Second: if+past, would."},
+{id:"L1c08",ty:"dg",tid:"cond",sid:"c-third",p:"If she _B1_ studied harder, she could _B2_ passed.",bl:["had","have"],bk:["had","has","have","would","could","been","was","were"],x:"Third: if+had+V3, could have+V3.",r:"Third: if+had+V3, modal+have+V3."},
+{id:"L1c09",ty:"dd",tid:"cond",sid:"c-first",p:"If the project ___1___ on schedule, the team ___2___ receive a bonus.",b:[{id:"b1",o:["stays","stayed","will stay","would stay"],c:0,l:"___1___"},{id:"b2",o:["will","would","could","can"],c:0,l:"___2___"}],x:{b1:"First: if+present.",b2:"Will."},r:"First: if+pres, will."},
+{id:"L1c10",ty:"dd",tid:"cond",sid:"c-second",p:"If the government ___1___ more in education, results ___2___ be dramatic.",b:[{id:"b1",o:["invests","invested","will invest","would invest"],c:1,l:"___1___"},{id:"b2",o:["will","would","can","shall"],c:1,l:"___2___"}],x:{b1:"Second: if+past.",b2:"Would."},r:"Second: if+past, would."},
+{id:"L1c11",ty:"dd",tid:"cond",sid:"c-third",p:"If the warning ___1___ been issued earlier, damage ___2___ have been minimized.",b:[{id:"b1",o:["has","had","would","could"],c:1,l:"___1___"},{id:"b2",o:["will","would","can","shall"],c:1,l:"___2___"}],x:{b1:"Third: if+had.",b2:"Would have+V3."},r:"Third: if+had+V3, would have+V3."},
+{id:"L1c12",ty:"dg",tid:"cond",sid:"c-zero",p:"If you _B1_ ice in water, it _B2_.",bl:["put","floats"],bk:["put","puts","will put","floats","will float","floated","floating","would float"],x:"Zero: present+present.",r:"Zero: both present."}
+];
+
+// ══════════════════════════════════════════════════════════════
+// LEVEL 2 QUESTIONS (Question Bank - DIFFERENT from L1) - 100 Qs
+// Mixed topics, randomized, harder, no topic hints
+// ══════════════════════════════════════════════════════════════
+const L2=[
+// Each question tests 1-2 grammar rules. Tagged with sids for relearn tracking.
+// TENSES MIXED (20)
+{id:"Q01",ty:"dd",sids:["t-pp","t-ppast"],p:"The researchers ___1___ the data for months before they ___2___ their findings last June.",b:[{id:"b1",o:["analyzed","had analyzed","have analyzed","are analyzing"],c:1,l:"___1___"},{id:"b2",o:["published","had published","have published","publish"],c:0,l:"___2___"}],x:{b1:"Analyzing happened BEFORE publishing = Past Perfect.",b2:"Publishing = later event = Simple Past."},r:"Earlier=PP. Later=SP."},
+{id:"Q02",ty:"dd",sids:["t-sp","t-perf"],p:"The institute currently ___1___ three campuses and ___2___ over 5,000 graduates since its founding.",b:[{id:"b1",o:["operates","is operating","operated","has operated"],c:0,l:"___1___"},{id:"b2",o:["produced","has produced","is producing","produces"],c:1,l:"___2___"}],x:{b1:"Permanent fact = Simple Present.",b2:"Since founding = Present Perfect."},r:"Fact=SP. Since=PP."},
+{id:"Q03",ty:"dg",sids:["t-mod","t-perf"],p:"The project _B1_ have been completed on time if the budget _B2_ been approved earlier.",bl:["could","had"],bk:["could","can","had","has","would","have","should","did"],x:"Past hypothetical: could have + if had been.",r:"Third conditional + modal."},
+{id:"Q04",ty:"dd",sids:["t-past","t-fut"],p:"While the minister ___1___ the new initiative, officials confirmed that the rollout ___2___ scheduled for March.",b:[{id:"b1",o:["announced","was announcing","had announced","announces"],c:1,l:"___1___"},{id:"b2",o:["is","was","has been","will be"],c:0,l:"___2___"}],x:{b1:"Background action = Past Continuous.",b2:"Current schedule = Present: is scheduled."},r:"While=PC. Current state=SP."},
+{id:"Q05",ty:"dg",sids:["t-svf","t-hto"],p:"The new policy _B1_ not apply to freelancers, but every permanent employee _B2_ to comply with the updated guidelines.",bl:["does","has"],bk:["does","do","has","have","is","was","must","should"],x:"Singular policy = does. Every employee = singular = has to.",r:"Does+base. Has to(sing)."},
+{id:"Q06",ty:"dd",sids:["t-irr","t-pp"],p:"The novelist ___1___ her debut in 2018 and ___2___ four more books since then.",b:[{id:"b1",o:["wrote","written","has written","writes"],c:0,l:"___1___"},{id:"b2",o:["wrote","has written","writes","had written"],c:1,l:"___2___"}],x:{b1:"In 2018 = specific = SP: wrote.",b2:"Since then = PP: has written."},r:"Specific=SP. Since=PP."},
+{id:"Q07",ty:"dg",sids:["t-sp","t-past"],p:"The museum _B1_ over a million visitors annually. Last year, attendance _B2_ a record high.",bl:["attracts","reached"],bk:["attracts","is attracting","reached","has reached","reaching","attract","was reaching","reaches"],x:"Annual fact = attracts. Last year = reached.",r:"Fact=SP. Past=SP."},
+{id:"Q08",ty:"dd",sids:["t-mod","t-svf"],p:"Candidates ___1___ submit applications online. The system ___2___ not accept paper forms.",b:[{id:"b1",o:["must","musts","must to","are must"],c:0,l:"___1___"},{id:"b2",o:["do","does","is","has"],c:1,l:"___2___"}],x:{b1:"Modal + base.",b2:"System = singular = does not accept."},r:"Modal+base. Singular=does."},
+{id:"Q09",ty:"dg",sids:["t-perf","t-irr"],p:"The team has _B1_ significant progress. They _B2_ the competition last weekend.",bl:["made","won"],bk:["made","maked","won","winned","winning","make","win","done"],x:"has + V3: made. Past: won (not winned).",r:"V3 after has. Irregular past."},
+{id:"Q10",ty:"dd",sids:["t-ppast","t-pp"],p:"By the time the report ___1___ published, the committee ___2___ already reviewed three earlier drafts.",b:[{id:"b1",o:["was","had been","has been","is"],c:0,l:"___1___"},{id:"b2",o:["has","have","had","was"],c:2,l:"___2___"}],x:{b1:"Publishing = later = SP passive: was published.",b2:"Reviewing = earlier = Past Perfect: had reviewed."},r:"Later=SP. Earlier=PP."},
+{id:"Q11",ty:"dd",sids:["t-fut","t-sp"],p:"The delegation ___1___ the trade minister at noon tomorrow. The agenda ___2___ three key items.",b:[{id:"b1",o:["will meet","is meeting","meets","met"],c:1,l:"___1___"},{id:"b2",o:["includes","is including","included","has included"],c:0,l:"___2___"}],x:{b1:"Scheduled meeting = fixed = PC.",b2:"Agenda fact = SP: includes."},r:"Fixed=PC. Fact=SP."},
+{id:"Q12",ty:"dg",sids:["t-hto","t-mod"],p:"All trainees _B1_ to pass the safety exam. Failure to do so _B2_ result in dismissal.",bl:["have","will"],bk:["have","has","must","will","can","should","does","could"],x:"Trainees = plural = have to. Future consequence = will.",r:"Plural=have to. Future=will."},
+{id:"Q13",ty:"dd",sids:["t-pp","t-sp"],p:"Global temperatures ___1___ by 1.1 degrees since pre-industrial times. Scientists ___2___ that this trend will continue.",b:[{id:"b1",o:["rose","have risen","rise","had risen"],c:1,l:"___1___"},{id:"b2",o:["believe","are believing","believed","have believed"],c:0,l:"___2___"}],x:{b1:"Since = PP: have risen.",b2:"Believe = stative = SP."},r:"Since=PP. Stative=SP."},
+{id:"Q14",ty:"dg",sids:["t-past","t-ppast"],p:"The students _B1_ the assignment when the professor _B2_ the deadline had been extended.",bl:["were completing","announced"],bk:["were completing","completed","announced","was announcing","had completed","announcing","complete","announces"],x:"Background = were completing. Interruption = announced.",r:"While=PC. Interrupt=SP."},
+{id:"Q15",ty:"dd",sids:["t-perf","t-mod"],p:"The bridge ___1___ been under construction for three years. It ___2___ be completed by December.",b:[{id:"b1",o:["has","had","is","was"],c:0,l:"___1___"},{id:"b2",o:["should","should to","shoulds","is should"],c:0,l:"___2___"}],x:{b1:"For three years = PP: has been.",b2:"Modal + base: should be."},r:"For=PP. Modal+base."},
+{id:"Q16",ty:"dg",sids:["t-irr","t-svf"],p:"The CEO _B1_ a bold decision last quarter. The board _B2_ not agree with the strategy.",bl:["made","did"],bk:["made","maked","did","does","do","was","making","done"],x:"make = made (irregular). Board = past = did not agree.",r:"Irregular. Did+base."},
+{id:"Q17",ty:"dd",sids:["t-sp","t-fut"],p:"The university ___1___ a new campus. Construction ___2___ begin in September.",b:[{id:"b1",o:["is planning","plans","planned","has planned"],c:0,l:"___1___"},{id:"b2",o:["is going to","will","going to","shall to"],c:0,l:"___2___"}],x:{b1:"Current plan = PC: is planning.",b2:"Pre-planned = is going to."},r:"Current=PC. Planned=going to."},
+{id:"Q18",ty:"dg",sids:["t-mod","t-perf"],p:"The equipment _B1_ have been serviced before the warranty _B2_.",bl:["should","expired"],bk:["should","could","expired","has expired","expires","expiring","would","can"],x:"Past obligation = should have. Past event = expired.",r:"Should have+V3. Past=SP."},
+{id:"Q19",ty:"dd",sids:["t-hto","t-svf"],p:"Each department ___1___ to file monthly reports. The system ___2___ not allow late submissions.",b:[{id:"b1",o:["have","has","had","having"],c:1,l:"___1___"},{id:"b2",o:["do","does","is","has"],c:1,l:"___2___"}],x:{b1:"Each = singular = has to.",b2:"System = singular = does not."},r:"Each=has to. Singular=does."},
+{id:"Q20",ty:"dg",sids:["t-pp","t-irr"],p:"She _B1_ never _B2_ such a challenging project before this assignment.",bl:["had","undertaken"],bk:["had","has","have","undertaken","undertook","undertaking","took","taken"],x:"Before this = earlier past = had + V3: undertaken.",r:"Past Perfect + irregular V3."},
+// ARTICLES + SVA + PREPS MIXED (20)
+{id:"Q21",ty:"dd",sids:["a-basic","s-core"],p:"___1___ number of applicants ___2___ increased significantly this year.",b:[{id:"b1",o:["A","An","The","\u2014"],c:2,l:"___1___"},{id:"b2",o:["have","has","are","is"],c:1,l:"___2___"}],x:{b1:"The number = specific = the.",b2:"The number = singular = has."},r:"The number=sing=has."},
+{id:"Q22",ty:"dd",sids:["a-the","p-fix"],p:"___1___ success of the program depends ___2___ adequate funding and community support.",b:[{id:"b1",o:["A","An","The","\u2014"],c:2,l:"___1___"},{id:"b2",o:["in","on","at","for"],c:1,l:"___2___"}],x:{b1:"Specific success = the.",b2:"Depend on."},r:"Specific=the. Depend on."},
+{id:"Q23",ty:"dg",sids:["a-zero","s-there"],p:"_B1_ research suggests that there _B2_ multiple factors contributing to the decline.",bl:["\u2014","are"],bk:["The","A","An","\u2014","are","is","was","were"],x:"Research in general = zero. Factors = plural = are.",r:"General=zero. Plural=are."},
+{id:"Q24",ty:"dd",sids:["a-basic","p-ger"],p:"He is ___1___ honest person who is dedicated ___2___ improving public health.",b:[{id:"b1",o:["a","an","the","\u2014"],c:1,l:"___1___"},{id:"b2",o:["to","for","in","at"],c:0,l:"___2___"}],x:{b1:"Vowel sound = an.",b2:"Dedicated to + gerund."},r:"An+vowel. Dedicated to."},
+{id:"Q25",ty:"dg",sids:["s-tricky","a-the"],p:"Neither _B1_ professor nor the students were aware of _B2_ changes to the syllabus.",bl:["the","the"],bk:["a","an","the","\u2014"],x:"Specific professor = the. Specific changes = the.",r:"Specific = the."},
+{id:"Q26",ty:"dd",sids:["p-time","a-basic"],p:"The meeting is scheduled for ___1___ Monday ___2___ 3 PM in the main hall.",b:[{id:"b1",o:["in","on","at","by"],c:1,l:"___1___"},{id:"b2",o:["in","on","at","by"],c:2,l:"___2___"}],x:{b1:"Days = on.",b2:"Time = at."},r:"On+day. At+time."},
+{id:"Q27",ty:"dg",sids:["s-core","p-fix"],p:"The quality of the materials _B1_ on the supplier. The team _B2_ satisfied with the results.",bl:["depends","is"],bk:["depends","depend","is","are","was","were","depending","has"],x:"Quality = singular = depends. Team = singular = is.",r:"Singular verbs. Depend on."},
+{id:"Q28",ty:"dd",sids:["a-zero","p-ger"],p:"___1___ education plays a vital role in ___2___ poverty and inequality.",b:[{id:"b1",o:["A","An","The","\u2014"],c:3,l:"___1___"},{id:"b2",o:["reduce","reducing","to reduce","reduced"],c:1,l:"___2___"}],x:{b1:"General = zero.",b2:"After in = gerund: reducing."},r:"General=zero. Prep+gerund."},
+{id:"Q29",ty:"dg",sids:["s-tricky","s-there"],p:"Each of the proposals _B1_ been evaluated. There _B2_ no consensus among the reviewers.",bl:["has","is"],bk:["has","have","is","are","was","were","had","being"],x:"Each = singular = has. Consensus = singular = is.",r:"Each=singular. Sing subject after there."},
+{id:"Q30",ty:"dd",sids:["a-the","s-core"],p:"___1___ United Nations ___2___ established in 1945 to promote international cooperation.",b:[{id:"b1",o:["A","An","The","\u2014"],c:2,l:"___1___"},{id:"b2",o:["was","were","is","has been"],c:0,l:"___2___"}],x:{b1:"Unique org = the.",b2:"UN (singular entity) in 1945 = was."},r:"Unique=the. Singular past=was."},
+{id:"Q31",ty:"dg",sids:["p-fix","p-ger"],p:"She is capable _B1_ handling pressure and looks forward _B2_ the challenge.",bl:["of","to"],bk:["of","to","in","on","for","at","about","with"],x:"Capable of. Look forward to.",r:"Fixed prep pairs."},
+{id:"Q32",ty:"dd",sids:["a-basic","a-zero"],p:"She wants to become ___1___ architect. ___2___ architecture is her passion.",b:[{id:"b1",o:["a","an","the","\u2014"],c:1,l:"___1___"},{id:"b2",o:["A","An","The","\u2014"],c:3,l:"___2___"}],x:{b1:"Non-specific = an.",b2:"General concept = zero."},r:"Non-specific=a/an. General=zero."},
+{id:"Q33",ty:"dg",sids:["s-core","s-there"],p:"The results of the experiment _B1_ surprising. There _B2_ no explanation for the anomaly.",bl:["were","was"],bk:["were","was","is","are","has","have","been","being"],x:"Results = plural = were. Explanation = singular = was.",r:"Subject determines verb."},
+{id:"Q34",ty:"dd",sids:["p-time","p-fix"],p:"The report was submitted ___1___ Friday and consists ___2___ three main sections.",b:[{id:"b1",o:["in","on","at","by"],c:1,l:"___1___"},{id:"b2",o:["of","in","on","at"],c:0,l:"___2___"}],x:{b1:"Day = on.",b2:"Consist of."},r:"On+day. Consist of."},
+{id:"Q35",ty:"dg",sids:["a-the","a-zero"],p:"_B1_ sun rises in _B2_ east every morning without exception.",bl:["The","the"],bk:["A","An","The","\u2014","the"],x:"Unique = The sun. Direction = the east.",r:"Unique things = the."},
+{id:"Q36",ty:"dd",sids:["s-tricky","p-ger"],p:"Every member ___1___ responsible for ___2___ their assigned tasks on time.",b:[{id:"b1",o:["are","is","were","have been"],c:1,l:"___1___"},{id:"b2",o:["complete","completing","to complete","completed"],c:1,l:"___2___"}],x:{b1:"Every = singular = is.",b2:"After for = gerund: completing."},r:"Every=singular. Prep+gerund."},
+{id:"Q37",ty:"dg",sids:["p-fix","s-core"],p:"The success of the initiative _B1_ on collaboration. The team _B2_ with the progress.",bl:["depends","is satisfied"],bk:["depends","depend","is satisfied","are satisfied","depending","satisfying","depended","were"],x:"Success = singular = depends. Team = singular = is satisfied.",r:"Singular. Fixed prep: depends on, satisfied with."},
+{id:"Q38",ty:"dd",sids:["a-basic","p-time"],p:"He arrived at ___1___ European airport ___2___ the evening of December 24th.",b:[{id:"b1",o:["a","an","the","\u2014"],c:0,l:"___1___"},{id:"b2",o:["in","on","at","by"],c:1,l:"___2___"}],x:{b1:"European = /j/ consonant sound = a.",b2:"Specific evening of a date = on."},r:"Consonant sound=a. Specific date=on."},
+{id:"Q39",ty:"dg",sids:["s-core","a-the"],p:"_B1_ majority of students _B2_ in favor of the proposed changes.",bl:["The","are"],bk:["A","An","The","\u2014","are","is","was","were"],x:"Specific majority = The. Majority of = plural sense = are.",r:"The+specific. Majority of=plural."},
+{id:"Q40",ty:"dd",sids:["p-ger","a-zero"],p:"___1___ swimming is excellent exercise. She is passionate about ___2___ others to stay fit.",b:[{id:"b1",o:["A","An","The","\u2014"],c:3,l:"___1___"},{id:"b2",o:["help","helping","to help","helped"],c:1,l:"___2___"}],x:{b1:"General activity = zero.",b2:"After about = gerund: helping."},r:"General=zero. Prep+gerund."},
+// PASSIVE + GERUND/INF + CONDITIONALS MIXED (20)
+{id:"Q41",ty:"dd",sids:["v-basic","g-after"],p:"The proposal ___1___ rejected by the board. They suggested ___2___ the plan before resubmission.",b:[{id:"b1",o:["was","were","is","has"],c:0,l:"___1___"},{id:"b2",o:["revising","to revise","revise","revised"],c:0,l:"___2___"}],x:{b1:"Past passive: was rejected.",b2:"Suggest = gerund."},r:"Was+V3. Suggest+gerund."},
+{id:"Q42",ty:"dd",sids:["v-tense","c-third"],p:"The damage ___1___ have been prevented if proper measures ___2___ been taken.",b:[{id:"b1",o:["could","can","will","should to"],c:0,l:"___1___"},{id:"b2",o:["has","had","have","would"],c:1,l:"___2___"}],x:{b1:"Past possibility = could.",b2:"Third conditional = had."},r:"Could have+V3. If+had."},
+{id:"Q43",ty:"dg",sids:["v-modal","g-prep"],p:"The issue _B1_ be resolved quickly. She is committed _B2_ finding a solution.",bl:["must","to"],bk:["must","can","to","for","in","on","musts","of"],x:"Must be resolved. Committed to + gerund.",r:"Modal+be+V3. Committed to."},
+{id:"Q44",ty:"dd",sids:["g-meaning","v-basic"],p:"He stopped ___1___ the report when he realized it ___2___ already been submitted.",b:[{id:"b1",o:["writing","to write","write","wrote"],c:0,l:"___1___"},{id:"b2",o:["has","had","is","was"],c:1,l:"___2___"}],x:{b1:"Stop + gerund = quit the activity.",b2:"Earlier action = had been submitted."},r:"Stop+ger=quit. PP passive."},
+{id:"Q45",ty:"dg",sids:["c-first","g-after"],p:"If the team _B1_ to implement the changes, they will need _B2_ additional resources.",bl:["decides","to acquire"],bk:["decides","decided","to acquire","acquiring","acquire","acquired","will decide","decision"],x:"First conditional: if + present = decides. Need = infinitive.",r:"If+pres. Need+inf."},
+{id:"Q46",ty:"dd",sids:["v-tense","t-pp"],p:"The building ___1___ been renovated twice since 2010. The latest renovation ___2___ completed last March.",b:[{id:"b1",o:["has","had","is","was"],c:0,l:"___1___"},{id:"b2",o:["was","has been","is","had been"],c:0,l:"___2___"}],x:{b1:"Since 2010 = PP: has been.",b2:"Last March = SP passive: was completed."},r:"Since=PP. Specific=SP."},
+{id:"Q47",ty:"dg",sids:["c-second","v-basic"],p:"If the policy _B1_ revised, more jobs _B2_ be created in the region.",bl:["were","would"],bk:["were","was","is","would","will","could","can","should"],x:"Second conditional: if + were, would + V1.",r:"Second: if+past, would."},
+{id:"Q48",ty:"dd",sids:["g-after","g-prep"],p:"The company avoided ___1___ penalties by ___2___ the regulations promptly.",b:[{id:"b1",o:["paying","to pay","pay","paid"],c:0,l:"___1___"},{id:"b2",o:["follow","following","to follow","followed"],c:1,l:"___2___"}],x:{b1:"Avoid = gerund.",b2:"After by = gerund: following."},r:"Avoid+ger. Prep+gerund."},
+{id:"Q49",ty:"dg",sids:["v-modal","c-third"],p:"The error could _B1_ been avoided if the team _B2_ followed the protocol.",bl:["have","had"],bk:["have","has","had","would","been","was","could","can"],x:"Could have been avoided. If + had followed.",r:"Modal+have+V3. Third conditional."},
+{id:"Q50",ty:"dd",sids:["g-meaning","c-first"],p:"If you remember ___1___ the door, we won't have a security issue. I remember ___2___ it yesterday.",b:[{id:"b1",o:["locking","to lock","lock","locked"],c:1,l:"___1___"},{id:"b2",o:["locking","to lock","lock","locked"],c:0,l:"___2___"}],x:{b1:"Remember + inf = don't forget to do it.",b2:"Remember + ger = recall doing it."},r:"Remember+inf=dont forget. Remember+ger=recall."},
+// MORE MIXED (50 more to reach 100)
+{id:"Q51",ty:"dd",sids:["t-sp","a-zero"],p:"___1___ knowledge ___2___ power in the modern economy.",b:[{id:"b1",o:["A","An","The","\u2014"],c:3,l:"___1___"},{id:"b2",o:["is","are","was","were"],c:0,l:"___2___"}],x:{b1:"General = zero.",b2:"Knowledge = singular = is."},r:"General=zero. Singular."},
+{id:"Q52",ty:"dg",sids:["t-perf","v-tense"],p:"The report has _B1_ finalized and _B2_ been approved by the director.",bl:["been","has"],bk:["been","being","has","have","was","is","had","were"],x:"PP passive: has been finalized. has been approved.",r:"PP passive: has been+V3."},
+{id:"Q53",ty:"dd",sids:["s-tricky","t-svf"],p:"Neither the proposal nor the amendments ___1___ acceptable. The committee ___2___ not endorse them.",b:[{id:"b1",o:["was","were","is","has been"],c:1,l:"___1___"},{id:"b2",o:["do","does","is","has"],c:1,l:"___2___"}],x:{b1:"Nor = nearest (pl) = were.",b2:"Committee = singular = does."},r:"Nor=nearest. Singular=does."},
+{id:"Q54",ty:"dg",sids:["g-after","t-mod"],p:"Students must _B1_ the exam requirements. They should consider _B2_ a tutor if struggling.",bl:["meet","hiring"],bk:["meet","meets","hiring","to hire","hire","meeting","hired","hires"],x:"Must + base: meet. Consider = gerund: hiring.",r:"Modal+base. Consider+ger."},
+{id:"Q55",ty:"dd",sids:["c-zero","a-the"],p:"If ___1___ pressure increases, ___2___ boiling point of water rises accordingly.",b:[{id:"b1",o:["a","an","the","\u2014"],c:2,l:"___1___"},{id:"b2",o:["a","an","the","\u2014"],c:2,l:"___2___"}],x:{b1:"Specific pressure = the.",b2:"The boiling point = unique/specific."},r:"Specific=the. Zero conditional context."},
+{id:"Q56",ty:"dg",sids:["p-ger","v-basic"],p:"The policy was introduced without _B1_ consulted. Staff objected to _B2_ excluded from the process.",bl:["being","being"],bk:["being","be","been","is","was","were","to be","having"],x:"Without + passive gerund: being consulted. To + passive gerund: being excluded.",r:"Prep + passive gerund."},
+{id:"Q57",ty:"dd",sids:["t-pp","s-core"],p:"The series of lectures ___1___ attracted significant attention. The audience ___2___ been highly engaged.",b:[{id:"b1",o:["have","has","are","is"],c:1,l:"___1___"},{id:"b2",o:["have","has","are","is"],c:1,l:"___2___"}],x:{b1:"Series = singular = has.",b2:"Audience = singular collective = has."},r:"Series=singular. Audience=singular."},
+{id:"Q58",ty:"dg",sids:["c-second","g-after"],p:"If she _B1_ more experience, the company would consider _B2_ her for the role.",bl:["had","promoting"],bk:["had","has","have","promoting","to promote","promote","promoted","promotion"],x:"Second conditional: if + had. Consider = gerund.",r:"If+past. Consider+ger."},
+{id:"Q59",ty:"dd",sids:["v-tense","p-fix"],p:"The infrastructure ___1___ being upgraded to comply ___2___ international standards.",b:[{id:"b1",o:["is","was","has","had"],c:0,l:"___1___"},{id:"b2",o:["to","with","for","in"],c:1,l:"___2___"}],x:{b1:"Current = is being upgraded.",b2:"Comply with."},r:"Pres cont passive. Comply with."},
+{id:"Q60",ty:"dg",sids:["t-fut","a-basic"],p:"_B1_ international conference _B2_ take place in Geneva next month.",bl:["An","will"],bk:["A","An","The","\u2014","will","is","was","going"],x:"International = vowel sound = An. Future = will.",r:"Vowel sound=An. Future=will."},
+{id:"Q61",ty:"dd",sids:["g-prep","s-tricky"],p:"In addition to ___1___ the budget, each manager ___2___ responsible for team performance.",b:[{id:"b1",o:["manage","managing","to manage","managed"],c:1,l:"___1___"},{id:"b2",o:["are","is","were","have been"],c:1,l:"___2___"}],x:{b1:"In addition to = prep = gerund.",b2:"Each = singular = is."},r:"Prep+gerund. Each=singular."},
+{id:"Q62",ty:"dg",sids:["v-basic","t-ppast"],p:"The documents _B1_ signed before the lawyer _B2_ the discrepancy.",bl:["had been","noticed"],bk:["had been","were","has been","noticed","had noticed","was noticing","notices","noticing"],x:"Signing = earlier = had been signed. Noticing = later = noticed.",r:"Earlier passive=had been+V3."},
+{id:"Q63",ty:"dd",sids:["c-first","p-time"],p:"If the shipment arrives ___1___ Friday, we will process it ___2___ the morning.",b:[{id:"b1",o:["in","on","at","by"],c:1,l:"___1___"},{id:"b2",o:["in","on","at","by"],c:0,l:"___2___"}],x:{b1:"Day = on.",b2:"Part of day = in."},r:"On+day. In+morning. First conditional."},
+{id:"Q64",ty:"dg",sids:["g-after","g-meaning"],p:"She decided _B1_ postpone the meeting. She regretted _B2_ the announcement so early.",bl:["to","making"],bk:["to","making","make","made","to make","for","postponing","postpone"],x:"Decide = infinitive. Regret + gerund = regret past action.",r:"Decide+inf. Regret+ger=past."},
+{id:"Q65",ty:"dd",sids:["v-modal","s-core"],p:"All data ___1___ be encrypted. The security team ___2___ responsible for implementation.",b:[{id:"b1",o:["must","musts","must to","must be"],c:0,l:"___1___"},{id:"b2",o:["are","is","were","has been"],c:1,l:"___2___"}],x:{b1:"Must be encrypted.",b2:"Team = singular = is."},r:"Modal+be+V3. Team=singular."},
+{id:"Q66",ty:"dg",sids:["t-sp","c-zero"],p:"If iron _B1_ exposed to moisture, it _B2_.",bl:["is","rusts"],bk:["is","was","were","rusts","will rust","rusted","rusting","would rust"],x:"Zero conditional: if + present, present.",r:"Zero: both present."},
+{id:"Q67",ty:"dd",sids:["a-the","v-tense"],p:"___1___ Eiffel Tower ___2___ visited by millions of tourists every year.",b:[{id:"b1",o:["A","An","The","\u2014"],c:2,l:"___1___"},{id:"b2",o:["is","was","has been","had been"],c:0,l:"___2___"}],x:{b1:"Unique landmark = the.",b2:"Every year = habitual passive = is visited."},r:"Unique=the. Habitual passive=is+V3."},
+{id:"Q68",ty:"dg",sids:["p-fix","g-prep"],p:"The project resulted _B1_ significant savings. The team is proud _B2_ achieving the target.",bl:["in","of"],bk:["in","on","of","to","at","for","about","from"],x:"Result in. Proud of.",r:"Result in. Proud of."},
+{id:"Q69",ty:"dd",sids:["c-third","t-perf"],p:"If the vaccine ___1___ been developed sooner, thousands of lives could ___2___ been saved.",b:[{id:"b1",o:["has","had","have","would"],c:1,l:"___1___"},{id:"b2",o:["has","had","have","would"],c:2,l:"___2___"}],x:{b1:"Third: if + had been.",b2:"Could have been saved."},r:"Third conditional."},
+{id:"Q70",ty:"dg",sids:["s-there","a-basic"],p:"There _B1_ _B2_ urgent need for reform in the education sector.",bl:["is","an"],bk:["is","are","was","were","a","an","the","\u2014"],x:"Need = singular = is. Urgent = vowel sound = an.",r:"Singular. Vowel sound=an."},
+{id:"Q71",ty:"dd",sids:["g-after","v-basic"],p:"The manager recommended ___1___ the process. The old system ___2___ replaced last month.",b:[{id:"b1",o:["simplifying","to simplify","simplify","simplified"],c:0,l:"___1___"},{id:"b2",o:["was","were","is","has"],c:0,l:"___2___"}],x:{b1:"Recommend = gerund.",b2:"Past passive: was replaced."},r:"Recommend+ger. Was+V3."},
+{id:"Q72",ty:"dg",sids:["t-mod","c-second"],p:"If the budget _B1_ sufficient, we _B2_ hire additional staff.",bl:["were","could"],bk:["were","was","is","could","can","would","will","should"],x:"Second: if + were, could + V1.",r:"Second conditional."},
+{id:"Q73",ty:"dd",sids:["p-ger","t-past"],p:"After ___1___ the data, the team ___2___ to revise their initial hypothesis.",b:[{id:"b1",o:["analyze","analyzing","to analyze","analyzed"],c:1,l:"___1___"},{id:"b2",o:["decides","decided","has decided","is deciding"],c:1,l:"___2___"}],x:{b1:"After = prep = gerund: analyzing.",b2:"Past narrative = decided."},r:"Prep+gerund. Past=SP."},
+{id:"Q74",ty:"dg",sids:["a-zero","s-core"],p:"_B1_ information _B2_ the key to making informed decisions.",bl:["\u2014","is"],bk:["The","A","An","\u2014","is","are","was","were"],x:"General = zero article. Information = singular = is.",r:"General=zero. Uncountable=singular."},
+{id:"Q75",ty:"dd",sids:["v-tense","g-meaning"],p:"The report ___1___ been rewritten. The editor tried ___2___ the language more accessible.",b:[{id:"b1",o:["has","had","is","was"],c:0,l:"___1___"},{id:"b2",o:["making","to make","make","made"],c:1,l:"___2___"}],x:{b1:"PP: has been rewritten.",b2:"Try + inf = attempt: to make."},r:"PP passive. Try+inf=attempt."},
+{id:"Q76",ty:"dg",sids:["c-first","s-tricky"],p:"If either the client or the partners _B1_ the terms, the deal _B2_ fall through.",bl:["reject","will"],bk:["reject","rejects","will","would","rejected","rejecting","can","could"],x:"Either...or = nearest (pl) = reject. First cond = will.",r:"Or=nearest. First=if+pres,will."},
+{id:"Q77",ty:"dd",sids:["t-hto","v-modal"],p:"All participants ___1___ to sign the waiver. The form ___2___ be submitted before the event.",b:[{id:"b1",o:["have","has","had","having"],c:0,l:"___1___"},{id:"b2",o:["must","musts","must to","is must"],c:0,l:"___2___"}],x:{b1:"All = plural = have to.",b2:"Must + base: be submitted."},r:"Plural=have to. Modal+base."},
+{id:"Q78",ty:"dg",sids:["p-fix","v-basic"],p:"The building was designed _B1_ a renowned firm. It consists _B2_ three interconnected wings.",bl:["by","of"],bk:["by","of","in","on","from","to","for","with"],x:"Passive agent = by. Consist of.",r:"Passive: by. Consist of."},
+{id:"Q79",ty:"dd",sids:["g-after","t-sp"],p:"She enjoys ___1___ classical music. Her brother prefers ___2___ to jazz.",b:[{id:"b1",o:["listening to","to listen to","listen to","listened to"],c:0,l:"___1___"},{id:"b2",o:["listening","to listen","listen","listened"],c:1,l:"___2___"}],x:{b1:"Enjoy = gerund.",b2:"Prefer can take infinitive."},r:"Enjoy+ger. Prefer+inf or ger."},
+{id:"Q80",ty:"dg",sids:["c-zero","v-tense"],p:"If a metal _B1_ heated, it _B2_. This principle is widely _B3_ in engineering.",bl:["is","expands","applied"],bk:["is","was","expands","expanded","will expand","applied","applying","applies"],x:"Zero: both present. Widely applied = passive.",r:"Zero conditional. Passive."},
+{id:"Q81",ty:"dd",sids:["t-pp","g-prep"],p:"The company ___1___ committed to ___2___ its workforce since the merger.",b:[{id:"b1",o:["was","has been","had been","is being"],c:1,l:"___1___"},{id:"b2",o:["expand","expanding","to expand","expanded"],c:1,l:"___2___"}],x:{b1:"Since = PP: has been.",b2:"Committed to = prep = gerund."},r:"Since=PP. Committed to+ger."},
+{id:"Q82",ty:"dg",sids:["s-core","t-perf"],p:"The team of engineers _B1_ completed the project. Their findings _B2_ exceeded expectations.",bl:["has","have"],bk:["has","have","had","is","are","was","were","having"],x:"Team = singular = has. Findings = plural = have.",r:"Singular=has. Plural=have."},
+{id:"Q83",ty:"dd",sids:["a-basic","c-first"],p:"If ___1___ error is detected, the system ___2___ send an alert automatically.",b:[{id:"b1",o:["a","an","the","\u2014"],c:1,l:"___1___"},{id:"b2",o:["will","would","can","could"],c:0,l:"___2___"}],x:{b1:"Error = vowel sound = an.",b2:"First conditional = will."},r:"An+vowel. First=will."},
+{id:"Q84",ty:"dg",sids:["v-modal","p-fix"],p:"The data _B1_ be interpreted with caution. The findings differ _B2_ previous studies.",bl:["should","from"],bk:["should","must","from","to","in","of","can","would"],x:"Should be interpreted. Differ from.",r:"Modal+be+V3. Differ from."},
+{id:"Q85",ty:"dd",sids:["t-past","g-after"],p:"The audience ___1___ clapping when the speaker ___2___ to address the controversy.",b:[{id:"b1",o:["stopped","was stopping","stops","has stopped"],c:0,l:"___1___"},{id:"b2",o:["decided","was deciding","decides","has decided"],c:0,l:"___2___"}],x:{b1:"Completed action = SP: stopped.",b2:"Completed decision = SP: decided."},r:"Completed past actions = SP."},
+{id:"Q86",ty:"dg",sids:["c-third","v-tense"],p:"If the bridge _B1_ been properly maintained, the collapse _B2_ have been avoided.",bl:["had","would"],bk:["had","has","have","would","will","could","can","should"],x:"Third: if + had been. Would have been.",r:"Third conditional + passive."},
+{id:"Q87",ty:"dd",sids:["s-there","g-prep"],p:"There ___1___ no justification for ___2___ the investigation without proper evidence.",b:[{id:"b1",o:["is","are","was","were"],c:0,l:"___1___"},{id:"b2",o:["launch","launching","to launch","launched"],c:1,l:"___2___"}],x:{b1:"Justification = singular = is.",b2:"After for = gerund: launching."},r:"Singular. Prep+gerund."},
+{id:"Q88",ty:"dg",sids:["t-sp","v-basic"],p:"This phenomenon _B1_ observed in tropical regions. It _B2_ caused by temperature fluctuations.",bl:["is","is"],bk:["is","are","was","were","has","have","being","been"],x:"General present = is observed. Current cause = is caused.",r:"Present passive: is+V3."},
+{id:"Q89",ty:"dd",sids:["a-the","c-second"],p:"If ___1___ government invested in ___2___ infrastructure, economic growth would accelerate.",b:[{id:"b1",o:["a","an","the","\u2014"],c:2,l:"___1___"},{id:"b2",o:["a","an","the","\u2014"],c:3,l:"___2___"}],x:{b1:"Specific government = the.",b2:"Infrastructure in general = zero."},r:"Specific=the. General=zero. Second cond."},
+{id:"Q90",ty:"dg",sids:["g-after","t-mod"],p:"The regulations require companies _B1_ disclose emissions. They must _B2_ with international standards.",bl:["to","comply"],bk:["to","disclosing","disclose","comply","complying","compliance","must","should"],x:"Require = infinitive: to disclose. Must + base: comply.",r:"Require+inf. Modal+base."},
+{id:"Q91",ty:"dd",sids:["p-ger","c-first"],p:"If she succeeds in ___1___ the grant, she ___2___ be able to fund the entire project.",b:[{id:"b1",o:["obtain","obtaining","to obtain","obtained"],c:1,l:"___1___"},{id:"b2",o:["will","would","can","could"],c:0,l:"___2___"}],x:{b1:"Succeed in = prep = gerund.",b2:"First conditional = will."},r:"Prep+gerund. First=will."},
+{id:"Q92",ty:"dg",sids:["v-tense","s-core"],p:"The findings of the study _B1_ been published. The data _B2_ publicly available.",bl:["have","is"],bk:["have","has","is","are","was","were","had","being"],x:"Findings = plural = have. Data = singular modern = is.",r:"Plural=have. Data=singular."},
+{id:"Q93",ty:"dd",sids:["t-irr","v-basic"],p:"The artist ___1___ an award last year. Her work ___2___ exhibited in galleries worldwide.",b:[{id:"b1",o:["won","winned","has won","wins"],c:0,l:"___1___"},{id:"b2",o:["is","was","has","had"],c:0,l:"___2___"}],x:{b1:"Irregular: win = won.",b2:"Current exhibition = is exhibited."},r:"Irregular past. Present passive."},
+{id:"Q94",ty:"dg",sids:["c-second","p-fix"],p:"If the policy _B1_ revised, it would result _B2_ significant cost savings.",bl:["were","in"],bk:["were","was","is","in","on","to","from","for"],x:"Second: if + were. Result in.",r:"Second cond. Result in."},
+{id:"Q95",ty:"dd",sids:["g-meaning","a-zero"],p:"___1___ honesty is the best policy. He tried ___2___ honest with his colleagues.",b:[{id:"b1",o:["A","An","The","\u2014"],c:3,l:"___1___"},{id:"b2",o:["being","to be","be","been"],c:1,l:"___2___"}],x:{b1:"Abstract = zero.",b2:"Try + inf = attempt: to be."},r:"Abstract=zero. Try+inf=attempt."},
+{id:"Q96",ty:"dg",sids:["t-perf","v-modal"],p:"The manuscript _B1_ been reviewed. It _B2_ be published next quarter.",bl:["has","will"],bk:["has","had","have","will","would","can","should","must"],x:"PP: has been reviewed. Future: will be published.",r:"PP passive. Future passive."},
+{id:"Q97",ty:"dd",sids:["s-tricky","c-first"],p:"If neither the manager nor the employees ___1___ the solution, the project ___2___ fail.",b:[{id:"b1",o:["find","finds","found","finding"],c:0,l:"___1___"},{id:"b2",o:["will","would","can","could"],c:0,l:"___2___"}],x:{b1:"Nor = nearest (pl employees) = find (base plural).",b2:"First conditional = will."},r:"Nor=nearest. First=will."},
+{id:"Q98",ty:"dg",sids:["p-time","v-tense"],p:"The renovation was completed _B1_ March 2024. The building is now _B2_ used as a community center.",bl:["in","being"],bk:["in","on","at","being","been","be","is","was"],x:"Month = in. Currently = is being used.",r:"In+month. Cont passive."},
+{id:"Q99",ty:"dd",sids:["g-after","g-prep"],p:"She considered ___1___ abroad but is hesitant about ___2___ her family behind.",b:[{id:"b1",o:["moving","to move","move","moved"],c:0,l:"___1___"},{id:"b2",o:["leave","leaving","to leave","left"],c:1,l:"___2___"}],x:{b1:"Consider = gerund.",b2:"After about = gerund: leaving."},r:"Consider+ger. Prep+gerund."},
+{id:"Q100",ty:"dg",sids:["t-pp","c-third"],p:"The economy _B1_ struggled since the crisis. If action _B2_ been taken sooner, the recovery would have been faster.",bl:["has","had"],bk:["has","had","have","was","is","would","could","will"],x:"Since = PP: has struggled. Third conditional: if had been.",r:"Since=PP. Third conditional."}
+];
+
+// ══════════════════════════════════════════════════════════════
+// STATE & STORAGE
+// ══════════════════════════════════════════════════════════════
+const SK="gf8";
+function ld(){try{return JSON.parse(localStorage.getItem(SK))||{}}catch{return{}}}
+function sv(d){try{localStorage.setItem(SK,JSON.stringify(d))}catch{}}
+let st=ld();
+if(!st.l1)st.l1={};if(!st.l2)st.l2={};if(!st.kb)st.kb={};if(!st.l2w)st.l2w=[];
+L1.forEach(q=>{if(!st.l1[q.id])st.l1[q.id]="new"});
+L2.forEach(q=>{if(!st.l2[q.id])st.l2[q.id]="new"});
+allSL().forEach(({tid,sid})=>{if(st.kb[tid+"/"+sid]===undefined)st.kb[tid+"/"+sid]=false});
+sv(st);
+
+let S={v:"main",mt:"topics",tid:null,qi:0,ql:[],ans:{},sub:false,sw:null,kbi:0,pFrom:"topic",
+  l2i:0,l2list:[],l2ans:{},l2sub:false,l2sw:null,l2blocked:false,l2weakSids:[]};
+
+// Helpers
+function l1cts(tid){let n=0,p=0,l=0;const qs=tid?L1.filter(q=>q.tid===tid):L1;qs.forEach(q=>{const s=st.l1[q.id];if(s==="new")n++;else if(s==="practice")p++;else l++});return{n,p,l,t:qs.length}}
+function l2cts(){let n=0,p=0,l=0;L2.forEach(q=>{const s=st.l2[q.id];if(s==="new")n++;else if(s==="practice")p++;else l++});return{n,p,l,t:L2.length}}
+function subKBDone(tid,sid){return st.kb[tid+"/"+sid]===true}
+function subL1Done(tid,sid){const qs=L1.filter(q=>q.tid===tid&&q.sid===sid);return qs.length>0&&qs.every(q=>st.l1[q.id]==="learned")}
+function subDone(tid,sid){return subKBDone(tid,sid)&&subL1Done(tid,sid)}
+function topicPct(tid){const subs=gS(tid);if(!subs.length)return 0;return Math.round((subs.filter(s=>subDone(tid,s)).length/subs.length)*100)}
+function topicKBPct(tid){const subs=gS(tid);if(!subs.length)return 0;return Math.round((subs.filter(s=>subKBDone(tid,s)).length/subs.length)*100)}
+function overallPct(){const all=allSL();if(!all.length)return{done:0,total:0,pct:0};const done=all.filter(({tid,sid})=>subDone(tid,sid)).length;return{done,total:all.length,pct:Math.round((done/all.length)*100)}}
+function nextKBI(tid){const subs=gS(tid);for(let i=0;i<subs.length;i++){if(!st.kb[tid+"/"+subs[i]])return i}return subs.length}
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
+
+// ══════════════════════════════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════════════════════════════
+function R(){
+  const a=document.getElementById("app");let h="";
+  if(S.v==="main")h=rMain();
+  else if(S.v==="topic")h=rTopic();
+  else if(S.v==="kb")h=rKB();
+  else if(S.v==="prac")h=rPrac();
+  else if(S.v==="l2")h=rL2();
+  else if(S.v==="l2relearn")h=rL2Relearn();
+  h+=`<div class="wm">Pearson Test of English \xb7 Grammar Practice</div>`;
+  a.innerHTML=h;
+  document.querySelectorAll(".ds").forEach(s=>{s.addEventListener("change",e=>{
+    if(S.v==="l2")S.l2ans[e.target.dataset.b]=parseInt(e.target.value);
+    else S.ans[e.target.dataset.b]=parseInt(e.target.value);
+  })});
+}
+
+// ── MAIN ──
+function rMain(){
+  const o=overallPct();const lc=l2cts();
+  let h=`<div class="fi"><div class="hdr"><div class="lb">PTE Preparation</div><h1>Grammar Practice</h1><div class="su">Master grammar for PTE Fill in the Blanks</div></div>`;
+  h+=`<div class="cd" style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="font-size:13px;font-weight:700">Overall Progress</span><span style="font-size:14px;font-weight:800;font-family:var(--m);color:var(--tl)">${o.pct}%</span></div><div class="pb"><div class="fl" style="width:${o.pct}%;background:var(--tl)"></div></div><div style="font-size:11px;color:var(--t4);margin-top:6px">${o.done}/${o.total} sub-topics complete \xb7 ${L1.length} topic Qs \xb7 ${L2.length} bank Qs</div></div>`;
+  h+=`<div class="tabs"><button class="${S.mt==="topics"?"on":""}" onclick="S.mt='topics';R()">📚 Grammar Topics</button><button class="${S.mt==="qbank"?"on":""}" onclick="S.mt='qbank';R()">✏️ Question Bank</button></div>`;
+  if(S.mt==="topics"){
+    TO.forEach(tid=>{
+      const t=T[tid];const subs=gS(tid);const pct=topicPct(tid);const c=l1cts(tid);
+      const kbD=subs.filter(s=>subKBDone(tid,s)).length;const subD=subs.filter(s=>subDone(tid,s)).length;
+      h+=`<div class="ti" onclick="S.tid='${tid}';S.v='topic';R()"><div class="tp"><span class="ico">${t.icon}</span><span class="tit">${t.title}</span><span class="st" style="background:${pct===100?"var(--tlb)":pct>0?"var(--amb)":"var(--prb)"};color:${pct===100?"var(--tl)":pct>0?"var(--am)":"var(--pr)"}">${pct===100?"\u2713 Done":pct>0?pct+"%":"New"}</span></div><div class="mt">${subs.length} sub-skills \xb7 KB: ${kbD}/${subs.length} \xb7 FIB: ${c.l}/${c.t}</div><div class="pr"><div class="pb" style="flex:1"><div class="fl" style="width:${pct}%;background:var(--tl)"></div></div><span class="pc" style="color:${pct>=80?"var(--tl)":pct>0?"var(--am)":"var(--t5)"}">${pct}%</span></div></div>`;
+    });
+  }else{
+    // Question Bank
+    const lc2=l2cts();const qPct=lc2.t>0?Math.round((lc2.l/lc2.t)*100):0;
+    h+=`<div class="cd"><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="font-size:13px;font-weight:700">Question Bank</span><span style="font-size:14px;font-weight:800;font-family:var(--m);color:${qPct>=80?"var(--tl)":qPct>0?"var(--am)":"var(--t4)"}">${qPct}%</span></div><div class="pb"><div class="fl" style="width:${qPct}%;background:var(--tl)"></div></div><div style="font-size:11px;color:var(--t4);margin-top:6px">${lc2.l}/${lc2.t} learned \xb7 ${lc2.p} practice \xb7 ${lc2.n} new</div></div>`;
+    h+=`<div style="font-size:12px;color:var(--t3);margin-bottom:14px;line-height:1.6">Mixed questions across all grammar topics. Random order. If you make a mistake, you must relearn the relevant sub-topic before continuing.</div>`;
+    h+=`<button class="sm" onclick="startL2()">Start Question Bank</button>`;
+    if(st.l2w&&st.l2w.length>0){
+      h+=`<div class="rb" style="margin-top:12px"><span class="ri">📖</span><span class="rx">${st.l2w.length} sub-topic${st.l2w.length>1?"s":""} need relearning</span><button onclick="S.l2weakSids=[...st.l2w];S.v='l2relearn';R()">Relearn Now</button></div>`;
+    }
+  }
+  h+=`<div style="text-align:center;margin-top:16px"><button onclick="if(confirm('Reset all progress?')){st={l1:{},l2:{},kb:{},l2w:[]};L1.forEach(q=>st.l1[q.id]='new');L2.forEach(q=>st.l2[q.id]='new');allSL().forEach(({tid,sid})=>{st.kb[tid+'/'+sid]=false});sv(st);R()}" style="background:none;border:none;color:var(--t5);font-size:10px;text-decoration:underline;cursor:pointer">Reset progress</button></div></div>`;
+  return h;
+}
+
+// ── TOPIC ──
+function rTopic(){
+  const t=T[S.tid];const subs=gS(S.tid);const c=l1cts(S.tid);const pct=topicPct(S.tid);
+  const kbD=subs.filter(s=>subKBDone(S.tid,s)).length;const nxt=nextKBI(S.tid);const allKB=nxt>=subs.length;
+  let h=`<div class="fi"><button class="nb" onclick="S.v='main';R()">\u2190 Topics</button>`;
+  h+=`<div class="hdr"><div class="lb">PTE Preparation</div><h1>${t.icon} ${t.title}</h1></div>`;
+  h+=`<div class="cts"><div class="ct"><div class="n" style="color:var(--pr)">${c.n}</div><div class="l">New</div></div><div class="ct"><div class="n" style="color:var(--am)">${c.p}</div><div class="l">Practice</div></div><div class="ct"><div class="n" style="color:var(--tl)">${c.l}</div><div class="l">Learned</div></div><div class="ct"><div class="n" style="color:var(--t2)">${c.t}</div><div class="l">Total</div></div></div>`;
+  h+=`<div class="pb" style="margin-bottom:10px"><div class="fl" style="width:${pct}%;background:var(--tl)"></div></div>`;
+  h+=`<div style="font-size:11px;color:var(--t4);margin-bottom:14px">KB: ${kbD}/${subs.length} \xb7 FIB: ${c.l}/${c.t} \xb7 ${pct}% mastery</div>`;
+  h+=`<div class="ar">`;
+  if(allKB)h+=`<button class="ab at" style="opacity:.6" disabled>\u2713 KB Complete</button>`;
+  else h+=`<button class="ab at" onclick="S.kbi=${nxt};S.v='kb';R()">📚 Learn Next (${kbD+1}/${subs.length})</button>`;
+  h+=`<button class="ab ao" onclick="startL1()">✏️ Fill in Blanks</button></div>`;
+  h+=`<div style="font-size:14px;font-weight:700;margin-bottom:10px">Sub-topics (${subs.length})</div>`;
+  subs.forEach((sid,i)=>{
+    const sk=gSk(S.tid,sid);const kbOk=subKBDone(S.tid,sid);const fibOk=subL1Done(S.tid,sid);const full=kbOk&&fibOk;
+    const qs=L1.filter(q=>q.tid===S.tid&&q.sid===sid);const learned=qs.filter(q=>st.l1[q.id]==="learned").length;
+    h+=`<div style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--c1);border:1px solid ${full?"var(--tl)":"var(--bd)"};border-radius:12px;margin-bottom:6px;${full?"border-left:4px solid var(--tl)":""}">`;
+    h+=`<span style="font-size:13px;font-weight:800;color:${full?"var(--tl)":i<nxt?"var(--am)":"var(--t5)"};font-family:var(--m);width:24px">${full?"\u2713":(i+1)}</span>`;
+    h+=`<div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--t2)">${sk.title}</div>`;
+    h+=`<div style="font-size:10px;color:var(--t4);margin-top:2px">KB: ${kbOk?"\u2713":"\u2014"} \xb7 FIB: ${learned}/${qs.length}</div></div></div>`;
+  });
+  h+=`</div>`;return h;
+}
+
+// ── KB (Sequential) ──
+function rKB(){
+  const t=T[S.tid];const subs=gS(S.tid);const idx=S.kbi;const sid=subs[idx];const sk=gSk(S.tid,sid);
+  if(!sk){S.v="topic";R();return""}
+  let h=`<div class="fi"><button class="nb" onclick="S.v='topic';R()">\u2190 Back</button>`;
+  h+=`<div style="font-size:18px;font-weight:700;margin-bottom:6px">📚 Knowledge Bank</div>`;
+  h+=`<div style="font-size:12px;color:var(--t4);margin-bottom:14px">${t.title} \xb7 ${idx+1} of ${subs.length}</div>`;
+  h+=`<div class="seq-prog">`;
+  subs.forEach((s,i)=>{if(i>0)h+=`<div class="seq-line ${i<=idx?"done":""}"></div>`;h+=`<div class="seq-dot ${subKBDone(S.tid,s)?"done":i===idx?"cur":""}"></div>`});
+  h+=`</div>`;
+  h+=`<div class="kc"><h3>${sk.title} <span class="bg">${t.title}</span></h3><p>${sk.rule}</p><div class="po">Structure</div><div class="pv">${sk.pos}</div><div class="el">Examples</div>`;
+  sk.exs.forEach(e=>{h+=`<div class="ex">"${e}"</div>`});
+  if(sk.trap){h+=`<div class="tl2">\u26A0\uFE0F PTE Trap</div><div class="trp"><div class="wr">\u2717 ${sk.trap.w}</div><div class="rt">\u2713 ${sk.trap.r}</div><div class="wy">${sk.trap.y}</div></div>`}
+  h+=`</div>`;
+  const done=subKBDone(S.tid,sid);
+  if(done){h+=`<div style="background:var(--tlb);border:1px solid rgba(42,191,172,.25);border-radius:12px;padding:12px;text-align:center;margin-bottom:12px"><span style="color:var(--tl);font-weight:700;font-size:13px">\u2713 Completed</span></div>`;
+    if(idx<subs.length-1)h+=`<button class="sm" onclick="S.kbi=${idx+1};R();window.scrollTo({top:0,behavior:'smooth'})">Next \u2192</button>`;
+    else h+=`<button class="sm" onclick="S.v='topic';R()">\u2713 All Done</button>`;
+  }else{
+    h+=`<button class="sm" onclick="markKB('${S.tid}','${sid}',${idx})">\u2713 Completed - I have learned this</button>`;
+  }
+  h+=`</div>`;return h;
+}
+function markKB(tid,sid,idx){st.kb[tid+"/"+sid]=true;sv(st);const subs=gS(tid);if(idx<subs.length-1){S.kbi=idx+1;R();window.scrollTo({top:0,behavior:"smooth"})}else{S.v="topic";R()}}
+
+// ── L1 PRACTICE ──
+function startL1(){
+  const qs=[...L1.filter(q=>q.tid===S.tid)].sort((a,b)=>{const o={new:0,practice:1,learned:2};return(o[st.l1[a.id]]||0)-(o[st.l1[b.id]]||0)});
+  S.ql=qs;S.qi=0;S.ans={};S.sub=false;S.sw=null;S.pFrom="topic";S.v="prac";R();
+}
+function rPrac(){
+  if(!S.ql.length)return"No questions.";
+  const q=S.ql[S.qi];const tot=S.ql.length;const s=st.l1[q.id];
+  let h=`<div class="fi"><button class="nb" onclick="goBackL1()">\u2190 Back</button>`;
+  h+=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><span style="font-size:12px;font-family:var(--m);color:var(--t4)">Q ${S.qi+1}/${tot}</span><span style="font-size:10px;padding:2px 8px;border-radius:8px;background:${s==="new"?"var(--prb)":s==="practice"?"var(--amb)":"var(--tlb)"};color:${s==="new"?"var(--pr)":s==="practice"?"var(--am)":"var(--tl)"};font-weight:600">${s.toUpperCase()}</span></div>`;
+  h+=`<div class="pb" style="margin-bottom:12px"><div class="fl" style="width:${((S.qi+1)/tot)*100}%;background:var(--tl)"></div></div>`;
+  h+=`<div class="qc"><div class="qh"><span class="qt" style="color:${q.ty==="dd"?"var(--bl)":"var(--tl)"};background:${q.ty==="dd"?"rgba(74,144,217,.1)":"var(--tlb)"}">${q.ty==="dd"?"DROPDOWN":"DRAG & DROP"}</span><span class="qn">${gSk(q.tid,q.sid)?.title.split(" ").slice(0,3).join(" ")||""}</span></div>`;
+  h+=renderQ(q,S.ans,S.sub,S.sw,"l1");
+  h+=`</div>`;
+  if(!S.sub)h+=`<button class="sm" onclick="subL1()">Submit Answer</button>`;
+  else{h+=renderFB(q,S.ans,"l1");h+=`<button class="sm" style="margin-top:8px" onclick="nxL1()">${S.qi<tot-1?"Next \u2192":"Done"}</button>`}
+  h+=`</div>`;return h;
+}
+function goBackL1(){S.v="topic";R()}
+function subL1(){const q=S.ql[S.qi];S.sub=true;st.l1[q.id]=isCorrect(q,S.ans)?"learned":"practice";sv(st);R()}
+function nxL1(){if(S.qi<S.ql.length-1){S.qi++;S.ans={};S.sub=false;S.sw=null;R();window.scrollTo({top:0,behavior:"smooth"})}else{S.v="topic";R()}}
+
+// ── L2 QUESTION BANK ──
+function startL2(){
+  // Check if blocked
+  if(st.l2w&&st.l2w.length>0){S.l2weakSids=[...st.l2w];S.v="l2relearn";R();return}
+  const qs=shuffle(L2).sort((a,b)=>{const o={new:0,practice:1,learned:2};return(o[st.l2[a.id]]||0)-(o[st.l2[b.id]]||0)});
+  S.l2list=qs;S.l2i=0;S.l2ans={};S.l2sub=false;S.l2sw=null;S.v="l2";R();
+}
+function rL2(){
+  if(!S.l2list.length)return"No questions.";
+  const q=S.l2list[S.l2i];const tot=S.l2list.length;const s=st.l2[q.id];
+  let h=`<div class="fi"><button class="nb" onclick="S.v='main';S.mt='qbank';R()">\u2190 Back</button>`;
+  h+=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><span style="font-size:12px;font-family:var(--m);color:var(--t4)">Q ${S.l2i+1}/${tot}</span><span style="font-size:10px;padding:2px 8px;border-radius:8px;background:${s==="new"?"var(--prb)":s==="practice"?"var(--amb)":"var(--tlb)"};color:${s==="new"?"var(--pr)":s==="practice"?"var(--am)":"var(--tl)"};font-weight:600">${s.toUpperCase()}</span></div>`;
+  h+=`<div class="pb" style="margin-bottom:12px"><div class="fl" style="width:${((S.l2i+1)/tot)*100}%;background:var(--tl)"></div></div>`;
+  h+=`<div class="qc"><div class="qh"><span class="qt" style="color:var(--bl);background:rgba(74,144,217,.1)">QUESTION BANK</span><span class="qn">Q${S.l2i+1}</span></div>`;
+  h+=renderQ(q,S.l2ans,S.l2sub,S.l2sw,"l2");
+  h+=`</div>`;
+  if(!S.l2sub)h+=`<button class="sm" onclick="subL2()">Submit Answer</button>`;
+  else{h+=renderFB(q,S.l2ans,"l2");
+    if(st.l2w&&st.l2w.length>0){
+      h+=`<div class="rb" style="margin-top:8px"><span class="ri">\uD83D\uDCD6</span><span class="rx">You must relearn ${st.l2w.length} sub-topic${st.l2w.length>1?"s":""} before continuing.</span></div>`;
+      h+=`<button class="sm" style="margin-top:8px;background:var(--am)" onclick="S.l2weakSids=[...st.l2w];S.v='l2relearn';R()">Relearn Now</button>`;
+    }else{
+      h+=`<button class="sm" style="margin-top:8px" onclick="nxL2()">${S.l2i<tot-1?"Next \u2192":"Done"}</button>`;
+    }
+  }
+  h+=`</div>`;return h;
+}
+function subL2(){
+  const q=S.l2list[S.l2i];S.l2sub=true;
+  const ok=isCorrect(q,S.l2ans);
+  st.l2[q.id]=ok?"learned":"practice";
+  if(!ok&&q.sids){
+    // Add weak sids
+    q.sids.forEach(sid=>{if(!st.l2w.includes(sid))st.l2w.push(sid)});
+  }
+  sv(st);R();
+}
+function nxL2(){if(S.l2i<S.l2list.length-1){S.l2i++;S.l2ans={};S.l2sub=false;S.l2sw=null;R();window.scrollTo({top:0,behavior:"smooth"})}else{S.v="main";S.mt="qbank";R()}}
+
+// ── L2 RELEARN ──
+function rL2Relearn(){
+  let h=`<div class="fi"><button class="nb" onclick="S.v='main';S.mt='qbank';R()">\u2190 Back</button>`;
+  h+=`<div class="rb"><span class="ri">\uD83D\uDCD6</span><span class="rx">Relearn these sub-topics before continuing the Question Bank</span></div>`;
+  h+=`<div style="font-size:18px;font-weight:700;margin-bottom:12px">Relearn Required</div>`;
+  S.l2weakSids.forEach(sid=>{
+    // Find which topic this sid belongs to
+    let foundTid=null;TO.forEach(tid=>{if(T[tid].subs[sid])foundTid=tid});
+    if(!foundTid)return;
+    const sk=gSk(foundTid,sid);if(!sk)return;
+    h+=`<div class="kc"><h3>${sk.title} <span class="bg">${T[foundTid].title}</span></h3><p>${sk.rule}</p><div class="po">Structure</div><div class="pv">${sk.pos}</div><div class="el">Examples</div>`;
+    sk.exs.forEach(e=>{h+=`<div class="ex">"${e}"</div>`});
+    if(sk.trap){h+=`<div class="tl2">\u26A0\uFE0F PTE Trap</div><div class="trp"><div class="wr">\u2717 ${sk.trap.w}</div><div class="rt">\u2713 ${sk.trap.r}</div><div class="wy">${sk.trap.y}</div></div>`}
+    h+=`</div>`;
+  });
+  h+=`<button class="sm" onclick="clearL2Weak()">\u2713 I have relearned these - Continue</button></div>`;
+  return h;
+}
+function clearL2Weak(){st.l2w=[];sv(st);startL2()}
+
+// ══════════════════════════════════════════════════════════════
+// SHARED Q RENDERING
+// ══════════════════════════════════════════════════════════════
+function renderQ(q,ans,submitted,selWord,level){
+  if(q.ty==="dd")return rDD(q,ans,submitted);
+  return rDG(q,ans,submitted,selWord,level);
+}
+function rDD(q,ans,sub){let p=q.p;q.b.forEach(b=>{if(sub){const sel=ans[b.id];const ok=sel===b.c;p=p.replace(b.l,`<span class="dz ${ok?"ok":"no"}">${b.o[sel!==undefined?sel:0]}</span>`)}else{let opts=`<option value="-1" ${ans[b.id]===undefined?"selected":""}>Select...</option>`;b.o.forEach((o,i)=>{opts+=`<option value="${i}" ${ans[b.id]===i?"selected":""}>${o}</option>`});p=p.replace(b.l,`<select class="ds" data-b="${b.id}">${opts}</select>`)}});return`<div class="ps">${p}</div>`}
+function rDG(q,ans,sub,sw,level){let p=q.p;const ua=ans||{};q.bl.forEach((cw,i)=>{const bid="B"+(i+1);const pl=ua[bid];if(sub){const ok=pl&&pl.toLowerCase()===cw.toLowerCase();p=p.replace("_"+bid+"_",`<span class="dz ${ok?"ok":"no"}">${pl||"___"}</span>`)}else{p=p.replace("_"+bid+"_",`<span class="dz ${pl?"fd":""}" onclick="${level==="l2"?"pwL2":"pw"}('${bid}')">${pl||"tap"}</span>`)}});let h=`<div class="ps">${p}</div>`;if(!sub){h+=`<div class="wb">`;q.bk.forEach(w=>{const us=Object.values(ua).includes(w);const curSw=level==="l2"?S.l2sw:S.sw;h+=`<span class="wc ${us?"us":""} ${curSw===w?"pl":""}" onclick="${level==="l2"?"selWL2":"selW"}('${w.replace(/'/g,"\\'")}')">${w}</span>`});h+=`</div>`}return h}
+
+function renderFB(q,ans,level){
+  let ok=isCorrect(q,ans);let h="";
+  if(q.ty==="dd"){
+    if(ok){h+=`<div class="fb ok"><div class="ft2" style="color:var(--tl)">\u2713 Correct!</div><div class="fe">${typeof q.x==="string"?q.x:Object.values(q.x).join(" ")}</div></div>`}
+    else{h+=`<div class="fb no"><div class="ft2" style="color:var(--rd)">\u2717 Not quite right</div>`;
+      q.b.forEach(b=>{if(ans[b.id]!==b.c){const sel=ans[b.id];h+=`<div class="fa">${b.l}: "<span style="color:var(--rd)">${b.o[sel!==undefined?sel:0]||"none"}</span>" \u2192 "<span style="color:var(--tl)">${b.o[b.c]}</span>"</div><div class="fe">${q.x[b.id]||""}</div>`}});
+      h+=`<div class="fr">\uD83D\uDCCF ${q.r}</div>`;
+      if(q.sids){h+=`<div class="fs">\uD83D\uDCD6 Review: ${q.sids.map(sid=>{let n="";TO.forEach(tid=>{if(T[tid].subs[sid])n=T[tid].subs[sid].title});return n}).join(", ")}</div>`}
+      else if(q.sid){h+=`<div class="fs">\uD83D\uDCD6 Review: ${gSk(q.tid,q.sid)?.title||""}</div>`}
+      h+=`</div>`}
+  }else{
+    if(ok){h+=`<div class="fb ok"><div class="ft2" style="color:var(--tl)">\u2713 Correct!</div><div class="fe">${q.x}</div></div>`}
+    else{h+=`<div class="fb no"><div class="ft2" style="color:var(--rd)">\u2717 Not quite right</div>`;
+      q.bl.forEach((cw,i)=>{const bid="B"+(i+1);const pl=ans[bid];if(!pl||pl.toLowerCase()!==cw.toLowerCase())h+=`<div class="fa">Blank ${i+1}: "<span style="color:var(--rd)">${pl||"empty"}</span>" \u2192 "<span style="color:var(--tl)">${cw}</span>"</div>`});
+      h+=`<div class="fe" style="margin-top:8px">${q.x}</div><div class="fr">\uD83D\uDCCF ${q.r}</div>`;
+      if(q.sids){h+=`<div class="fs">\uD83D\uDCD6 Review: ${q.sids.map(sid=>{let n="";TO.forEach(tid=>{if(T[tid].subs[sid])n=T[tid].subs[sid].title});return n}).join(", ")}</div>`}
+      else if(q.sid){h+=`<div class="fs">\uD83D\uDCD6 Review: ${gSk(q.tid,q.sid)?.title||""}</div>`}
+      h+=`</div>`}
+  }
+  return h;
+}
+
+function isCorrect(q,ans){
+  if(q.ty==="dd"){let ok=true;q.b.forEach(b=>{if(ans[b.id]!==b.c)ok=false});return ok}
+  let ok=true;q.bl.forEach((cw,i)=>{const bid="B"+(i+1);if(!ans[bid]||ans[bid].toLowerCase()!==cw.toLowerCase())ok=false});return ok;
+}
+
+// L1 word interactions
+function selW(w){if(S.sub)return;if(S.sw===w){S.sw=null;R();return}Object.keys(S.ans).forEach(k=>{if(S.ans[k]===w)delete S.ans[k]});S.sw=w;R()}
+function pw(bid){if(S.sub)return;if(S.sw){Object.keys(S.ans).forEach(k=>{if(S.ans[k]===S.sw)delete S.ans[k]});S.ans[bid]=S.sw;S.sw=null;R()}else if(S.ans[bid]){delete S.ans[bid];R()}}
+// L2 word interactions
+function selWL2(w){if(S.l2sub)return;if(S.l2sw===w){S.l2sw=null;R();return}Object.keys(S.l2ans).forEach(k=>{if(S.l2ans[k]===w)delete S.l2ans[k]});S.l2sw=w;R()}
+function pwL2(bid){if(S.l2sub)return;if(S.l2sw){Object.keys(S.l2ans).forEach(k=>{if(S.l2ans[k]===S.l2sw)delete S.l2ans[k]});S.l2ans[bid]=S.l2sw;S.l2sw=null;R()}else if(S.l2ans[bid]){delete S.l2ans[bid];R()}}
+
+R();
+</script>
+</body>
+</html>
