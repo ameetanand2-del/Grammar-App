@@ -3,40 +3,103 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <title>GrammarForge · PTE</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#F4F6FA;--w:#FFF;--c1:#FFF;--c2:#F8FAFB;--bd:#E4E8EF;--bd2:#D1D7E0;--tl:#2ABFAC;--tl2:#23A696;--tlb:rgba(42,191,172,.1);--pr:#7C6AF0;--prb:rgba(124,106,240,.08);--am:#EFA430;--amb:rgba(239,164,48,.08);--rd:#E05A5A;--rdb:rgba(224,90,90,.08);--bl:#4A90D9;--t1:#1A2138;--t2:#374155;--t3:#5A6580;--t4:#8994A7;--t5:#B0B8C8;--f:'Plus Jakarta Sans',system-ui,sans-serif;--m:'JetBrains Mono',monospace}
-html,body{background:var(--bg);color:var(--t1);font-family:var(--f);min-height:100vh}
-button{font-family:var(--f);cursor:pointer}input,select{font-family:var(--f)}
-.app{max-width:460px;margin:0 auto;padding:16px 14px 80px}
-.hdr{margin-bottom:20px}.hdr .lb{color:var(--tl);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}.hdr h1{font-size:22px;font-weight:800;color:var(--t1)}.hdr .su{font-size:11px;color:var(--t4);margin-top:2px}
-.cd{background:var(--c1);border:1px solid var(--bd);border-radius:14px;padding:16px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
-.pb{height:7px;background:var(--bd);border-radius:7px;overflow:hidden}.pb .fl{height:100%;border-radius:7px;transition:width .4s}
-.tabs{display:flex;gap:3px;background:var(--c2);border:1px solid var(--bd);border-radius:12px;padding:3px;margin-bottom:16px}.tabs button{flex:1;padding:11px 0;border:none;border-radius:10px;background:transparent;color:var(--t4);font-size:12px;font-weight:600;transition:.15s}.tabs button.on{background:var(--tl);color:#fff;box-shadow:0 2px 6px rgba(42,191,172,.25)}
-.ti{background:var(--c1);border:1px solid var(--bd);border-radius:14px;padding:16px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.04);cursor:pointer;transition:.15s}.ti:active{border-color:var(--tl)}.ti .tp{display:flex;align-items:center;gap:10px;margin-bottom:8px}.ti .ico{font-size:22px}.ti .tit{font-size:15px;font-weight:700}.ti .st{margin-left:auto;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px}.ti .mt{font-size:11px;color:var(--t4);margin-bottom:8px}.ti .pr{display:flex;align-items:center;gap:8px}.ti .pr .pc{font-size:12px;font-family:var(--m);font-weight:700;min-width:32px}
-.cts{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:14px}.ct{background:var(--c1);border:1px solid var(--bd);border-radius:12px;text-align:center;padding:10px 4px}.ct .n{font-size:18px;font-weight:800;font-family:var(--m)}.ct .l{font-size:9px;color:var(--t4);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
-.ar{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}.ab{padding:14px;border-radius:14px;border:none;font-size:13px;font-weight:700;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.06)}.at{background:var(--tl);color:#fff}.ao{background:var(--c1);border:1px solid var(--bd);color:var(--t2)}
-.kc{background:var(--c1);border:1px solid var(--bd);border-radius:14px;padding:16px;margin-bottom:10px;border-left:4px solid var(--tl);box-shadow:0 1px 3px rgba(0,0,0,.04)}.kc h3{font-size:15px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:8px}.kc .bg{font-size:9px;font-weight:700;padding:3px 10px;border-radius:12px;text-transform:uppercase;letter-spacing:.06em;background:var(--tlb);color:var(--tl)}.kc p{font-size:13px;color:var(--t2);line-height:1.8;margin-bottom:10px}.kc .po{font-size:10px;font-weight:700;color:var(--tl);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}.kc .pv{font-size:12px;color:var(--t3);background:var(--c2);padding:10px 12px;border-radius:10px;margin-bottom:10px;border:1px solid var(--bd)}.kc .el{font-size:10px;font-weight:700;color:var(--tl);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}.kc .ex{border-left:3px solid var(--tl);padding:8px 12px;font-size:12px;color:var(--t2);font-style:italic;margin-bottom:6px;background:var(--c2);border-radius:0 10px 10px 0}.kc .tl2{font-size:10px;font-weight:700;color:var(--rd);text-transform:uppercase;letter-spacing:.06em;margin:10px 0 6px}.kc .trp{background:var(--rdb);border:1px solid rgba(224,90,90,.15);border-radius:10px;padding:10px 12px;font-size:12px;margin-bottom:6px}.kc .trp .wr{color:var(--rd);font-weight:600}.kc .trp .rt{color:var(--tl);font-weight:600}.kc .trp .wy{color:var(--t3);margin-top:4px;font-size:11px}
-.qc{background:var(--c1);border:1px solid var(--bd);border-radius:14px;padding:18px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.04)}.qc .qh{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.qc .qt{font-size:9px;font-weight:700;padding:3px 10px;border-radius:8px;text-transform:uppercase;letter-spacing:.06em;font-family:var(--m)}.qc .qn{font-size:11px;color:var(--t4);font-family:var(--m)}.qc .ps{font-size:14px;color:var(--t2);line-height:1.9;margin-bottom:16px}
-.qc select{padding:8px 12px;border-radius:8px;border:2px solid var(--bd);background:var(--c2);color:var(--t1);font-size:13px;min-width:110px;outline:none;-webkit-appearance:none}.qc select:focus{border-color:var(--tl)}
-.wb{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;padding:12px;background:var(--c2);border:1px dashed var(--bd2);border-radius:12px}.wc{padding:8px 14px;border-radius:10px;background:var(--c1);border:1px solid var(--bd);color:var(--t2);font-size:13px;font-weight:600;cursor:pointer;transition:.15s;user-select:none}.wc:active{transform:scale(.95)}.wc.us{opacity:.25;pointer-events:none}.wc.pl{background:var(--tlb);border-color:var(--tl);color:var(--tl2)}
-.dz{display:inline-block;min-width:80px;padding:4px 10px;border:2px dashed var(--bd2);border-radius:8px;color:var(--t4);font-size:13px;cursor:pointer;transition:.15s;margin:0 2px;vertical-align:baseline}.dz.fd{border-color:var(--tl);background:var(--tlb);color:var(--tl2);border-style:solid}.dz.ok{border-color:var(--tl);background:var(--tlb);color:var(--tl2);border-style:solid}.dz.no{border-color:var(--rd);background:var(--rdb);color:var(--rd);border-style:solid}
-.sm{width:100%;padding:14px;border:none;border-radius:12px;background:var(--tl);color:#fff;font-size:14px;font-weight:700;box-shadow:0 2px 8px rgba(42,191,172,.25)}.sm:disabled{opacity:.35}
-.fb{border-radius:12px;padding:16px;margin-bottom:12px}.fb.ok{background:var(--tlb);border:1px solid rgba(42,191,172,.25)}.fb.no{background:var(--rdb);border:1px solid rgba(224,90,90,.2)}.fb .ft2{font-weight:700;font-size:14px;margin-bottom:6px}.fb .fa{font-size:12px;color:var(--t2);margin-bottom:6px}.fb .fr{font-size:12px;font-weight:700;color:var(--am);margin-top:8px}.fb .fe{font-size:13px;color:var(--t2);line-height:1.8}.fb .fs{margin-top:8px;font-size:11px;padding:6px 10px;border-radius:8px;background:var(--amb);color:var(--am);font-weight:600}
-.rb{background:var(--rdb);border:1px solid rgba(224,90,90,.2);border-radius:12px;padding:14px 16px;margin-bottom:14px;display:flex;align-items:center;gap:10px}.rb .ri{font-size:20px}.rb .rx{font-size:12px;font-weight:600;color:var(--rd);flex:1}
-.nb{display:inline-flex;align-items:center;gap:4px;padding:7px 16px;border-radius:10px;border:1px solid var(--bd);background:var(--c1);color:var(--t3);font-size:11px;font-weight:600;margin-bottom:16px}
-.seq-prog{display:flex;align-items:center;gap:4px;margin-bottom:14px}.seq-dot{width:10px;height:10px;border-radius:50%;border:2px solid var(--bd2);flex-shrink:0}.seq-dot.done{background:var(--tl);border-color:var(--tl)}.seq-dot.cur{border-color:var(--tl);background:var(--tlb)}.seq-line{flex:1;height:2px;background:var(--bd)}.seq-line.done{background:var(--tl)}
-.wm{text-align:center;margin-top:32px;opacity:.3;font-size:10px;color:var(--t5);letter-spacing:.1em;text-transform:uppercase}
-@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}.fi{animation:fi .2s ease}
+:root{--bg:#F5F7FA;--surface:#FFFFFF;--card:#FFFFFF;--border:#E2E8F0;--borderActive:#00C9B6;--primary:#364395;--success:#008B5D;--successBg:rgba(0,139,93,0.1);--error:#D32F2F;--errorBg:rgba(211,47,47,0.08);--warning:#ED6B06;--warningBg:rgba(237,107,6,0.08);--text:#1A202C;--textSec:#4A5568;--textMuted:#718096;--accent:#00C9B6;--accentBg:rgba(0,201,182,0.08);--magenta:#9D1348}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-tap-highlight-color:transparent}
+input,textarea,button,select{font-family:'DM Sans',sans-serif}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-thumb{background:#CBD5E0;border-radius:3px}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+.app{max-width:460px;margin:0 auto;padding-bottom:80px}
+.header{padding:20px 20px 0;display:flex;align-items:center;justify-content:space-between}
+.header-label{font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.15em;margin-bottom:4px}
+.header h1{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--text)}
+
+.kpi-row{display:flex;gap:8px;padding:16px 20px 8px}
+.kpi-card{flex:1;padding:14px 10px;background:var(--card);border-radius:14px;border:1px solid var(--border);display:flex;align-items:center;gap:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.kpi-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px}
+.kpi-val{font-size:22px;font-weight:700;line-height:1}
+.kpi-label{font-size:10px;font-weight:600;color:var(--textMuted);text-transform:uppercase;letter-spacing:.04em;margin-top:2px}
+
+.bucket-row{display:flex;gap:6px;padding:0 20px 4px}
+.bucket-stat{flex:1;padding:8px 4px;background:var(--card);border-radius:10px;border:1px solid var(--border);text-align:center;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.bucket-val{font-size:17px;font-weight:700}
+.bucket-label{font-size:9px;font-weight:600;color:var(--textMuted);text-transform:uppercase;letter-spacing:.04em}
+
+.progress-bar{height:6px;border-radius:3px;background:#E2E8F0;overflow:hidden;display:flex}
+.progress-fill{background:var(--success);transition:width .5s}
+.progress-fill-warn{background:var(--warning);transition:width .5s}
+
+.main-tabs{display:flex;gap:4px;background:var(--surface);border-radius:14px;margin:0 16px;padding:5px;margin-bottom:8px}
+.main-tab{flex:1;padding:10px 4px;border-radius:11px;border:none;font-size:11px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;transition:all .2s;background:transparent;color:var(--textMuted)}
+.main-tab.active{background:linear-gradient(135deg,#364395,#00C9B6);color:#fff}
+
+.topic-card{background:var(--card);border-radius:16px;border:1.5px solid var(--border);padding:18px;margin:0 16px 12px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.04);transition:.15s}
+.topic-card:active{border-color:var(--accent)}
+.topic-card.done{border-color:var(--success)}
+
+.sub-item{background:var(--card);border-radius:14px;border:1.5px solid var(--border);padding:16px;margin-bottom:10px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.sub-item.done{border-color:var(--success)}
+
+.kb-card{background:var(--card);border-radius:14px;border:1px solid var(--border);border-left:4px solid var(--accent);padding:16px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+
+.rule-card{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:6px}
+.rule-title{font-size:12px;font-weight:700;color:var(--text);margin-bottom:3px}
+.rule-eg{font-size:11px;color:var(--accent);font-style:italic}
+
+.trap-card{background:var(--errorBg);border:1px solid rgba(211,47,47,.15);border-radius:10px;padding:10px 12px;margin-bottom:6px}
+
+.q-card{background:var(--card);border-radius:16px;border:1.5px solid var(--border);padding:24px;box-shadow:0 2px 8px rgba(0,0,0,.04);margin-bottom:12px}
+.q-passage{font-size:16px;line-height:1.8;color:var(--text);margin-bottom:20px}
+.q-select{padding:8px 12px;border-radius:8px;border:2px solid var(--border);background:var(--surface);color:var(--text);font-size:14px;min-width:110px;outline:none;-webkit-appearance:none}
+.q-select:focus{border-color:var(--accent)}
+
+.blank-zone{display:inline-block;min-width:90px;padding:4px 12px;border:2px dashed var(--border);border-radius:8px;text-align:center;font-weight:700;color:var(--textMuted);font-size:14px;cursor:pointer;margin:0 2px;vertical-align:baseline;transition:.15s}
+.blank-zone.filled{border-color:var(--accent);color:var(--accent);background:var(--accentBg);border-style:solid}
+.blank-zone.correct{border-color:var(--success);color:var(--success);background:var(--successBg);border-style:solid}
+.blank-zone.wrong{border-color:var(--error);color:var(--error);background:var(--errorBg);border-style:solid}
+
+.word-bank{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;padding:12px;background:var(--bg);border:1px dashed var(--border);border-radius:12px}
+.word-chip{padding:10px 18px;border-radius:10px;border:2px solid var(--border);background:var(--surface);color:var(--text);font-size:14px;font-weight:600;cursor:pointer;transition:.15s;user-select:none}
+.word-chip:active{transform:scale(.95)}
+.word-chip.used{opacity:.2;pointer-events:none}
+.word-chip.selected{border-color:var(--accent);background:var(--accentBg);color:var(--accent)}
+
+.btn-primary{width:100%;padding:14px;border-radius:12px;border:none;background:linear-gradient(135deg,#364395,#00C9B6);color:#fff;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(54,67,149,.3)}
+.btn-primary:disabled{opacity:.35}
+.btn-relearn{width:100%;padding:14px;border-radius:12px;border:none;background:linear-gradient(135deg,#9D1348,#ED6B06);color:#fff;font-size:15px;font-weight:700;cursor:pointer}
+.btn-back{padding:8px 14px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--textMuted);font-size:13px;cursor:pointer;margin-bottom:14px}
+
+.fb-card{border-radius:12px;padding:16px;margin-bottom:12px}
+.fb-card.correct{background:var(--successBg);border:1px solid rgba(0,139,93,.2)}
+.fb-card.wrong{background:var(--errorBg);border:1px solid rgba(211,47,47,.2)}
+
+.error-banner{background:var(--errorBg);border:1px solid rgba(211,47,47,.15);border-radius:12px;padding:14px 16px;margin-bottom:12px}
+.error-pill{font-size:12px;font-weight:600;color:var(--error);background:rgba(211,47,47,.08);padding:3px 10px;border-radius:6px;display:inline-block;margin:2px}
+
+.relearn-card{background:var(--card);border-radius:16px;border:2px solid var(--magenta);padding:20px;margin-top:16px;box-shadow:0 4px 20px rgba(157,19,72,.15)}
+
+.seq-prog{display:flex;align-items:center;gap:4px;margin-bottom:14px}
+.seq-dot{width:10px;height:10px;border-radius:50%;border:2px solid var(--border);flex-shrink:0}
+.seq-dot.done{background:var(--success);border-color:var(--success)}
+.seq-dot.cur{border-color:var(--accent);background:var(--accentBg)}
+.seq-line{flex:1;height:2px;background:var(--border)}
+.seq-line.done{background:var(--success)}
+
+.wm{text-align:center;margin-top:32px;opacity:.3;font-size:10px;color:var(--textMuted);letter-spacing:.1em;text-transform:uppercase;padding-bottom:20px}
 </style>
 </head>
 <body>
 <div class="app" id="app"></div>
 <script>
+
 // ══════════════════════════════════════════════════════════════
-// TOPICS & SUBSKILLS DATA
+// DATA
 // ══════════════════════════════════════════════════════════════
 const T={
 tenses:{id:"tenses",title:"Tenses",icon:"\u23F3",desc:"Verb tenses, modals, perfect forms",subs:{
@@ -628,14 +691,13 @@ notes:[
 trap:{w:"If they would have known, they would have acted differently.",r:"If they had known, they would have acted differently.",y:"NEVER 'would have' in the if-clause. Always 'had + V3' after 'if' in third conditional."}}
 }}
 };
+
 const TO=["tenses","articles","sva","preps","passive","gerinf","cond"];
 function gS(tid){return Object.keys(T[tid].subs)}
 function gSk(tid,sid){return T[tid]?.subs?.[sid]}
 function allSL(){const r=[];TO.forEach(tid=>{gS(tid).forEach(sid=>{r.push({tid,sid})})});return r}
+function findTidForSid(sid){for(const tid of TO){if(T[tid].subs[sid])return tid}return null}
 
-// ══════════════════════════════════════════════════════════════
-// LEVEL 1 QUESTIONS (Grammar Topics FIBs) - 91 questions
-// ══════════════════════════════════════════════════════════════
 const L1=[
 // TENSES (27)
 {id:"L1t01",ty:"dd",tid:"tenses",sid:"t-sp",p:"The university currently ___1___ over 40,000 students and ___2___ plans to expand.",b:[{id:"b1",o:["enrolls","is enrolling","enrolled","has enrolled"],c:1,l:"___1___"},{id:"b2",o:["has","is having","had","have"],c:0,l:"___2___"}],x:{b1:"General fact = SP.",b2:"Possession = has."},r:"Facts = SP."},
@@ -737,10 +799,6 @@ const L1=[
 {id:"L1c12",ty:"dg",tid:"cond",sid:"c-zero",p:"If you _B1_ ice in water, it _B2_.",bl:["put","floats"],bk:["put","puts","will put","floats","will float","floated","floating","would float"],x:"Zero: present+present.",r:"Zero: both present."}
 ];
 
-// ══════════════════════════════════════════════════════════════
-// LEVEL 2 QUESTIONS (Question Bank - DIFFERENT from L1) - 100 Qs
-// Mixed topics, randomized, harder, no topic hints
-// ══════════════════════════════════════════════════════════════
 const L2=[
 // Each question tests 1-2 grammar rules. Tagged with sids for relearn tracking.
 // TENSES MIXED (20)
@@ -852,30 +910,35 @@ const L2=[
 // ══════════════════════════════════════════════════════════════
 // STATE & STORAGE
 // ══════════════════════════════════════════════════════════════
-const SK="gf8";
+const SK="gf9";
 function ld(){try{return JSON.parse(localStorage.getItem(SK))||{}}catch{return{}}}
 function sv(d){try{localStorage.setItem(SK,JSON.stringify(d))}catch{}}
 let st=ld();
 if(!st.l1)st.l1={};if(!st.l2)st.l2={};if(!st.kb)st.kb={};if(!st.l2w)st.l2w=[];
+if(!st.errors)st.errors={};// errors per sub-topic sid: {sid: count}
 L1.forEach(q=>{if(!st.l1[q.id])st.l1[q.id]="new"});
 L2.forEach(q=>{if(!st.l2[q.id])st.l2[q.id]="new"});
 allSL().forEach(({tid,sid})=>{if(st.kb[tid+"/"+sid]===undefined)st.kb[tid+"/"+sid]=false});
 sv(st);
 
-let S={v:"main",mt:"topics",tid:null,qi:0,ql:[],ans:{},sub:false,sw:null,kbi:0,pFrom:"topic",
-  l2i:0,l2list:[],l2ans:{},l2sub:false,l2sw:null,l2blocked:false,l2weakSids:[]};
+let S={v:"main",mt:"topics",tid:null,qi:0,ql:[],ans:{},sub:false,sw:null,kbi:0,
+  l2i:0,l2list:[],l2ans:{},l2sub:false,l2sw:null,l2relearn:false,l2relearnSids:[]};
 
-// Helpers
+// ── Helpers ──
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function l1cts(tid){let n=0,p=0,l=0;const qs=tid?L1.filter(q=>q.tid===tid):L1;qs.forEach(q=>{const s=st.l1[q.id];if(s==="new")n++;else if(s==="practice")p++;else l++});return{n,p,l,t:qs.length}}
 function l2cts(){let n=0,p=0,l=0;L2.forEach(q=>{const s=st.l2[q.id];if(s==="new")n++;else if(s==="practice")p++;else l++});return{n,p,l,t:L2.length}}
 function subKBDone(tid,sid){return st.kb[tid+"/"+sid]===true}
 function subL1Done(tid,sid){const qs=L1.filter(q=>q.tid===tid&&q.sid===sid);return qs.length>0&&qs.every(q=>st.l1[q.id]==="learned")}
 function subDone(tid,sid){return subKBDone(tid,sid)&&subL1Done(tid,sid)}
 function topicPct(tid){const subs=gS(tid);if(!subs.length)return 0;return Math.round((subs.filter(s=>subDone(tid,s)).length/subs.length)*100)}
-function topicKBPct(tid){const subs=gS(tid);if(!subs.length)return 0;return Math.round((subs.filter(s=>subKBDone(tid,s)).length/subs.length)*100)}
 function overallPct(){const all=allSL();if(!all.length)return{done:0,total:0,pct:0};const done=all.filter(({tid,sid})=>subDone(tid,sid)).length;return{done,total:all.length,pct:Math.round((done/all.length)*100)}}
 function nextKBI(tid){const subs=gS(tid);for(let i=0;i<subs.length;i++){if(!st.kb[tid+"/"+subs[i]])return i}return subs.length}
 function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
+function isCorrect(q,ans){if(q.ty==="dd"){let ok=true;q.b.forEach(b=>{if(ans[b.id]!==b.c)ok=false});return ok}let ok=true;q.bl.forEach((cw,i)=>{const bid="B"+(i+1);if(!ans[bid]||ans[bid].toLowerCase()!==cw.toLowerCase())ok=false});return ok}
+function getSubErrors(sid){return st.errors[sid]||0}
+function getTopicErrors(tid){let t=0;gS(tid).forEach(sid=>{t+=getSubErrors(sid)});return t}
+function topSortedErrors(){return Object.entries(st.errors).filter(([k,v])=>v>0).sort((a,b)=>b[1]-a[1]).slice(0,8)}
 
 // ══════════════════════════════════════════════════════════════
 // RENDER
@@ -885,10 +948,10 @@ function R(){
   if(S.v==="main")h=rMain();
   else if(S.v==="topic")h=rTopic();
   else if(S.v==="kb")h=rKB();
-  else if(S.v==="prac")h=rPrac();
+  else if(S.v==="l1")h=rL1();
   else if(S.v==="l2")h=rL2();
   else if(S.v==="l2relearn")h=rL2Relearn();
-  h+=`<div class="wm">Pearson Test of English \xb7 Grammar Practice</div>`;
+  h+='<div class="wm">Pearson Test of English \xb7 Grammar Practice</div>';
   a.innerHTML=h;
   document.querySelectorAll(".ds").forEach(s=>{s.addEventListener("change",e=>{
     if(S.v==="l2")S.l2ans[e.target.dataset.b]=parseInt(e.target.value);
@@ -896,139 +959,193 @@ function R(){
   })});
 }
 
-// ── MAIN ──
+// ── MAIN SCREEN ──
 function rMain(){
   const o=overallPct();const lc=l2cts();
-  let h=`<div class="fi"><div class="hdr"><div class="lb">PTE Preparation</div><h1>Grammar Practice</h1><div class="su">Master grammar for PTE Fill in the Blanks</div></div>`;
-  h+=`<div class="cd" style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="font-size:13px;font-weight:700">Overall Progress</span><span style="font-size:14px;font-weight:800;font-family:var(--m);color:var(--tl)">${o.pct}%</span></div><div class="pb"><div class="fl" style="width:${o.pct}%;background:var(--tl)"></div></div><div style="font-size:11px;color:var(--t4);margin-top:6px">${o.done}/${o.total} sub-topics complete \xb7 ${L1.length} topic Qs \xb7 ${L2.length} bank Qs</div></div>`;
-  h+=`<div class="tabs"><button class="${S.mt==="topics"?"on":""}" onclick="S.mt='topics';R()">📚 Grammar Topics</button><button class="${S.mt==="qbank"?"on":""}" onclick="S.mt='qbank';R()">✏️ Question Bank</button></div>`;
+  let h='<div style="animation:slideUp .3s ease">';
+  // Header
+  h+='<div class="header"><div><div class="header-label">PTE Preparation</div><h1>Grammar Practice</h1></div></div>';
+  // KPI row
+  h+='<div class="kpi-row"><div class="kpi-card"><div class="kpi-icon" style="background:var(--accentBg)">📝</div><div><div class="kpi-val">'+o.done+'/'+o.total+'</div><div class="kpi-label">Sub-topics</div></div></div><div class="kpi-card"><div class="kpi-icon" style="background:rgba(54,67,149,.08)">📊</div><div><div class="kpi-val">'+o.pct+'%</div><div class="kpi-label">Mastery</div></div></div></div>';
+  // Progress bar
+  h+='<div style="padding:0 20px;margin-bottom:12px"><div class="progress-bar"><div class="progress-fill" style="width:'+o.pct+'%"></div></div><div style="display:flex;justify-content:space-between;margin-top:4px;font-size:11px"><span style="color:var(--success);font-weight:600">'+o.pct+'% complete</span><span style="color:var(--textMuted)">'+(L1.length+L2.length)+' total questions</span></div></div>';
+  // Tabs
+  h+='<div class="main-tabs"><button class="main-tab '+(S.mt==="topics"?"active":"")+'" onclick="S.mt=\'topics\';R()">\uD83D\uDCDA Grammar Topics</button><button class="main-tab '+(S.mt==="qbank"?"active":"")+'" onclick="S.mt=\'qbank\';R()">\u270F\uFE0F Question Bank</button></div>';
   if(S.mt==="topics"){
     TO.forEach(tid=>{
       const t=T[tid];const subs=gS(tid);const pct=topicPct(tid);const c=l1cts(tid);
       const kbD=subs.filter(s=>subKBDone(tid,s)).length;const subD=subs.filter(s=>subDone(tid,s)).length;
-      h+=`<div class="ti" onclick="S.tid='${tid}';S.v='topic';R()"><div class="tp"><span class="ico">${t.icon}</span><span class="tit">${t.title}</span><span class="st" style="background:${pct===100?"var(--tlb)":pct>0?"var(--amb)":"var(--prb)"};color:${pct===100?"var(--tl)":pct>0?"var(--am)":"var(--pr)"}">${pct===100?"\u2713 Done":pct>0?pct+"%":"New"}</span></div><div class="mt">${subs.length} sub-skills \xb7 KB: ${kbD}/${subs.length} \xb7 FIB: ${c.l}/${c.t}</div><div class="pr"><div class="pb" style="flex:1"><div class="fl" style="width:${pct}%;background:var(--tl)"></div></div><span class="pc" style="color:${pct>=80?"var(--tl)":pct>0?"var(--am)":"var(--t5)"}">${pct}%</span></div></div>`;
+      const errCt=getTopicErrors(tid);
+      h+='<div class="topic-card'+(pct===100?" done":"")+'" onclick="S.tid=\''+tid+'\';S.v=\'topic\';R()">';
+      h+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">';
+      h+='<div style="display:flex;align-items:center;gap:10px"><span style="font-size:22px">'+t.icon+'</span><div><div style="font-size:17px;font-weight:700;color:var(--text)">'+t.title+'</div><div style="font-size:12px;color:var(--textMuted)">'+subs.length+' sub-skills \xb7 '+c.t+' questions</div></div></div>';
+      if(pct===100)h+='<span style="font-size:11px;font-weight:700;color:var(--success);background:var(--successBg);padding:4px 10px;border-radius:6px">\u2713 DONE</span>';
+      else if(pct>0)h+='<span style="font-size:11px;font-weight:600;color:var(--textMuted)">'+subD+'/'+subs.length+'</span>';
+      else h+='<span style="font-size:11px;font-weight:600;color:var(--primary);background:rgba(54,67,149,.08);padding:4px 10px;border-radius:6px">NEW</span>';
+      h+='</div>';
+      h+='<div class="progress-bar"><div class="progress-fill" style="width:'+pct+'%"></div></div>';
+      h+='<div style="display:flex;justify-content:space-between;margin-top:6px;font-size:11px;color:var(--textMuted)"><span>KB: '+kbD+'/'+subs.length+' \xb7 FIB: '+c.l+'/'+c.t+'</span>';
+      if(errCt>0)h+='<span style="color:var(--error);font-weight:600">'+errCt+' errors</span>';
+      h+='</div></div>';
     });
   }else{
     // Question Bank
     const lc2=l2cts();const qPct=lc2.t>0?Math.round((lc2.l/lc2.t)*100):0;
-    h+=`<div class="cd"><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="font-size:13px;font-weight:700">Question Bank</span><span style="font-size:14px;font-weight:800;font-family:var(--m);color:${qPct>=80?"var(--tl)":qPct>0?"var(--am)":"var(--t4)"}">${qPct}%</span></div><div class="pb"><div class="fl" style="width:${qPct}%;background:var(--tl)"></div></div><div style="font-size:11px;color:var(--t4);margin-top:6px">${lc2.l}/${lc2.t} learned \xb7 ${lc2.p} practice \xb7 ${lc2.n} new</div></div>`;
-    h+=`<div style="font-size:12px;color:var(--t3);margin-bottom:14px;line-height:1.6">Mixed questions across all grammar topics. Random order. If you make a mistake, you must relearn the relevant sub-topic before continuing.</div>`;
-    h+=`<button class="sm" onclick="startL2()">Start Question Bank</button>`;
-    if(st.l2w&&st.l2w.length>0){
-      h+=`<div class="rb" style="margin-top:12px"><span class="ri">📖</span><span class="rx">${st.l2w.length} sub-topic${st.l2w.length>1?"s":""} need relearning</span><button onclick="S.l2weakSids=[...st.l2w];S.v='l2relearn';R()">Relearn Now</button></div>`;
+    h+='<div style="padding:0 16px">';
+    h+='<div style="background:var(--card);border-radius:16px;border:1.5px solid var(--border);padding:20px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.04)">';
+    h+='<div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="font-size:13px;font-weight:700">Question Bank</span><span style="font-size:14px;font-weight:700;color:'+(qPct>=80?'var(--success)':qPct>0?'var(--warning)':'var(--textMuted)')+'">'+qPct+'%</span></div>';
+    h+='<div class="progress-bar"><div class="progress-fill" style="width:'+qPct+'%"></div></div>';
+    h+='<div style="font-size:11px;color:var(--textMuted);margin-top:6px">'+lc2.l+'/'+lc2.t+' learned \xb7 '+lc2.p+' practice \xb7 '+lc2.n+' new</div></div>';
+    h+='<div style="font-size:12px;color:var(--textSec);margin-bottom:14px;line-height:1.6">Mixed questions across all grammar topics. Random order. Wrong answers trigger mandatory relearning.</div>';
+    // Error summary
+    const topErr=topSortedErrors();
+    if(topErr.length>0){
+      h+='<div class="error-banner"><div style="font-size:11px;font-weight:700;color:var(--error);margin-bottom:6px">Most Errors By Sub-topic:</div><div style="display:flex;flex-wrap:wrap;gap:6px">';
+      topErr.forEach(([sid,count])=>{const tid=findTidForSid(sid);const sk=tid?gSk(tid,sid):null;h+='<span class="error-pill">'+(sk?sk.title.split(" ").slice(0,3).join(" "):sid)+' ('+count+')</span>'});
+      h+='</div></div>';
     }
+    if(st.l2w&&st.l2w.length>0){
+      h+='<div class="error-banner" style="background:rgba(157,19,72,.06);border-color:rgba(157,19,72,.15)"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:20px">\uD83D\uDCD6</span><div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--magenta)">'+st.l2w.length+' sub-topic'+(st.l2w.length>1?'s':'')+' need relearning</div></div></div></div>';
+      h+='<button class="btn-relearn" style="margin-bottom:12px" onclick="S.l2relearnSids=[...st.l2w];S.v=\'l2relearn\';R()">\uD83D\uDCD6 Relearn Now</button>';
+    }else{
+      h+='<button class="btn-primary" onclick="startL2()">Start Question Bank</button>';
+    }
+    h+='</div>';
   }
-  h+=`<div style="text-align:center;margin-top:16px"><button onclick="if(confirm('Reset all progress?')){st={l1:{},l2:{},kb:{},l2w:[]};L1.forEach(q=>st.l1[q.id]='new');L2.forEach(q=>st.l2[q.id]='new');allSL().forEach(({tid,sid})=>{st.kb[tid+'/'+sid]=false});sv(st);R()}" style="background:none;border:none;color:var(--t5);font-size:10px;text-decoration:underline;cursor:pointer">Reset progress</button></div></div>`;
-  return h;
+  // Reset
+  h+='<div style="text-align:center;margin-top:16px;padding:0 16px"><button onclick="if(confirm(\'Reset all progress?\')){st={l1:{},l2:{},kb:{},l2w:[],errors:{}};L1.forEach(q=>st.l1[q.id]=\'new\');L2.forEach(q=>st.l2[q.id]=\'new\');allSL().forEach(({tid,sid})=>{st.kb[tid+\'/\'+sid]=false});sv(st);R()}" style="background:none;border:none;color:var(--textMuted);font-size:11px;cursor:pointer">\uD83D\uDD04 Reset Progress</button></div>';
+  h+='</div>';return h;
 }
 
-// ── TOPIC ──
+// ── TOPIC DETAIL ──
 function rTopic(){
   const t=T[S.tid];const subs=gS(S.tid);const c=l1cts(S.tid);const pct=topicPct(S.tid);
   const kbD=subs.filter(s=>subKBDone(S.tid,s)).length;const nxt=nextKBI(S.tid);const allKB=nxt>=subs.length;
-  let h=`<div class="fi"><button class="nb" onclick="S.v='main';R()">\u2190 Topics</button>`;
-  h+=`<div class="hdr"><div class="lb">PTE Preparation</div><h1>${t.icon} ${t.title}</h1></div>`;
-  h+=`<div class="cts"><div class="ct"><div class="n" style="color:var(--pr)">${c.n}</div><div class="l">New</div></div><div class="ct"><div class="n" style="color:var(--am)">${c.p}</div><div class="l">Practice</div></div><div class="ct"><div class="n" style="color:var(--tl)">${c.l}</div><div class="l">Learned</div></div><div class="ct"><div class="n" style="color:var(--t2)">${c.t}</div><div class="l">Total</div></div></div>`;
-  h+=`<div class="pb" style="margin-bottom:10px"><div class="fl" style="width:${pct}%;background:var(--tl)"></div></div>`;
-  h+=`<div style="font-size:11px;color:var(--t4);margin-bottom:14px">KB: ${kbD}/${subs.length} \xb7 FIB: ${c.l}/${c.t} \xb7 ${pct}% mastery</div>`;
-  h+=`<div class="ar">`;
-  if(allKB)h+=`<button class="ab at" style="opacity:.6" disabled>\u2713 KB Complete</button>`;
-  else h+=`<button class="ab at" onclick="S.kbi=${nxt};S.v='kb';R()">📚 Learn Next (${kbD+1}/${subs.length})</button>`;
-  h+=`<button class="ab ao" onclick="startL1()">✏️ Fill in Blanks</button></div>`;
-  h+=`<div style="font-size:14px;font-weight:700;margin-bottom:10px">Sub-topics (${subs.length})</div>`;
+  let h='<div style="padding:12px 16px;animation:slideUp .3s ease">';
+  h+='<button class="btn-back" onclick="S.v=\'main\';R()">\u2190 Back to Topics</button>';
+  h+='<div style="margin-bottom:16px"><div style="font-size:22px;font-weight:700;color:var(--text);margin-bottom:4px">'+t.icon+' '+t.title+'</div>';
+  h+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span style="font-size:12px;font-weight:600;color:var(--success)">'+kbD+'/'+subs.length+' KB</span><span style="font-size:12px;color:var(--textMuted)">'+c.l+'/'+c.t+' FIB</span><span style="font-size:12px;font-weight:700;color:var(--accent)">'+pct+'%</span></div>';
+  h+='<div class="progress-bar"><div class="progress-fill" style="width:'+pct+'%"></div></div></div>';
+  // Bucket stats
+  h+='<div class="bucket-row" style="padding:0;margin-bottom:14px"><div class="bucket-stat"><div class="bucket-val" style="color:var(--primary)">'+c.n+'</div><div class="bucket-label">New</div></div><div class="bucket-stat"><div class="bucket-val" style="color:var(--warning)">'+c.p+'</div><div class="bucket-label">Practice</div></div><div class="bucket-stat"><div class="bucket-val" style="color:var(--success)">'+c.l+'</div><div class="bucket-label">Learned</div></div><div class="bucket-stat"><div class="bucket-val" style="color:var(--text)">'+c.t+'</div><div class="bucket-label">Total</div></div></div>';
+  // Action buttons
+  h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px">';
+  if(allKB)h+='<button style="padding:14px;border-radius:14px;border:1px solid var(--success);background:var(--successBg);color:var(--success);font-size:13px;font-weight:700" disabled>\u2713 KB Complete</button>';
+  else h+='<button class="btn-primary" style="font-size:13px" onclick="S.kbi='+nxt+';S.v=\'kb\';R()">\uD83D\uDCDA Learn Next ('+String(kbD+1)+'/'+subs.length+')</button>';
+  h+='<button style="padding:14px;border-radius:14px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;font-weight:700;cursor:pointer" onclick="startL1()">\u270F\uFE0F Fill in Blanks</button></div>';
+  // Sub-topic list
+  h+='<div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:10px">Sub-topics ('+subs.length+')</div>';
   subs.forEach((sid,i)=>{
     const sk=gSk(S.tid,sid);const kbOk=subKBDone(S.tid,sid);const fibOk=subL1Done(S.tid,sid);const full=kbOk&&fibOk;
     const qs=L1.filter(q=>q.tid===S.tid&&q.sid===sid);const learned=qs.filter(q=>st.l1[q.id]==="learned").length;
-    h+=`<div style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--c1);border:1px solid ${full?"var(--tl)":"var(--bd)"};border-radius:12px;margin-bottom:6px;${full?"border-left:4px solid var(--tl)":""}">`;
-    h+=`<span style="font-size:13px;font-weight:800;color:${full?"var(--tl)":i<nxt?"var(--am)":"var(--t5)"};font-family:var(--m);width:24px">${full?"\u2713":(i+1)}</span>`;
-    h+=`<div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--t2)">${sk.title}</div>`;
-    h+=`<div style="font-size:10px;color:var(--t4);margin-top:2px">KB: ${kbOk?"\u2713":"\u2014"} \xb7 FIB: ${learned}/${qs.length}</div></div></div>`;
+    const errCt=getSubErrors(sid);
+    h+='<div class="sub-item'+(full?" done":"")+'">';
+    h+='<div style="display:flex;align-items:center;justify-content:space-between">';
+    h+='<div style="display:flex;align-items:center;gap:10px">';
+    h+='<span style="width:28px;height:28px;border-radius:8px;background:'+(full?'var(--successBg)':'var(--surface)')+';display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:'+(full?'var(--success)':'var(--textMuted)')+'">'+(full?'\u2713':String(i+1))+'</span>';
+    h+='<div><div style="font-size:14px;font-weight:700;color:var(--text)">'+sk.title+'</div><div style="font-size:11px;color:var(--textMuted);margin-top:2px">KB: '+(kbOk?'\u2713':'\u2014')+' \xb7 FIB: '+learned+'/'+qs.length+(errCt>0?' \xb7 <span style=\"color:var(--error)\">'+errCt+' errors</span>':'')+'</div></div>';
+    h+='</div>';
+    h+='<span style="font-size:16px;color:var(--textMuted)">\u203A</span></div></div>';
   });
-  h+=`</div>`;return h;
+  h+='</div>';return h;
 }
 
-// ── KB (Sequential) ──
+// ── KB SEQUENTIAL ──
 function rKB(){
   const t=T[S.tid];const subs=gS(S.tid);const idx=S.kbi;const sid=subs[idx];const sk=gSk(S.tid,sid);
   if(!sk){S.v="topic";R();return""}
-  let h=`<div class="fi"><button class="nb" onclick="S.v='topic';R()">\u2190 Back</button>`;
-  h+=`<div style="font-size:18px;font-weight:700;margin-bottom:6px">📚 Knowledge Bank</div>`;
-  h+=`<div style="font-size:12px;color:var(--t4);margin-bottom:14px">${t.title} \xb7 ${idx+1} of ${subs.length}</div>`;
-  h+=`<div class="seq-prog">`;
-  subs.forEach((s,i)=>{if(i>0)h+=`<div class="seq-line ${i<=idx?"done":""}"></div>`;h+=`<div class="seq-dot ${subKBDone(S.tid,s)?"done":i===idx?"cur":""}"></div>`});
-  h+=`</div>`;
-  h+=`<div class="kc"><h3>${sk.title} <span class="bg">${t.title}</span></h3><p>${sk.rule}</p><div class="po">Structure</div><div class="pv">${sk.pos}</div><div class="el">Examples</div>`;
-  sk.exs.forEach(e=>{h+=`<div class="ex">"${e}"</div>`});
-  if(sk.notes&&sk.notes.length>0){h+=`<div class="po" style="margin-top:12px">Key Rules</div>`;for(let ni=0;ni<sk.notes.length;ni+=2){const rule=sk.notes[ni];const eg=sk.notes[ni+1]||"";h+=`<div style="background:var(--c2);border:1px solid var(--bd);border-radius:10px;padding:10px 12px;margin-bottom:6px"><div style="font-size:12px;font-weight:700;color:var(--t1);margin-bottom:3px">${rule}</div><div style="font-size:11px;color:var(--tl2);font-style:italic">${eg}</div></div>`}}
-  if(sk.trap){h+=`<div class="tl2">\u26A0\uFE0F PTE Trap</div><div class="trp"><div class="wr">\u2717 ${sk.trap.w}</div><div class="rt">\u2713 ${sk.trap.r}</div><div class="wy">${sk.trap.y}</div></div>`}
-  h+=`</div>`;
+  let h='<div style="padding:12px 16px;animation:slideUp .3s ease">';
+  h+='<button class="btn-back" onclick="S.v=\'topic\';R()">\u2190 Back</button>';
+  h+='<div style="font-size:18px;font-weight:700;margin-bottom:6px">\uD83D\uDCDA Knowledge Bank</div>';
+  h+='<div style="font-size:12px;color:var(--textMuted);margin-bottom:14px">'+t.title+' \xb7 '+String(idx+1)+' of '+subs.length+'</div>';
+  // Seq dots
+  h+='<div class="seq-prog">';
+  subs.forEach((s,i)=>{if(i>0)h+='<div class="seq-line '+(i<=idx?"done":"")+'"></div>';h+='<div class="seq-dot '+(subKBDone(S.tid,s)?"done":i===idx?"cur":"")+'"></div>'});
+  h+='</div>';
+  // KB content
+  h+=renderKBContent(S.tid,sid);
+  // Buttons
   const done=subKBDone(S.tid,sid);
-  if(done){h+=`<div style="background:var(--tlb);border:1px solid rgba(42,191,172,.25);border-radius:12px;padding:12px;text-align:center;margin-bottom:12px"><span style="color:var(--tl);font-weight:700;font-size:13px">\u2713 Completed</span></div>`;
-    if(idx<subs.length-1)h+=`<button class="sm" onclick="S.kbi=${idx+1};R();window.scrollTo({top:0,behavior:'smooth'})">Next \u2192</button>`;
-    else h+=`<button class="sm" onclick="S.v='topic';R()">\u2713 All Done</button>`;
+  if(done){
+    h+='<div style="background:var(--successBg);border:1px solid rgba(0,139,93,.2);border-radius:12px;padding:12px;text-align:center;margin-bottom:12px"><span style="color:var(--success);font-weight:700;font-size:13px">\u2713 Completed</span></div>';
+    if(idx<subs.length-1)h+='<button class="btn-primary" onclick="S.kbi='+String(idx+1)+';R();window.scrollTo({top:0,behavior:\'smooth\'})">Next \u2192</button>';
+    else h+='<button class="btn-primary" onclick="S.v=\'topic\';R()">\u2713 All Done</button>';
   }else{
-    h+=`<button class="sm" onclick="markKB('${S.tid}','${sid}',${idx})">\u2713 Completed - I have learned this</button>`;
+    h+='<button class="btn-primary" onclick="markKB(\''+S.tid+'\',\''+sid+'\','+idx+')">\u2713 Completed - I have learned this</button>';
   }
-  h+=`</div>`;return h;
+  h+='</div>';return h;
 }
 function markKB(tid,sid,idx){st.kb[tid+"/"+sid]=true;sv(st);const subs=gS(tid);if(idx<subs.length-1){S.kbi=idx+1;R();window.scrollTo({top:0,behavior:"smooth"})}else{S.v="topic";R()}}
+
+function renderKBContent(tid,sid){
+  const sk=gSk(tid,sid);if(!sk)return"";
+  let h='<div class="kb-card"><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:15px;font-weight:700;color:var(--text)">'+sk.title+'</span><span style="font-size:9px;font-weight:700;padding:3px 10px;border-radius:12px;text-transform:uppercase;letter-spacing:.06em;background:var(--accentBg);color:var(--accent)">'+T[tid].title+'</span></div>';
+  h+='<div style="font-size:13px;color:var(--textSec);line-height:1.8;margin-bottom:10px">'+sk.rule+'</div>';
+  h+='<div style="font-size:10px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Structure</div>';
+  h+='<div style="font-size:12px;color:var(--textSec);background:var(--bg);padding:10px 12px;border-radius:10px;margin-bottom:10px;border:1px solid var(--border)">'+sk.pos+'</div>';
+  h+='<div style="font-size:10px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Examples</div>';
+  sk.exs.forEach(e=>{h+='<div style="border-left:3px solid var(--accent);padding:8px 12px;font-size:12px;color:var(--textSec);font-style:italic;margin-bottom:6px;background:var(--bg);border-radius:0 10px 10px 0">\"'+e+'\"</div>'});
+  if(sk.notes&&sk.notes.length>0){h+='<div style="font-size:10px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;margin:12px 0 6px">Key Rules</div>';for(let ni=0;ni<sk.notes.length;ni+=2){const rule=sk.notes[ni];const eg=sk.notes[ni+1]||"";h+='<div class="rule-card"><div class="rule-title">'+rule+'</div><div class="rule-eg">'+eg+'</div></div>'}}
+  if(sk.trap){h+='<div style="font-size:10px;font-weight:700;color:var(--error);text-transform:uppercase;letter-spacing:.06em;margin:10px 0 6px">\u26A0\uFE0F PTE Trap</div><div class="trap-card"><div style="color:var(--error);font-weight:600">\u2717 '+sk.trap.w+'</div><div style="color:var(--success);font-weight:600">\u2713 '+sk.trap.r+'</div><div style="color:var(--textSec);margin-top:4px;font-size:11px">'+sk.trap.y+'</div></div>'}
+  h+='</div>';return h;
+}
 
 // ── L1 PRACTICE ──
 function startL1(){
   const qs=[...L1.filter(q=>q.tid===S.tid)].sort((a,b)=>{const o={new:0,practice:1,learned:2};return(o[st.l1[a.id]]||0)-(o[st.l1[b.id]]||0)});
-  S.ql=qs;S.qi=0;S.ans={};S.sub=false;S.sw=null;S.pFrom="topic";S.v="prac";R();
+  S.ql=qs;S.qi=0;S.ans={};S.sub=false;S.sw=null;S.v="l1";R();
 }
-function rPrac(){
+function rL1(){
   if(!S.ql.length)return"No questions.";
   const q=S.ql[S.qi];const tot=S.ql.length;const s=st.l1[q.id];
-  let h=`<div class="fi"><button class="nb" onclick="goBackL1()">\u2190 Back</button>`;
-  h+=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><span style="font-size:12px;font-family:var(--m);color:var(--t4)">Q ${S.qi+1}/${tot}</span><span style="font-size:10px;padding:2px 8px;border-radius:8px;background:${s==="new"?"var(--prb)":s==="practice"?"var(--amb)":"var(--tlb)"};color:${s==="new"?"var(--pr)":s==="practice"?"var(--am)":"var(--tl)"};font-weight:600">${s.toUpperCase()}</span></div>`;
-  h+=`<div class="pb" style="margin-bottom:12px"><div class="fl" style="width:${((S.qi+1)/tot)*100}%;background:var(--tl)"></div></div>`;
-  h+=`<div class="qc"><div class="qh"><span class="qt" style="color:${q.ty==="dd"?"var(--bl)":"var(--tl)"};background:${q.ty==="dd"?"rgba(74,144,217,.1)":"var(--tlb)"}">${q.ty==="dd"?"DROPDOWN":"DRAG & DROP"}</span><span class="qn">${gSk(q.tid,q.sid)?.title.split(" ").slice(0,3).join(" ")||""}</span></div>`;
+  let h='<div style="padding:12px 16px;animation:slideUp .3s ease">';
+  h+='<button class="btn-back" onclick="S.v=\'topic\';R()">\u2190 Back</button>';
+  h+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><span style="font-size:12px;color:var(--textMuted)">Q '+String(S.qi+1)+'/'+tot+'</span><span style="font-size:10px;padding:3px 10px;border-radius:6px;background:'+(s==="new"?'rgba(54,67,149,.08)':s==="practice"?'var(--warningBg)':'var(--successBg)')+';color:'+(s==="new"?'var(--primary)':s==="practice"?'var(--warning)':'var(--success)')+';font-weight:600">'+s.toUpperCase()+'</span></div>';
+  h+='<div class="progress-bar" style="margin-bottom:14px"><div class="progress-fill" style="width:'+String(((S.qi+1)/tot)*100)+'%"></div></div>';
+  h+='<div class="q-card"><div style="font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">'+(q.ty==="dd"?'\uD83D\uDCCB Dropdown':'\uD83D\uDD90 Drag & Drop')+' \xb7 Fill in the blank</div>';
   h+=renderQ(q,S.ans,S.sub,S.sw,"l1");
-  h+=`</div>`;
-  if(!S.sub)h+=`<button class="sm" onclick="subL1()">Submit Answer</button>`;
-  else{h+=renderFB(q,S.ans,"l1");h+=`<button class="sm" style="margin-top:8px" onclick="nxL1()">${S.qi<tot-1?"Next \u2192":"Done"}</button>`}
-  h+=`</div>`;return h;
+  h+='</div>';
+  if(!S.sub)h+='<button class="btn-primary" onclick="subL1()">Submit Answer</button>';
+  else{h+=renderFB(q,S.ans,"l1");h+='<button class="btn-primary" style="margin-top:8px" onclick="nxL1()">'+(S.qi<tot-1?'Next Question \u2192':'Done')+'</button>'}
+  h+='</div>';return h;
 }
-function goBackL1(){S.v="topic";R()}
-function subL1(){const q=S.ql[S.qi];S.sub=true;st.l1[q.id]=isCorrect(q,S.ans)?"learned":"practice";sv(st);R()}
+function subL1(){const q=S.ql[S.qi];S.sub=true;const ok=isCorrect(q,S.ans);st.l1[q.id]=ok?"learned":"practice";if(!ok&&q.sid){st.errors[q.sid]=(st.errors[q.sid]||0)+1}sv(st);R()}
 function nxL1(){if(S.qi<S.ql.length-1){S.qi++;S.ans={};S.sub=false;S.sw=null;R();window.scrollTo({top:0,behavior:"smooth"})}else{S.v="topic";R()}}
 
 // ── L2 QUESTION BANK ──
 function startL2(){
-  // Check if blocked
-  if(st.l2w&&st.l2w.length>0){S.l2weakSids=[...st.l2w];S.v="l2relearn";R();return}
+  if(st.l2w&&st.l2w.length>0){S.l2relearnSids=[...st.l2w];S.v="l2relearn";R();return}
   const qs=shuffle(L2).sort((a,b)=>{const o={new:0,practice:1,learned:2};return(o[st.l2[a.id]]||0)-(o[st.l2[b.id]]||0)});
-  S.l2list=qs;S.l2i=0;S.l2ans={};S.l2sub=false;S.l2sw=null;S.v="l2";R();
+  S.l2list=qs;S.l2i=0;S.l2ans={};S.l2sub=false;S.l2sw=null;S.l2relearn=false;S.v="l2";R();
 }
 function rL2(){
   if(!S.l2list.length)return"No questions.";
   const q=S.l2list[S.l2i];const tot=S.l2list.length;const s=st.l2[q.id];
-  let h=`<div class="fi"><button class="nb" onclick="S.v='main';S.mt='qbank';R()">\u2190 Back</button>`;
-  h+=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><span style="font-size:12px;font-family:var(--m);color:var(--t4)">Q ${S.l2i+1}/${tot}</span><span style="font-size:10px;padding:2px 8px;border-radius:8px;background:${s==="new"?"var(--prb)":s==="practice"?"var(--amb)":"var(--tlb)"};color:${s==="new"?"var(--pr)":s==="practice"?"var(--am)":"var(--tl)"};font-weight:600">${s.toUpperCase()}</span></div>`;
-  h+=`<div class="pb" style="margin-bottom:12px"><div class="fl" style="width:${((S.l2i+1)/tot)*100}%;background:var(--tl)"></div></div>`;
-  h+=`<div class="qc"><div class="qh"><span class="qt" style="color:var(--bl);background:rgba(74,144,217,.1)">QUESTION BANK</span><span class="qn">Q${S.l2i+1}</span></div>`;
+  let h='<div style="padding:12px 16px;animation:slideUp .3s ease">';
+  h+='<button class="btn-back" onclick="S.v=\'main\';S.mt=\'qbank\';R()">\u2190 Back</button>';
+  h+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><span style="font-size:12px;color:var(--textMuted)">Q '+String(S.l2i+1)+'/'+tot+'</span><span style="font-size:10px;padding:3px 10px;border-radius:6px;background:'+(s==="new"?'rgba(54,67,149,.08)':s==="practice"?'var(--warningBg)':'var(--successBg)')+';color:'+(s==="new"?'var(--primary)':s==="practice"?'var(--warning)':'var(--success)')+';font-weight:600">'+s.toUpperCase()+'</span></div>';
+  h+='<div class="progress-bar" style="margin-bottom:14px"><div class="progress-fill" style="width:'+String(((S.l2i+1)/tot)*100)+'%"></div></div>';
+  h+='<div class="q-card"><div style="font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">'+(q.ty==="dd"?'\uD83D\uDCCB Dropdown':'\uD83D\uDD90 Drag & Drop')+' \xb7 Question Bank</div>';
   h+=renderQ(q,S.l2ans,S.l2sub,S.l2sw,"l2");
-  h+=`</div>`;
-  if(!S.l2sub)h+=`<button class="sm" onclick="subL2()">Submit Answer</button>`;
-  else{h+=renderFB(q,S.l2ans,"l2");
+  h+='</div>';
+  if(!S.l2sub)h+='<button class="btn-primary" onclick="subL2()">Submit Answer</button>';
+  else{
+    h+=renderFB(q,S.l2ans,"l2");
     if(st.l2w&&st.l2w.length>0){
-      h+=`<div class="rb" style="margin-top:8px"><span class="ri">\uD83D\uDCD6</span><span class="rx">You must relearn ${st.l2w.length} sub-topic${st.l2w.length>1?"s":""} before continuing.</span></div>`;
-      h+=`<button class="sm" style="margin-top:8px;background:var(--am)" onclick="S.l2weakSids=[...st.l2w];S.v='l2relearn';R()">Relearn Now</button>`;
+      h+='<div class="error-banner" style="margin-top:8px"><span style="font-size:20px">\uD83D\uDCD6</span><span style="font-size:12px;font-weight:600;color:var(--error);margin-left:10px">You must relearn '+st.l2w.length+' sub-topic'+(st.l2w.length>1?'s':'')+' before continuing.</span></div>';
+      h+='<button class="btn-relearn" style="margin-top:8px" onclick="S.l2relearnSids=[...st.l2w];S.l2relearn=true;S.v=\'l2relearn\';R()">\uD83D\uDCD6 Relearn Before Continuing</button>';
     }else{
-      h+=`<button class="sm" style="margin-top:8px" onclick="nxL2()">${S.l2i<tot-1?"Next \u2192":"Done"}</button>`;
+      h+='<button class="btn-primary" style="margin-top:8px" onclick="nxL2()">'+(S.l2i<tot-1?'Next Question \u2192':'Done')+'</button>';
     }
   }
-  h+=`</div>`;return h;
+  h+='</div>';return h;
 }
 function subL2(){
   const q=S.l2list[S.l2i];S.l2sub=true;
   const ok=isCorrect(q,S.l2ans);
   st.l2[q.id]=ok?"learned":"practice";
   if(!ok&&q.sids){
-    // Add weak sids
-    q.sids.forEach(sid=>{if(!st.l2w.includes(sid))st.l2w.push(sid)});
+    q.sids.forEach(sid=>{if(!st.l2w.includes(sid))st.l2w.push(sid);st.errors[sid]=(st.errors[sid]||0)+1});
   }
   sv(st);R();
 }
@@ -1036,24 +1153,17 @@ function nxL2(){if(S.l2i<S.l2list.length-1){S.l2i++;S.l2ans={};S.l2sub=false;S.l
 
 // ── L2 RELEARN ──
 function rL2Relearn(){
-  let h=`<div class="fi"><button class="nb" onclick="S.v='main';S.mt='qbank';R()">\u2190 Back</button>`;
-  h+=`<div class="rb"><span class="ri">\uD83D\uDCD6</span><span class="rx">Relearn these sub-topics before continuing the Question Bank</span></div>`;
-  h+=`<div style="font-size:18px;font-weight:700;margin-bottom:12px">Relearn Required</div>`;
-  S.l2weakSids.forEach(sid=>{
-    // Find which topic this sid belongs to
-    let foundTid=null;TO.forEach(tid=>{if(T[tid].subs[sid])foundTid=tid});
-    if(!foundTid)return;
-    const sk=gSk(foundTid,sid);if(!sk)return;
-    h+=`<div class="kc"><h3>${sk.title} <span class="bg">${T[foundTid].title}</span></h3><p>${sk.rule}</p><div class="po">Structure</div><div class="pv">${sk.pos}</div><div class="el">Examples</div>`;
-    sk.exs.forEach(e=>{h+=`<div class="ex">"${e}"</div>`});
-    if(sk.notes&&sk.notes.length>0){h+=`<div class="po" style="margin-top:12px">Key Rules</div>`;for(let ni=0;ni<sk.notes.length;ni+=2){const rule=sk.notes[ni];const eg=sk.notes[ni+1]||"";h+=`<div style="background:var(--c2);border:1px solid var(--bd);border-radius:10px;padding:10px 12px;margin-bottom:6px"><div style="font-size:12px;font-weight:700;color:var(--t1);margin-bottom:3px">${rule}</div><div style="font-size:11px;color:var(--tl2);font-style:italic">${eg}</div></div>`}}
-    if(sk.trap){h+=`<div class="tl2">\u26A0\uFE0F PTE Trap</div><div class="trp"><div class="wr">\u2717 ${sk.trap.w}</div><div class="rt">\u2713 ${sk.trap.r}</div><div class="wy">${sk.trap.y}</div></div>`}
-    h+=`</div>`;
+  let h='<div style="padding:12px 16px;animation:slideUp .3s ease">';
+  h+='<button class="btn-back" onclick="S.v=\'main\';S.mt=\'qbank\';R()">\u2190 Back</button>';
+  h+='<div class="relearn-card" style="border:2px solid var(--magenta);margin-top:0;margin-bottom:16px"><div style="font-size:16px;font-weight:700;color:var(--magenta);margin-bottom:4px">\uD83D\uDCD6 Relearn Required</div><div style="font-size:13px;color:var(--textSec);line-height:1.5">Review all sub-topics below before continuing. Read each one carefully.</div></div>';
+  S.l2relearnSids.forEach(sid=>{
+    const tid=findTidForSid(sid);if(!tid)return;
+    h+=renderKBContent(tid,sid);
   });
-  h+=`<button class="sm" onclick="clearL2Weak()">\u2713 I have relearned these - Continue</button></div>`;
-  return h;
+  h+='<button class="btn-primary" onclick="clearL2Weak()">\u2713 I have relearned these - Continue</button>';
+  h+='</div>';return h;
 }
-function clearL2Weak(){st.l2w=[];sv(st);startL2()}
+function clearL2Weak(){st.l2w=[];sv(st);if(S.l2relearn&&S.l2list.length>0){S.l2relearn=false;S.l2sub=false;S.l2ans={};S.l2sw=null;S.l2i++;S.v="l2";R();window.scrollTo({top:0,behavior:"smooth"})}else{startL2()}}
 
 // ══════════════════════════════════════════════════════════════
 // SHARED Q RENDERING
@@ -1062,44 +1172,62 @@ function renderQ(q,ans,submitted,selWord,level){
   if(q.ty==="dd")return rDD(q,ans,submitted);
   return rDG(q,ans,submitted,selWord,level);
 }
-function rDD(q,ans,sub){let p=q.p;q.b.forEach(b=>{if(sub){const sel=ans[b.id];const ok=sel===b.c;p=p.replace(b.l,`<span class="dz ${ok?"ok":"no"}">${b.o[sel!==undefined?sel:0]}</span>`)}else{let opts=`<option value="-1" ${ans[b.id]===undefined?"selected":""}>Select...</option>`;b.o.forEach((o,i)=>{opts+=`<option value="${i}" ${ans[b.id]===i?"selected":""}>${o}</option>`});p=p.replace(b.l,`<select class="ds" data-b="${b.id}">${opts}</select>`)}});return`<div class="ps">${p}</div>`}
-function rDG(q,ans,sub,sw,level){let p=q.p;const ua=ans||{};q.bl.forEach((cw,i)=>{const bid="B"+(i+1);const pl=ua[bid];if(sub){const ok=pl&&pl.toLowerCase()===cw.toLowerCase();p=p.replace("_"+bid+"_",`<span class="dz ${ok?"ok":"no"}">${pl||"___"}</span>`)}else{p=p.replace("_"+bid+"_",`<span class="dz ${pl?"fd":""}" onclick="${level==="l2"?"pwL2":"pw"}('${bid}')">${pl||"tap"}</span>`)}});let h=`<div class="ps">${p}</div>`;if(!sub){h+=`<div class="wb">`;q.bk.forEach(w=>{const us=Object.values(ua).includes(w);const curSw=level==="l2"?S.l2sw:S.sw;h+=`<span class="wc ${us?"us":""} ${curSw===w?"pl":""}" onclick="${level==="l2"?"selWL2":"selW"}('${w.replace(/'/g,"\\'")}')">${w}</span>`});h+=`</div>`}return h}
-
+function rDD(q,ans,sub){let p=q.p;q.b.forEach(b=>{if(sub){const sel=ans[b.id];const ok=sel===b.c;p=p.replace(b.l,'<span class="blank-zone '+(ok?"correct":"wrong")+'">'+b.o[sel!==undefined?sel:0]+'</span>')}else{let opts='<option value="-1" '+(ans[b.id]===undefined?"selected":"")+'>Select...</option>';b.o.forEach((o,i)=>{opts+='<option value="'+i+'" '+(ans[b.id]===i?"selected":"")+'>'+o+'</option>'});p=p.replace(b.l,'<select class="q-select ds" data-b="'+b.id+'">'+opts+'</select>')}});return'<div class="q-passage">'+p+'</div>'}
+function rDG(q,ans,sub,sw,level){
+  let p=q.p;const ua=ans||{};
+  const fn1=level==="l2"?"pwL2":"pw";
+  const fn2=level==="l2"?"selWL2":"selW";
+  q.bl.forEach(function(cw,i){
+    const bid="B"+(i+1);const pl=ua[bid];
+    if(sub){const ok=pl&&pl.toLowerCase()===cw.toLowerCase();
+      p=p.replace("_"+bid+"_",'<span class="blank-zone '+(ok?"correct":"wrong")+'">'+(pl||"___")+"</span>")
+    }else{
+      p=p.replace("_"+bid+"_",'<span class="blank-zone '+(pl?"filled":"")+'" onclick="'+fn1+'(\&quot;'+bid+'\&quot;)">'+(pl||"tap")+"</span>")
+    }
+  });
+  let h='<div class="q-passage">'+p+"</div>";
+  if(!sub){h+='<div class="word-bank">';
+    q.bk.forEach(function(w){
+      const us=Object.values(ua).includes(w);
+      const curSw=level==="l2"?S.l2sw:S.sw;
+      const safe=w.replace(/'/g,"&#39;");
+      h+='<span class="word-chip '+(us?"used":"")+(curSw===w?" selected":"")+'" onclick="'+fn2+'(\&quot;'+safe+'\&quot;)">'+w+"</span>"
+    });h+="</div>"}
+  return h
+}
 function renderFB(q,ans,level){
   let ok=isCorrect(q,ans);let h="";
   if(q.ty==="dd"){
-    if(ok){h+=`<div class="fb ok"><div class="ft2" style="color:var(--tl)">\u2713 Correct!</div><div class="fe">${typeof q.x==="string"?q.x:Object.values(q.x).join(" ")}</div></div>`}
-    else{h+=`<div class="fb no"><div class="ft2" style="color:var(--rd)">\u2717 Not quite right</div>`;
-      q.b.forEach(b=>{if(ans[b.id]!==b.c){const sel=ans[b.id];h+=`<div class="fa">${b.l}: "<span style="color:var(--rd)">${b.o[sel!==undefined?sel:0]||"none"}</span>" \u2192 "<span style="color:var(--tl)">${b.o[b.c]}</span>"</div><div class="fe">${q.x[b.id]||""}</div>`}});
-      h+=`<div class="fr">\uD83D\uDCCF ${q.r}</div>`;
-      if(q.sids){h+=`<div class="fs">\uD83D\uDCD6 Review: ${q.sids.map(sid=>{let n="";TO.forEach(tid=>{if(T[tid].subs[sid])n=T[tid].subs[sid].title});return n}).join(", ")}</div>`}
-      else if(q.sid){h+=`<div class="fs">\uD83D\uDCD6 Review: ${gSk(q.tid,q.sid)?.title||""}</div>`}
-      h+=`</div>`}
+    if(ok){h+='<div class="fb-card correct"><div style="font-size:15px;font-weight:700;color:var(--success);margin-bottom:4px">\u2713 Correct!</div><div style="font-size:13px;color:var(--textSec);line-height:1.5">'+(typeof q.x==="string"?q.x:Object.values(q.x).join(" "))+'</div></div>'}
+    else{h+='<div class="fb-card wrong"><div style="font-size:15px;font-weight:700;color:var(--error);margin-bottom:4px">\u2717 Not quite right</div>';
+      q.b.forEach(b=>{if(ans[b.id]!==b.c){const sel=ans[b.id];h+='<div style="font-size:12px;color:var(--textSec);margin-bottom:6px">'+b.l+': <span style="color:var(--error)">'+b.o[sel!==undefined?sel:0]+'</span> \u2192 <span style="color:var(--success)">'+b.o[b.c]+'</span></div><div style="font-size:13px;color:var(--textSec);line-height:1.5">'+(q.x[b.id]||"")+'</div>'}});
+      h+='<div style="font-size:12px;font-weight:700;color:var(--warning);margin-top:8px">\uD83D\uDCCF '+q.r+'</div>';
+      const reviewNames=getReviewNames(q);if(reviewNames)h+='<div style="margin-top:8px;font-size:11px;padding:6px 10px;border-radius:8px;background:var(--warningBg);color:var(--warning);font-weight:600">\uD83D\uDCD6 Review: '+reviewNames+'</div>';
+      h+='</div>'}
   }else{
-    if(ok){h+=`<div class="fb ok"><div class="ft2" style="color:var(--tl)">\u2713 Correct!</div><div class="fe">${q.x}</div></div>`}
-    else{h+=`<div class="fb no"><div class="ft2" style="color:var(--rd)">\u2717 Not quite right</div>`;
-      q.bl.forEach((cw,i)=>{const bid="B"+(i+1);const pl=ans[bid];if(!pl||pl.toLowerCase()!==cw.toLowerCase())h+=`<div class="fa">Blank ${i+1}: "<span style="color:var(--rd)">${pl||"empty"}</span>" \u2192 "<span style="color:var(--tl)">${cw}</span>"</div>`});
-      h+=`<div class="fe" style="margin-top:8px">${q.x}</div><div class="fr">\uD83D\uDCCF ${q.r}</div>`;
-      if(q.sids){h+=`<div class="fs">\uD83D\uDCD6 Review: ${q.sids.map(sid=>{let n="";TO.forEach(tid=>{if(T[tid].subs[sid])n=T[tid].subs[sid].title});return n}).join(", ")}</div>`}
-      else if(q.sid){h+=`<div class="fs">\uD83D\uDCD6 Review: ${gSk(q.tid,q.sid)?.title||""}</div>`}
-      h+=`</div>`}
+    if(ok){h+='<div class="fb-card correct"><div style="font-size:15px;font-weight:700;color:var(--success);margin-bottom:4px">\u2713 Correct!</div><div style="font-size:13px;color:var(--textSec);line-height:1.5">'+q.x+'</div></div>'}
+    else{h+='<div class="fb-card wrong"><div style="font-size:15px;font-weight:700;color:var(--error);margin-bottom:4px">\u2717 Not quite right</div>';
+      q.bl.forEach((cw,i)=>{const bid="B"+(i+1);const pl=ans[bid];if(!pl||pl.toLowerCase()!==cw.toLowerCase())h+='<div style="font-size:12px;color:var(--textSec);margin-bottom:6px">Blank '+(i+1)+': <span style="color:var(--error)">'+(pl||"empty")+'</span> \u2192 <span style="color:var(--success)">'+cw+'</span></div>'});
+      h+='<div style="font-size:13px;color:var(--textSec);line-height:1.5;margin-top:8px">'+q.x+'</div><div style="font-size:12px;font-weight:700;color:var(--warning);margin-top:8px">\uD83D\uDCCF '+q.r+'</div>';
+      const reviewNames=getReviewNames(q);if(reviewNames)h+='<div style="margin-top:8px;font-size:11px;padding:6px 10px;border-radius:8px;background:var(--warningBg);color:var(--warning);font-weight:600">\uD83D\uDCD6 Review: '+reviewNames+'</div>';
+      h+='</div>'}
   }
   return h;
 }
-
-function isCorrect(q,ans){
-  if(q.ty==="dd"){let ok=true;q.b.forEach(b=>{if(ans[b.id]!==b.c)ok=false});return ok}
-  let ok=true;q.bl.forEach((cw,i)=>{const bid="B"+(i+1);if(!ans[bid]||ans[bid].toLowerCase()!==cw.toLowerCase())ok=false});return ok;
+function getReviewNames(q){
+  if(q.sids)return q.sids.map(sid=>{const tid=findTidForSid(sid);return tid?gSk(tid,sid)?.title||sid:sid}).join(", ");
+  if(q.sid&&q.tid)return gSk(q.tid,q.sid)?.title||"";
+  return"";
 }
 
-// L1 word interactions
+// Word interactions
 function selW(w){if(S.sub)return;if(S.sw===w){S.sw=null;R();return}Object.keys(S.ans).forEach(k=>{if(S.ans[k]===w)delete S.ans[k]});S.sw=w;R()}
 function pw(bid){if(S.sub)return;if(S.sw){Object.keys(S.ans).forEach(k=>{if(S.ans[k]===S.sw)delete S.ans[k]});S.ans[bid]=S.sw;S.sw=null;R()}else if(S.ans[bid]){delete S.ans[bid];R()}}
-// L2 word interactions
 function selWL2(w){if(S.l2sub)return;if(S.l2sw===w){S.l2sw=null;R();return}Object.keys(S.l2ans).forEach(k=>{if(S.l2ans[k]===w)delete S.l2ans[k]});S.l2sw=w;R()}
 function pwL2(bid){if(S.l2sub)return;if(S.l2sw){Object.keys(S.l2ans).forEach(k=>{if(S.l2ans[k]===S.l2sw)delete S.l2ans[k]});S.l2ans[bid]=S.l2sw;S.l2sw=null;R()}else if(S.l2ans[bid]){delete S.l2ans[bid];R()}}
 
 R();
+
 </script>
 </body>
 </html>
