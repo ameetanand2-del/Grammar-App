@@ -1774,31 +1774,26 @@ function rMain(){
       h+='</div></div>';
     }
 
-    // Topic mistake breakdown — ordered by most mistakes
+    // Topic mistake breakdown — ordered by most mistakes — CLICKABLE
     const sbe=sortedBlankErrors();
     if(sbe.length>0){
       h+='<div style="background:var(--card);border-radius:16px;border:1.5px solid var(--border);padding:16px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.04)">';
-      h+='<div style="font-size:12px;font-weight:700;margin-bottom:10px">🔴 Mistakes by Topic <span style="font-size:10px;font-weight:400;color:var(--textMuted)">(ordered by most wrong)</span></div>';
+      h+='<div style="font-size:12px;font-weight:700;margin-bottom:4px">🔴 Mistakes by Topic <span style="font-size:10px;font-weight:400;color:var(--textMuted)">(ordered by most wrong)</span></div>';
+      h+='<div style="font-size:10px;color:var(--accent);margin-bottom:10px">Tap any topic to review it →</div>';
       sbe.forEach(([sid,data])=>{
         const tid=findTidForSid(sid);const sk=tid?gSk(tid,sid):null;const name=sk?sk.title:sid;
         const pct=data.total>0?Math.round(((data.total-data.wrong)/data.total)*100):0;
-        h+='<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border)">';
+        h+='<div onclick="S.tid=\''+tid+'\';S.sid=\''+sid+'\';S.stab=\'learn\';S.v=\'sub\';R()" style="display:flex;align-items:center;gap:8px;padding:10px 8px;border-bottom:1px solid var(--border);cursor:pointer;border-radius:8px;transition:background .15s" onmouseover="this.style.background=\'var(--accentBg)\'" onmouseout="this.style.background=\'none\'">';
         h+='<div style="flex:1;min-width:0"><div style="font-size:11px;font-weight:600;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+name+'</div>';
         h+='<div style="display:flex;gap:6px;margin-top:3px"><span style="font-size:10px;color:var(--error);font-weight:600">'+data.wrong+' wrong</span><span style="font-size:10px;color:var(--textMuted)">/ '+data.total+' blanks</span></div></div>';
         h+='<div style="font-size:13px;font-weight:700;color:'+(pct>=80?'var(--success)':pct>=50?'var(--warning)':'var(--error)')+'">'+pct+'%</div>';
+        h+='<div style="font-size:14px;color:var(--textMuted)">›</div>';
         h+='</div>';
       });
       h+='</div>';
     }
 
     h+='<div style="font-size:12px;color:var(--textSec);margin-bottom:14px;line-height:1.6">Mixed questions across all grammar topics. Random order. Wrong answers trigger mandatory relearning.</div>';
-    // Error summary
-    const topErr=topSortedErrors();
-    if(topErr.length>0){
-      h+='<div class="error-banner"><div style="font-size:11px;font-weight:700;color:var(--error);margin-bottom:6px">Most Errors By Sub-topic:</div><div style="display:flex;flex-wrap:wrap;gap:6px">';
-      topErr.forEach(([sid,count])=>{const tid=findTidForSid(sid);const sk=tid?gSk(tid,sid):null;h+='<span class="error-pill">'+(sk?sk.title.split(" ").slice(0,3).join(" "):sid)+' ('+count+')</span>'});
-      h+='</div></div>';
-    }
     if(st.l2w&&st.l2w.length>0){
       h+='<div class="error-banner" style="background:rgba(157,19,72,.06);border-color:rgba(157,19,72,.15)"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:20px">\uD83D\uDCD6</span><div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--magenta)">'+st.l2w.length+' sub-topic'+(st.l2w.length>1?'s':'')+' need relearning</div></div></div></div>';
       h+='<button class="btn-relearn" style="margin-bottom:12px" onclick="S.l2relearnSids=[...st.l2w];S.v=\'l2relearn\';R()">\uD83D\uDCD6 Relearn Now</button>';
