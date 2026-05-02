@@ -1655,10 +1655,32 @@ function sv(d){try{localStorage.setItem(SK,JSON.stringify(d))}catch{}}
 let st=ld();
 if(!st.l1)st.l1={};if(!st.l2)st.l2={};if(!st.kb)st.kb={};if(!st.l2w)st.l2w=[];
 if(!st.errors)st.errors={};// errors per sub-topic sid: {sid: count}
+if(!st.blankStats)st.blankStats={total:0,correct:0,wrong:0};// per-blank stats
+if(!st.blankErrors)st.blankErrors={};// per-blank errors by sid: {sid: {wrong:N, total:N}}
 L1.forEach(q=>{if(!st.l1[q.id])st.l1[q.id]="new"});
+// Merge L1 into L2 for Question Bank (convert L1 format to L2 format)
+const L1forQB=L1.map(q=>{const q2=Object.assign({},q);q2.id="QB_"+q.id;if(!q2.sids){q2.sids=q2.sid?[q2.sid]:[]}return q2});
+const AllQB=[...L2,...L1forQB];
+AllQB.forEach(q=>{if(!st.l2[q.id])st.l2[q.id]="new"});
 L2.forEach(q=>{if(!st.l2[q.id])st.l2[q.id]="new"});
 allSL().forEach(({tid,sid})=>{if(st.kb[tid+"/"+sid]===undefined)st.kb[tid+"/"+sid]=false});
 sv(st);
+
+// Count blanks in a question
+function countBlanks(q){if(q.ty==="dd")return q.b.length;return q.bl.length}
+// Track per-blank stats on submit
+function trackBlanks(q,ans,sids){
+  const bc=countBlanks(q);
+  let wrongCount=0;
+  if(q.ty==="dd"){q.b.forEach(b=>{st.blankStats.total++;if(ans[b.id]===b.c){st.blankStats.correct++}else{st.blankStats.wrong++;wrongCount++}})}
+  else{q.bl.forEach((cw,i)=>{const bid="B"+(i+1);st.blankStats.total++;if(ans[bid]&&ans[bid].toLowerCase()===cw.toLowerCase()){st.blankStats.correct++}else{st.blankStats.wrong++;wrongCount++}})}
+  // Track per-topic blank errors
+  const ss=sids||(q.sids?q.sids:(q.sid?[q.sid]:[]));
+  ss.forEach(sid=>{if(!st.blankErrors[sid])st.blankErrors[sid]={wrong:0,total:0};st.blankErrors[sid].total+=bc;st.blankErrors[sid].wrong+=wrongCount});
+  sv(st);
+}
+// Get sorted blank errors by topic
+function sortedBlankErrors(){return Object.entries(st.blankErrors).filter(([k,v])=>v.wrong>0).sort((a,b)=>b[1].wrong-a[1].wrong)}
 
 let S={v:"main",mt:"topics",tid:null,sid:null,qi:0,ql:[],ans:{},sub:false,sw:null,kbi:0,stab:"learn",
   l2i:0,l2list:[],l2ans:{},l2sub:false,l2sw:null,l2relearn:false,l2relearnSids:[]};
@@ -1666,7 +1688,7 @@ let S={v:"main",mt:"topics",tid:null,sid:null,qi:0,ql:[],ans:{},sub:false,sw:nul
 // ── Helpers ──
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function l1cts(tid){let n=0,p=0,l=0;const qs=tid?L1.filter(q=>q.tid===tid):L1;qs.forEach(q=>{const s=st.l1[q.id];if(s==="new")n++;else if(s==="practice")p++;else l++});return{n,p,l,t:qs.length}}
-function l2cts(){let n=0,p=0,l=0;L2.forEach(q=>{const s=st.l2[q.id];if(s==="new")n++;else if(s==="practice")p++;else l++});return{n,p,l,t:L2.length}}
+function l2cts(){let n=0,p=0,l=0;AllQB.forEach(q=>{const s=st.l2[q.id];if(s==="new")n++;else if(s==="practice")p++;else l++});return{n,p,l,t:AllQB.length}}
 function subKBDone(tid,sid){return st.kb[tid+"/"+sid]===true}
 function subL1Done(tid,sid){const qs=L1.filter(q=>q.tid===tid&&q.sid===sid);return qs.length>0&&qs.every(q=>st.l1[q.id]==="learned")}
 function subDone(tid,sid){return subKBDone(tid,sid)&&subL1Done(tid,sid)}
@@ -1737,6 +1759,38 @@ function rMain(){
     h+='<div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="font-size:13px;font-weight:700">Question Bank</span><span style="font-size:14px;font-weight:700;color:'+(qPct>=80?'var(--success)':qPct>0?'var(--warning)':'var(--textMuted)')+'">'+qPct+'%</span></div>';
     h+='<div class="progress-bar"><div class="progress-fill" style="width:'+qPct+'%"></div></div>';
     h+='<div style="font-size:11px;color:var(--textMuted);margin-top:6px">'+lc2.l+'/'+lc2.t+' learned \xb7 '+lc2.p+' practice \xb7 '+lc2.n+' new</div></div>';
+
+    // Per-blank stats card
+    const bs=st.blankStats;
+    if(bs.total>0){
+      const bPct=Math.round((bs.correct/bs.total)*100);
+      h+='<div style="background:var(--card);border-radius:16px;border:1.5px solid var(--border);padding:16px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.04)">';
+      h+='<div style="font-size:12px;font-weight:700;margin-bottom:10px">📊 Blank-by-Blank Stats</div>';
+      h+='<div style="display:flex;gap:8px;margin-bottom:10px">';
+      h+='<div style="flex:1;text-align:center;padding:10px;border-radius:10px;background:var(--accentBg)"><div style="font-size:20px;font-weight:700;color:var(--accent)">'+bs.total+'</div><div style="font-size:9px;font-weight:600;color:var(--textMuted);text-transform:uppercase">Total</div></div>';
+      h+='<div style="flex:1;text-align:center;padding:10px;border-radius:10px;background:var(--successBg)"><div style="font-size:20px;font-weight:700;color:var(--success)">'+bs.correct+'</div><div style="font-size:9px;font-weight:600;color:var(--textMuted);text-transform:uppercase">Correct</div></div>';
+      h+='<div style="flex:1;text-align:center;padding:10px;border-radius:10px;background:var(--errorBg)"><div style="font-size:20px;font-weight:700;color:var(--error)">'+bs.wrong+'</div><div style="font-size:9px;font-weight:600;color:var(--textMuted);text-transform:uppercase">Wrong</div></div>';
+      h+='<div style="flex:1;text-align:center;padding:10px;border-radius:10px;background:'+(bPct>=80?'var(--successBg)':'var(--warningBg)')+'"><div style="font-size:20px;font-weight:700;color:'+(bPct>=80?'var(--success)':'var(--warning)')+'">'+bPct+'%</div><div style="font-size:9px;font-weight:600;color:var(--textMuted);text-transform:uppercase">Accuracy</div></div>';
+      h+='</div></div>';
+    }
+
+    // Topic mistake breakdown — ordered by most mistakes
+    const sbe=sortedBlankErrors();
+    if(sbe.length>0){
+      h+='<div style="background:var(--card);border-radius:16px;border:1.5px solid var(--border);padding:16px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.04)">';
+      h+='<div style="font-size:12px;font-weight:700;margin-bottom:10px">🔴 Mistakes by Topic <span style="font-size:10px;font-weight:400;color:var(--textMuted)">(ordered by most wrong)</span></div>';
+      sbe.forEach(([sid,data])=>{
+        const tid=findTidForSid(sid);const sk=tid?gSk(tid,sid):null;const name=sk?sk.title:sid;
+        const pct=data.total>0?Math.round(((data.total-data.wrong)/data.total)*100):0;
+        h+='<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border)">';
+        h+='<div style="flex:1;min-width:0"><div style="font-size:11px;font-weight:600;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+name+'</div>';
+        h+='<div style="display:flex;gap:6px;margin-top:3px"><span style="font-size:10px;color:var(--error);font-weight:600">'+data.wrong+' wrong</span><span style="font-size:10px;color:var(--textMuted)">/ '+data.total+' blanks</span></div></div>';
+        h+='<div style="font-size:13px;font-weight:700;color:'+(pct>=80?'var(--success)':pct>=50?'var(--warning)':'var(--error)')+'">'+pct+'%</div>';
+        h+='</div>';
+      });
+      h+='</div>';
+    }
+
     h+='<div style="font-size:12px;color:var(--textSec);margin-bottom:14px;line-height:1.6">Mixed questions across all grammar topics. Random order. Wrong answers trigger mandatory relearning.</div>';
     // Error summary
     const topErr=topSortedErrors();
@@ -1754,7 +1808,7 @@ function rMain(){
     h+='</div>';
   }
   // Reset
-  h+='<div style="text-align:center;margin-top:16px;padding:0 16px"><button onclick="if(confirm(\'Reset all progress?\')){st={l1:{},l2:{},kb:{},l2w:[],errors:{}};L1.forEach(q=>st.l1[q.id]=\'new\');L2.forEach(q=>st.l2[q.id]=\'new\');allSL().forEach(({tid,sid})=>{st.kb[tid+\'/\'+sid]=false});sv(st);R()}" style="background:none;border:none;color:var(--textMuted);font-size:11px;cursor:pointer">\uD83D\uDD04 Reset Progress</button></div>';
+  h+='<div style="text-align:center;margin-top:16px;padding:0 16px"><button onclick="if(confirm(\'Reset all progress?\')){st={l1:{},l2:{},kb:{},l2w:[],errors:{},blankStats:{total:0,correct:0,wrong:0},blankErrors:{}};L1.forEach(q=>st.l1[q.id]=\'new\');AllQB.forEach(q=>st.l2[q.id]=\'new\');allSL().forEach(({tid,sid})=>{st.kb[tid+\'/\'+sid]=false});sv(st);R()}" style="background:none;border:none;color:var(--textMuted);font-size:11px;cursor:pointer">\uD83D\uDD04 Reset Progress</button></div>';
   h+='</div>';return h;
 }
 
@@ -2044,13 +2098,13 @@ function rL1(){
   else{h+=renderFB(q,S.ans,"l1");h+='<button class="btn-primary" style="margin-top:8px" onclick="nxL1()">'+(S.qi<tot-1?'Next Question \u2192':'Done')+'</button>'}
   h+='</div>';return h;
 }
-function subL1(){const q=S.ql[S.qi];S.sub=true;const ok=isCorrect(q,S.ans);st.l1[q.id]=ok?"learned":"practice";if(!ok&&q.sid){st.errors[q.sid]=(st.errors[q.sid]||0)+1}sv(st);R()}
+function subL1(){const q=S.ql[S.qi];S.sub=true;const ok=isCorrect(q,S.ans);st.l1[q.id]=ok?"learned":"practice";if(!ok&&q.sid){st.errors[q.sid]=(st.errors[q.sid]||0)+1}trackBlanks(q,S.ans);sv(st);R()}
 function nxL1(){if(S.qi<S.ql.length-1){S.qi++;S.ans={};S.sub=false;S.sw=null;R();window.scrollTo({top:0,behavior:"smooth"})}else{S.v="topic";R()}}
 
 // ── L2 QUESTION BANK ──
 function startL2(){
   if(st.l2w&&st.l2w.length>0){S.l2relearnSids=[...st.l2w];S.v="l2relearn";R();return}
-  const qs=shuffle(L2).sort((a,b)=>{const o={new:0,practice:1,learned:2};return(o[st.l2[a.id]]||0)-(o[st.l2[b.id]]||0)});
+  const qs=shuffle(AllQB).sort((a,b)=>{const o={new:0,practice:1,learned:2};return(o[st.l2[a.id]]||0)-(o[st.l2[b.id]]||0)});
   S.l2list=qs;S.l2i=0;S.l2ans={};S.l2sub=false;S.l2sw=null;S.l2relearn=false;S.v="l2";R();
 }
 function rL2(){
@@ -2079,6 +2133,7 @@ function subL2(){
   const q=S.l2list[S.l2i];S.l2sub=true;
   const ok=isCorrect(q,S.l2ans);
   st.l2[q.id]=ok?"learned":"practice";
+  trackBlanks(q,S.l2ans,q.sids);
   if(!ok&&q.sids){
     q.sids.forEach(sid=>{if(!st.l2w.includes(sid))st.l2w.push(sid);st.errors[sid]=(st.errors[sid]||0)+1});
   }
