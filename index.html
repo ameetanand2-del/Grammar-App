@@ -1977,139 +1977,102 @@ function renderKBContent(tid,sid){
   }
   // Notes - the main learning content with smart rendering
   if(sk.notes&&sk.notes.length>0){
-    // Check if this is a long topic (connectors etc) — make sections collapsible
     var isLong=sk.notes.length>20;
-    var sectionCount=0;
-    var ni=0;
-    while(ni<sk.notes.length){
-      var line=sk.notes[ni];
-      // Empty line spacer
-      if(line.trim()===""){ni++;continue}
-      // SECTION HEADER (ALL CAPS, not numbered)
-      if(line===line.toUpperCase()&&line.length>3&&!line.match(/^\d/)){
-        // Close previous collapsible section if open
-        if(isLong&&sectionCount>0){h+='</div></div>'}
-        h+='<div style="margin:22px 0 10px;padding:10px 14px;background:linear-gradient(90deg,var(--primary),rgba(54,67,149,.7));border-radius:10px">';
-        h+='<div style="font-size:11px;font-weight:700;color:#fff;letter-spacing:.06em">'+line+'</div>';
-        // Subtitle line (pipe-separated tags)
-        if(ni+1<sk.notes.length){
-          var next=sk.notes[ni+1];
-          if(next!==next.toUpperCase()&&!next.match(/^\d/)&&next.indexOf("|")>-1){
-            h+='<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px">';
-            next.split("|").forEach(function(tag){
-              tag=tag.trim();if(tag)h+='<span style="font-size:10px;padding:2px 8px;border-radius:4px;background:rgba(255,255,255,.2);color:rgba(255,255,255,.9)">'+tag+'</span>';
-            });
-            h+='</div>';
-            ni++;
-          }
-        }
-        h+='</div>';
-        sectionCount=0;
-        ni++;continue;
-      }
-      // NUMBERED RULE (starts with digit) — make collapsible if long topic
-      if(line.match(/^\d/)){
-        // Close previous collapsible section if open
-        if(isLong&&sectionCount>0){h+='</div></div>'}
-        sectionCount++;
-        var numMatch=line.match(/^(\d+)\.\s*(.*)/);
-        var sectionTitle=numMatch?numMatch[2]:line;
-        var sectionNum=numMatch?numMatch[1]:"";
-        // Collect all lines until next numbered rule, section header, or TRAP/COMMON
-        var sectionLines=[];
-        var si=ni+1;
-        while(si<sk.notes.length){
-          var sl=sk.notes[si];
-          if(sl.match(/^\d+\./)||sl.trim()===""||(sl===sl.toUpperCase()&&sl.length>3&&!sl.match(/^\d/))){break}
-          sectionLines.push(sl);
-          si++;
-        }
-        if(isLong){
-          // Collapsible accordion
-          var secId='sec_'+S.sid+'_'+sectionNum;
+    if(isLong){
+      var sections=[];var curSec=null;
+      sk.notes.forEach(function(line){
+        if(line.trim()===""){return}
+        if(line===line.toUpperCase()&&line.length>3&&!line.match(/^\d/)){
+          sections.push({type:"header",title:line,lines:[]});curSec=null;return}
+        var nm=line.match(/^(\d+)\.\s*(.*)/);
+        if(nm){curSec={type:"connector",num:nm[1],title:nm[2],lines:[]};sections.push(curSec);return}
+        if(line.match(/^TRAP \d/i)){curSec={type:"trap",title:line,lines:[]};sections.push(curSec);return}
+        if(curSec){curSec.lines.push(line)}
+        else{sections.push({type:"line",text:line})}
+      });
+      sections.forEach(function(sec,idx){
+        if(sec.type==="header"){
+          h+='<div style="margin:22px 0 10px;padding:10px 14px;background:linear-gradient(90deg,var(--primary),rgba(54,67,149,.7));border-radius:10px">';
+          h+='<div style="font-size:11px;font-weight:700;color:#fff;letter-spacing:.06em">'+sec.title+'</div></div>';
+        }else if(sec.type==="connector"){
+          var secId='sec_'+S.sid+'_'+sec.num+'_'+idx;
           h+='<div style="margin-bottom:4px;border:1px solid var(--border);border-radius:12px;overflow:hidden">';
-          h+='<div onclick="var el=document.getElementById(\''+secId+'\');var arrow=document.getElementById(\'arr_'+secId+'\');if(el.style.maxHeight===\'0px\'||!el.style.maxHeight){el.style.maxHeight=el.scrollHeight+\'px\';el.style.opacity=\'1\';arrow.textContent=\'▾\'}else{el.style.maxHeight=\'0px\';el.style.opacity=\'0\';arrow.textContent=\'▸\'}" style="display:flex;gap:10px;align-items:center;padding:12px 14px;cursor:pointer;background:var(--card)">';
-          h+='<span style="min-width:24px;height:24px;border-radius:8px;background:var(--accentBg);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--accent);flex-shrink:0">'+sectionNum+'</span>';
-          h+='<div style="flex:1;font-size:13px;font-weight:600;color:var(--text)">'+sectionTitle+'</div>';
-          h+='<span id="arr_'+secId+'" style="font-size:14px;color:var(--textMuted);flex-shrink:0">▸</span>';
+          h+='<div onclick="var el=document.getElementById(\''+secId+'\');if(!el)return;if(el.style.display===\'none\'){el.style.display=\'block\';this.lastElementChild.textContent=\'\u25be\'}else{el.style.display=\'none\';this.lastElementChild.textContent=\'\u25b8\'}" style="display:flex;gap:10px;align-items:center;padding:12px 14px;cursor:pointer;background:var(--card);-webkit-tap-highlight-color:transparent">';
+          h+='<span style="min-width:26px;height:26px;border-radius:8px;background:var(--accentBg);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--accent);flex-shrink:0">'+sec.num+'</span>';
+          h+='<div style="flex:1;font-size:13px;font-weight:600;color:var(--text)">'+sec.title+'</div>';
+          h+='<span style="font-size:16px;color:var(--textMuted);flex-shrink:0">\u25b8</span>';
           h+='</div>';
-          h+='<div id="'+secId+'" style="max-height:0px;opacity:0;overflow:hidden;transition:max-height .3s ease,opacity .2s ease;padding:0 14px">';
-          h+='<div style="padding:8px 0">';
-          // Render section content
-          sectionLines.forEach(function(sl){
-            if(sl.indexOf("Example")>-1||sl.indexOf("example")>-1||sl.match(/^['"]/)){ 
-              h+='<div style="margin:4px 0;padding:6px 12px;border-left:3px solid var(--accent);background:rgba(0,201,182,.03);border-radius:0 8px 8px 0;font-size:12px;color:var(--textSec);line-height:1.6">'+sl+'</div>';
-            }else if(sl.indexOf("CRITICAL")>-1||sl.indexOf("WARNING")>-1||sl.indexOf("NEVER")>-1){
-              h+='<div style="margin:4px 0;padding:6px 10px;background:var(--errorBg);border-radius:8px;font-size:11px;color:var(--error);font-weight:600;line-height:1.5">⚠️ '+sl+'</div>';
-            }else if(sl.indexOf("Similar:")>-1){
-              h+='<div style="margin:4px 0;padding:6px 10px;background:var(--accentBg);border-radius:8px;font-size:11px;color:var(--accent);line-height:1.5">🔗 '+sl+'</div>';
-            }else{
-              h+='<div style="font-size:12px;color:var(--textSec);line-height:1.6;padding:2px 0">'+sl+'</div>';
-            }
+          h+='<div id="'+secId+'" style="display:none;padding:10px 14px 14px;border-top:1px solid var(--border);background:var(--bg)">';
+          sec.lines.forEach(function(sl){
+            if(sl.indexOf("Meaning:")>-1){h+='<div style="margin:6px 0;padding:8px 12px;background:var(--accentBg);border-radius:8px;font-size:12px;line-height:1.6"><span style="font-weight:700;color:var(--accent)">\ud83d\udcd6 </span><span style="color:var(--text)">'+sl+'</span></div>';}
+            else if(sl.indexOf("Position:")>-1){h+='<div style="margin:4px 0;padding:8px 12px;background:rgba(54,67,149,.06);border-radius:8px;font-size:12px;line-height:1.6"><span style="font-weight:700;color:var(--primary)">\ud83d\udccd </span><span style="color:var(--text)">'+sl+'</span></div>';}
+            else if(sl.indexOf("Example")>-1||sl.indexOf("example")>-1||sl.charAt(0)==="'"){h+='<div style="margin:4px 0;padding:6px 12px;border-left:3px solid var(--accent);background:rgba(0,201,182,.04);border-radius:0 8px 8px 0;font-size:12px;color:var(--textSec);line-height:1.6;font-style:italic">'+sl+'</div>';}
+            else if(sl.indexOf("Similar:")>-1){h+='<div style="margin:4px 0;padding:6px 10px;background:rgba(0,201,182,.08);border-radius:8px;font-size:11px;color:var(--accent);line-height:1.5">\ud83d\udd17 '+sl+'</div>';}
+            else if(sl.indexOf("CRITICAL")>-1||sl.indexOf("NEVER")>-1){h+='<div style="margin:4px 0;padding:6px 10px;background:var(--errorBg);border-radius:8px;font-size:11px;color:var(--error);font-weight:600;line-height:1.5">\ud83d\udea8 '+sl+'</div>';}
+            else if(sl.indexOf("WARNING")>-1||sl.indexOf("NOTE:")>-1){h+='<div style="margin:4px 0;padding:6px 10px;background:var(--warningBg);border-radius:8px;font-size:11px;color:var(--warning);font-weight:600;line-height:1.5">\u26a0\ufe0f '+sl+'</div>';}
+            else{h+='<div style="font-size:12px;color:var(--textSec);line-height:1.6;padding:2px 0">'+sl+'</div>';}
           });
+          h+='</div></div>';
+        }else if(sec.type==="trap"){
+          var trapId='trap_'+S.sid+'_'+idx;
+          h+='<div style="margin:6px 0;border:1.5px solid rgba(237,107,6,.25);border-radius:12px;overflow:hidden">';
+          h+='<div onclick="var el=document.getElementById(\''+trapId+'\');if(!el)return;if(el.style.display===\'none\'){el.style.display=\'block\';this.lastElementChild.textContent=\'\u25be\'}else{el.style.display=\'none\';this.lastElementChild.textContent=\'\u25b8\'}" style="display:flex;gap:10px;align-items:center;padding:10px 14px;cursor:pointer;background:rgba(237,107,6,.04);-webkit-tap-highlight-color:transparent">';
+          h+='<span style="font-size:14px;flex-shrink:0">\u26a0\ufe0f</span>';
+          h+='<div style="flex:1;font-size:12px;font-weight:700;color:var(--warning)">'+sec.title+'</div>';
+          h+='<span style="font-size:16px;color:var(--warning);flex-shrink:0">\u25b8</span>';
           h+='</div>';
-          // Don't close yet — closed at next section or end
-        }else{
-          // Non-collapsible — original rendering
-          h+='<div style="margin-bottom:8px;padding:0 2px">';
-          if(numMatch){
-            h+='<div style="display:flex;gap:10px;align-items:flex-start">';
-            h+='<span style="min-width:22px;height:22px;border-radius:6px;background:var(--accentBg);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--accent);flex-shrink:0;margin-top:1px">'+numMatch[1]+'</span>';
-            h+='<div style="font-size:13px;font-weight:600;color:var(--text);line-height:1.6">'+numMatch[2]+'</div></div>';
-          }else{
-            h+='<div style="font-size:13px;font-weight:600;color:var(--text);line-height:1.6">'+line+'</div>';
-          }
-          // Render section content inline
-          sectionLines.forEach(function(sl){
-            if(sl.indexOf("|")>-1){
-              h+='<div style="margin:6px 0 0 32px;padding:6px 12px;border-left:3px solid var(--accent);background:rgba(0,201,182,.03);border-radius:0 8px 8px 0">';
-              sl.split("|").forEach(function(ex){ex=ex.trim();if(ex)h+='<div style="font-size:12px;color:var(--textSec);line-height:1.7">'+ex+'</div>'});
-              h+='</div>';
-            }else{
-              h+='<div style="font-size:12px;color:var(--textSec);line-height:1.7;padding:2px 0;margin:0 2px">'+sl+'</div>';
-            }
+          h+='<div id="'+trapId+'" style="display:none;padding:10px 14px 14px;border-top:1px dashed rgba(237,107,6,.2);background:rgba(237,107,6,.02)">';
+          sec.lines.forEach(function(sl){
+            if(sl.indexOf("\u2713")>-1&&sl.indexOf("\u2717")===-1){h+='<div style="margin:3px 0;padding:4px 10px;font-size:11px;color:var(--success);line-height:1.5;background:var(--successBg);border-radius:6px">'+sl+'</div>';}
+            else if(sl.indexOf("\u2717")>-1||sl.indexOf("NEVER")>-1){h+='<div style="margin:3px 0;padding:4px 10px;font-size:11px;color:var(--error);line-height:1.5;background:var(--errorBg);border-radius:6px">'+sl+'</div>';}
+            else{h+='<div style="font-size:12px;color:var(--textSec);line-height:1.6;padding:2px 0">'+sl+'</div>';}
           });
-          h+='</div>';
+          h+='</div></div>';
+        }else if(sec.type==="line"){
+          if(sec.text.indexOf("YOUR MISTAKE")>-1){h+='<div style="margin:10px 0;padding:10px 14px;background:rgba(211,47,47,.06);border:1.5px solid rgba(211,47,47,.15);border-radius:10px;font-size:12px;font-weight:700;color:var(--error)">\ud83c\udfaf '+sec.text+'</div>';}
+          else{h+='<div style="font-size:12px;color:var(--textSec);line-height:1.7;padding:3px 0;margin:0 2px">'+sec.text+'</div>';}
         }
-        ni=si;continue;
+      });
+    }else{
+      var ni=0;
+      while(ni<sk.notes.length){
+        var line=sk.notes[ni];
+        if(line===line.toUpperCase()&&line.length>3&&!line.match(/^\d/)){
+          h+='<div style="margin:22px 0 10px;padding:10px 14px;background:linear-gradient(90deg,var(--primary),rgba(54,67,149,.7));border-radius:10px">';
+          h+='<div style="font-size:11px;font-weight:700;color:#fff;letter-spacing:.06em">'+line+'</div>';
+          if(ni+1<sk.notes.length){var next=sk.notes[ni+1];
+            if(next!==next.toUpperCase()&&!next.match(/^\d/)&&next.indexOf("|")>-1){
+              h+='<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px">';
+              next.split("|").forEach(function(tag){tag=tag.trim();if(tag)h+='<span style="font-size:10px;padding:2px 8px;border-radius:4px;background:rgba(255,255,255,.2);color:rgba(255,255,255,.9)">'+tag+'</span>'});
+              h+='</div>';ni++}}
+          h+='</div>';ni++;continue}
+        if(line.match(/^\d/)){
+          var eg=sk.notes[ni+1]||"";var hasEg=eg&&!eg.match(/^\d/)&&eg!==eg.toUpperCase()&&eg.indexOf("WRONG")===-1&&eg.indexOf("PTE FIB")===-1;
+          h+='<div style="margin-bottom:8px;padding:0 2px">';
+          var numMatch=line.match(/^(\d+)\.\s*(.*)/);
+          if(numMatch){h+='<div style="display:flex;gap:10px;align-items:flex-start"><span style="min-width:22px;height:22px;border-radius:6px;background:var(--accentBg);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--accent);flex-shrink:0;margin-top:1px">'+numMatch[1]+'</span><div style="font-size:13px;font-weight:600;color:var(--text);line-height:1.6">'+numMatch[2]+'</div></div>'}
+          else{h+='<div style="font-size:13px;font-weight:600;color:var(--text);line-height:1.6">'+line+'</div>'}
+          if(hasEg){h+='<div style="margin:6px 0 0 32px;padding:6px 12px;border-left:3px solid var(--accent);background:rgba(0,201,182,.03);border-radius:0 8px 8px 0">';
+            if(eg.indexOf("|")>-1){eg.split("|").forEach(function(ex){ex=ex.trim();if(ex)h+='<div style="font-size:12px;color:var(--textSec);line-height:1.7">'+ex+'</div>'})}
+            else{h+='<div style="font-size:12px;color:var(--textSec);line-height:1.7">'+eg+'</div>'}h+='</div>';ni++}
+          h+='</div>';ni++;continue}
+        if(line.indexOf("WRONG:")>-1){
+          h+='<div style="margin:6px 0 8px;padding:10px 12px;background:var(--errorBg);border:1px solid rgba(211,47,47,.12);border-radius:10px;font-size:12px;line-height:1.8">';
+          line.split(/\s*\|\s*/).forEach(function(p){p=p.trim();if(!p)return;h+='<div>'+p.replace(/WRONG:/g,'<span style="color:var(--error);font-weight:700">\u2717 </span>').replace(/RIGHT:/g,'<span style="color:var(--success);font-weight:700">\u2713 </span>')+'</div>'});
+          h+='</div>';ni++;continue}
+        if(line.indexOf("PTE FIB TIP")>-1){
+          h+='<div style="margin:12px 0;padding:12px 14px;background:rgba(237,107,6,.06);border:1.5px solid rgba(237,107,6,.2);border-radius:12px"><div style="font-size:10px;font-weight:700;color:var(--warning);margin-bottom:4px">\ud83c\udfaf PTE EXAM TIP</div><div style="font-size:12px;color:var(--textSec);line-height:1.7">'+line.replace("PTE FIB TIP: ","").replace("PTE FIB TIP:","")+'</div></div>';
+          ni++;continue}
+        if(line.match(/^(SP|PC|PP|will|going to)(\s+signals?)?:/i)){
+          h+='<div style="margin:4px 0 6px;padding:8px 12px;background:var(--bg);border-radius:8px;border:1px solid var(--border)">';
+          var colonIdx=line.indexOf(":");h+='<span style="font-size:11px;font-weight:700;color:var(--primary)">'+line.substring(0,colonIdx).trim()+':</span> <span style="font-size:11px;color:var(--textSec)">'+line.substring(colonIdx+1).trim()+'</span></div>';
+          ni++;continue}
+        if(line.trim().length>0){h+='<div style="font-size:12px;color:var(--textSec);line-height:1.7;padding:3px 0;margin:0 2px">'+line+'</div>'}
+        ni++;
       }
-      // WRONG/RIGHT pairs
-      if(line.indexOf("WRONG:")>-1||line.indexOf("WRONG: ")>-1){
-        h+='<div style="margin:6px 0 8px;padding:10px 12px;background:var(--errorBg);border:1px solid rgba(211,47,47,.12);border-radius:10px;font-size:12px;line-height:1.8">';
-        var parts=line.split(/\s*\|\s*/);
-        parts.forEach(function(p){
-          p=p.trim();if(!p)return;
-          h+='<div>'+p.replace(/WRONG:/g,'<span style="color:var(--error);font-weight:700">\u2717 </span>').replace(/RIGHT:/g,'<span style="color:var(--success);font-weight:700">\u2713 </span>')+'</div>';
-        });
-        h+='</div>';
-        ni++;continue;
-      }
-      // PTE FIB TIP
-      if(line.indexOf("PTE FIB TIP")>-1){
-        h+='<div style="margin:12px 0;padding:12px 14px;background:rgba(237,107,6,.06);border:1.5px solid rgba(237,107,6,.2);border-radius:12px">';
-        h+='<div style="font-size:10px;font-weight:700;color:var(--warning);margin-bottom:4px">\uD83C\uDFAF PTE EXAM TIP</div>';
-        h+='<div style="font-size:12px;color:var(--textSec);line-height:1.7">'+line.replace("PTE FIB TIP: ","").replace("PTE FIB TIP:","")+'</div></div>';
-        ni++;continue;
-      }
-      // Signal word lines
-      if(line.match(/^(SP|PC|PP|will|going to)(\s+signals?)?:/i)){
-        h+='<div style="margin:4px 0 6px;padding:8px 12px;background:var(--bg);border-radius:8px;border:1px solid var(--border)">';
-        var colonIdx=line.indexOf(":");
-        var label=line.substring(0,colonIdx).trim();
-        var words=line.substring(colonIdx+1).trim();
-        h+='<span style="font-size:11px;font-weight:700;color:var(--primary)">'+label+':</span> ';
-        h+='<span style="font-size:11px;color:var(--textSec)">'+words+'</span></div>';
-        ni++;continue;
-      }
-      // Generic content line
-      if(line.trim().length>0){
-        h+='<div style="font-size:12px;color:var(--textSec);line-height:1.7;padding:3px 0;margin:0 2px">'+line+'</div>';
-      }
-      ni++;
     }
-    // Close last collapsible section if open
-    if(isLong&&sectionCount>0){h+='</div></div>'}
   }
+
   // PTE Trap - prominent card at bottom
   if(sk.trap){
     h+='<div style="margin-top:18px">';
