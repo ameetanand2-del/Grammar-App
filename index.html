@@ -1783,7 +1783,7 @@ function rMain(){
       sbe.forEach(([sid,data])=>{
         const tid=findTidForSid(sid);const sk=tid?gSk(tid,sid):null;const name=sk?sk.title:sid;
         const pct=data.total>0?Math.round(((data.total-data.wrong)/data.total)*100):0;
-        h+='<div onclick="S.tid=\''+tid+'\';S.sid=\''+sid+'\';S.stab=\'learn\';S.v=\'sub\';R()" style="display:flex;align-items:center;gap:8px;padding:10px 8px;border-bottom:1px solid var(--border);cursor:pointer;border-radius:8px;transition:background .15s" onmouseover="this.style.background=\'var(--accentBg)\'" onmouseout="this.style.background=\'none\'">';
+        h+='<div onclick="S.tid=\''+tid+'\';openSub(\''+sid+'\')" style="display:flex;align-items:center;gap:8px;padding:10px 8px;border-bottom:1px solid var(--border);cursor:pointer;border-radius:8px;transition:background .15s" onmouseover="this.style.background=\'var(--accentBg)\'" onmouseout="this.style.background=\'none\'">';
         h+='<div style="flex:1;min-width:0"><div style="font-size:11px;font-weight:600;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+name+'</div>';
         h+='<div style="display:flex;gap:6px;margin-top:3px"><span style="font-size:10px;color:var(--error);font-weight:600">'+data.wrong+' wrong</span><span style="font-size:10px;color:var(--textMuted)">/ '+data.total+' blanks</span></div></div>';
         h+='<div style="font-size:13px;font-weight:700;color:'+(pct>=80?'var(--success)':pct>=50?'var(--warning)':'var(--error)')+'">'+pct+'%</div>';
@@ -1977,11 +1977,18 @@ function renderKBContent(tid,sid){
   }
   // Notes - the main learning content with smart rendering
   if(sk.notes&&sk.notes.length>0){
+    // Check if this is a long topic (connectors etc) — make sections collapsible
+    var isLong=sk.notes.length>20;
+    var sectionCount=0;
     var ni=0;
     while(ni<sk.notes.length){
       var line=sk.notes[ni];
+      // Empty line spacer
+      if(line.trim()===""){ni++;continue}
       // SECTION HEADER (ALL CAPS, not numbered)
       if(line===line.toUpperCase()&&line.length>3&&!line.match(/^\d/)){
+        // Close previous collapsible section if open
+        if(isLong&&sectionCount>0){h+='</div></div>'}
         h+='<div style="margin:22px 0 10px;padding:10px 14px;background:linear-gradient(90deg,var(--primary),rgba(54,67,149,.7));border-radius:10px">';
         h+='<div style="font-size:11px;font-weight:700;color:#fff;letter-spacing:.06em">'+line+'</div>';
         // Subtitle line (pipe-separated tags)
@@ -1997,43 +2004,78 @@ function renderKBContent(tid,sid){
           }
         }
         h+='</div>';
+        sectionCount=0;
         ni++;continue;
       }
-      // NUMBERED RULE (starts with digit)
+      // NUMBERED RULE (starts with digit) — make collapsible if long topic
       if(line.match(/^\d/)){
-        var eg=sk.notes[ni+1]||"";
-        var hasEg=eg&&!eg.match(/^\d/)&&eg!==eg.toUpperCase()&&eg.indexOf("WRONG")===-1&&eg.indexOf("PTE FIB")===-1;
-        h+='<div style="margin-bottom:8px;padding:0 2px">';
-        // Rule number + text
+        // Close previous collapsible section if open
+        if(isLong&&sectionCount>0){h+='</div></div>'}
+        sectionCount++;
         var numMatch=line.match(/^(\d+)\.\s*(.*)/);
-        if(numMatch){
-          h+='<div style="display:flex;gap:10px;align-items:flex-start">';
-          h+='<span style="min-width:22px;height:22px;border-radius:6px;background:var(--accentBg);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--accent);flex-shrink:0;margin-top:1px">'+numMatch[1]+'</span>';
-          h+='<div style="font-size:13px;font-weight:600;color:var(--text);line-height:1.6">'+numMatch[2]+'</div></div>';
-        }else{
-          h+='<div style="font-size:13px;font-weight:600;color:var(--text);line-height:1.6">'+line+'</div>';
+        var sectionTitle=numMatch?numMatch[2]:line;
+        var sectionNum=numMatch?numMatch[1]:"";
+        // Collect all lines until next numbered rule, section header, or TRAP/COMMON
+        var sectionLines=[];
+        var si=ni+1;
+        while(si<sk.notes.length){
+          var sl=sk.notes[si];
+          if(sl.match(/^\d+\./)||sl.trim()===""||(sl===sl.toUpperCase()&&sl.length>3&&!sl.match(/^\d/))){break}
+          sectionLines.push(sl);
+          si++;
         }
-        // Example below the rule - indented with accent left border
-        if(hasEg){
-          h+='<div style="margin:6px 0 0 32px;padding:6px 12px;border-left:3px solid var(--accent);background:rgba(0,201,182,.03);border-radius:0 8px 8px 0">';
-          // Split pipe-separated examples onto separate lines
-          if(eg.indexOf("|")>-1){
-            eg.split("|").forEach(function(ex){
-              ex=ex.trim();if(ex)h+='<div style="font-size:12px;color:var(--textSec);line-height:1.7">'+ex+'</div>';
-            });
-          }else{
-            h+='<div style="font-size:12px;color:var(--textSec);line-height:1.7">'+eg+'</div>';
-          }
+        if(isLong){
+          // Collapsible accordion
+          var secId='sec_'+S.sid+'_'+sectionNum;
+          h+='<div style="margin-bottom:4px;border:1px solid var(--border);border-radius:12px;overflow:hidden">';
+          h+='<div onclick="var el=document.getElementById(\''+secId+'\');var arrow=document.getElementById(\'arr_'+secId+'\');if(el.style.maxHeight===\'0px\'||!el.style.maxHeight){el.style.maxHeight=el.scrollHeight+\'px\';el.style.opacity=\'1\';arrow.textContent=\'▾\'}else{el.style.maxHeight=\'0px\';el.style.opacity=\'0\';arrow.textContent=\'▸\'}" style="display:flex;gap:10px;align-items:center;padding:12px 14px;cursor:pointer;background:var(--card)">';
+          h+='<span style="min-width:24px;height:24px;border-radius:8px;background:var(--accentBg);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--accent);flex-shrink:0">'+sectionNum+'</span>';
+          h+='<div style="flex:1;font-size:13px;font-weight:600;color:var(--text)">'+sectionTitle+'</div>';
+          h+='<span id="arr_'+secId+'" style="font-size:14px;color:var(--textMuted);flex-shrink:0">▸</span>';
           h+='</div>';
-          ni++;
+          h+='<div id="'+secId+'" style="max-height:0px;opacity:0;overflow:hidden;transition:max-height .3s ease,opacity .2s ease;padding:0 14px">';
+          h+='<div style="padding:8px 0">';
+          // Render section content
+          sectionLines.forEach(function(sl){
+            if(sl.indexOf("Example")>-1||sl.indexOf("example")>-1||sl.match(/^['"]/)){ 
+              h+='<div style="margin:4px 0;padding:6px 12px;border-left:3px solid var(--accent);background:rgba(0,201,182,.03);border-radius:0 8px 8px 0;font-size:12px;color:var(--textSec);line-height:1.6">'+sl+'</div>';
+            }else if(sl.indexOf("CRITICAL")>-1||sl.indexOf("WARNING")>-1||sl.indexOf("NEVER")>-1){
+              h+='<div style="margin:4px 0;padding:6px 10px;background:var(--errorBg);border-radius:8px;font-size:11px;color:var(--error);font-weight:600;line-height:1.5">⚠️ '+sl+'</div>';
+            }else if(sl.indexOf("Similar:")>-1){
+              h+='<div style="margin:4px 0;padding:6px 10px;background:var(--accentBg);border-radius:8px;font-size:11px;color:var(--accent);line-height:1.5">🔗 '+sl+'</div>';
+            }else{
+              h+='<div style="font-size:12px;color:var(--textSec);line-height:1.6;padding:2px 0">'+sl+'</div>';
+            }
+          });
+          h+='</div>';
+          // Don't close yet — closed at next section or end
+        }else{
+          // Non-collapsible — original rendering
+          h+='<div style="margin-bottom:8px;padding:0 2px">';
+          if(numMatch){
+            h+='<div style="display:flex;gap:10px;align-items:flex-start">';
+            h+='<span style="min-width:22px;height:22px;border-radius:6px;background:var(--accentBg);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--accent);flex-shrink:0;margin-top:1px">'+numMatch[1]+'</span>';
+            h+='<div style="font-size:13px;font-weight:600;color:var(--text);line-height:1.6">'+numMatch[2]+'</div></div>';
+          }else{
+            h+='<div style="font-size:13px;font-weight:600;color:var(--text);line-height:1.6">'+line+'</div>';
+          }
+          // Render section content inline
+          sectionLines.forEach(function(sl){
+            if(sl.indexOf("|")>-1){
+              h+='<div style="margin:6px 0 0 32px;padding:6px 12px;border-left:3px solid var(--accent);background:rgba(0,201,182,.03);border-radius:0 8px 8px 0">';
+              sl.split("|").forEach(function(ex){ex=ex.trim();if(ex)h+='<div style="font-size:12px;color:var(--textSec);line-height:1.7">'+ex+'</div>'});
+              h+='</div>';
+            }else{
+              h+='<div style="font-size:12px;color:var(--textSec);line-height:1.7;padding:2px 0;margin:0 2px">'+sl+'</div>';
+            }
+          });
+          h+='</div>';
         }
-        h+='</div>';
-        ni++;continue;
+        ni=si;continue;
       }
       // WRONG/RIGHT pairs
       if(line.indexOf("WRONG:")>-1||line.indexOf("WRONG: ")>-1){
         h+='<div style="margin:6px 0 8px;padding:10px 12px;background:var(--errorBg);border:1px solid rgba(211,47,47,.12);border-radius:10px;font-size:12px;line-height:1.8">';
-        // Split on periods or pipe to get individual wrong/right pairs
         var parts=line.split(/\s*\|\s*/);
         parts.forEach(function(p){
           p=p.trim();if(!p)return;
@@ -2049,7 +2091,7 @@ function renderKBContent(tid,sid){
         h+='<div style="font-size:12px;color:var(--textSec);line-height:1.7">'+line.replace("PTE FIB TIP: ","").replace("PTE FIB TIP:","")+'</div></div>';
         ni++;continue;
       }
-      // Signal word lines (contain colons like "SP: word, word, word" or "SP signals:")
+      // Signal word lines
       if(line.match(/^(SP|PC|PP|will|going to)(\s+signals?)?:/i)){
         h+='<div style="margin:4px 0 6px;padding:8px 12px;background:var(--bg);border-radius:8px;border:1px solid var(--border)">';
         var colonIdx=line.indexOf(":");
@@ -2060,11 +2102,13 @@ function renderKBContent(tid,sid){
         ni++;continue;
       }
       // Generic content line
-      if(line.trim().length>0&&line!=="(empty line)"){
+      if(line.trim().length>0){
         h+='<div style="font-size:12px;color:var(--textSec);line-height:1.7;padding:3px 0;margin:0 2px">'+line+'</div>';
       }
       ni++;
     }
+    // Close last collapsible section if open
+    if(isLong&&sectionCount>0){h+='</div></div>'}
   }
   // PTE Trap - prominent card at bottom
   if(sk.trap){
@@ -2159,6 +2203,8 @@ function subL2(){
   if(!ok&&q.sids){
     q.sids.forEach(sid=>{if(!st.l2w.includes(sid))st.l2w.push(sid);st.errors[sid]=(st.errors[sid]||0)+1});
   }
+  // Save current position — save the NEXT index so resume skips already-answered
+  st.l2session={list:S.l2list.map(q=>q.id),idx:S.l2i+1};
   sv(st);R();
 }
 function nxL2(){if(S.l2i<S.l2list.length-1){S.l2i++;S.l2ans={};S.l2sub=false;S.l2sw=null;saveL2Progress();R();window.scrollTo({top:0,behavior:"smooth"})}else{
