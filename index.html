@@ -1657,6 +1657,7 @@ if(!st.l1)st.l1={};if(!st.l2)st.l2={};if(!st.kb)st.kb={};if(!st.l2w)st.l2w=[];
 if(!st.errors)st.errors={};// errors per sub-topic sid: {sid: count}
 if(!st.blankStats)st.blankStats={total:0,correct:0,wrong:0};// per-blank stats
 if(!st.blankErrors)st.blankErrors={};// per-blank errors by sid: {sid: {wrong:N, total:N}}
+if(!window._accOpen)window._accOpen={};// accordion open state — NOT in localStorage, just in memory
 L1.forEach(q=>{if(!st.l1[q.id])st.l1[q.id]="new"});
 // Merge L1 into L2 for Question Bank (convert L1 format to L2 format)
 const L1forQB=L1.map(q=>{const q2=Object.assign({},q);q2.id="QB_"+q.id;if(!q2.sids){q2.sids=q2.sid?[q2.sid]:[]}return q2});
@@ -1680,7 +1681,7 @@ function trackBlanks(q,ans,sids){
   sv(st);
 }
 // Get sorted blank errors by topic
-function sortedBlankErrors(){return Object.entries(st.blankErrors).filter(([k,v])=>v.wrong>0).sort((a,b)=>b[1].wrong-a[1].wrong)}
+function sortedBlankErrors(){return Object.entries(st.blankErrors).sort((a,b)=>b[1].wrong-a[1].wrong)}
 
 let S={v:"main",mt:"topics",tid:null,sid:null,qi:0,ql:[],ans:{},sub:false,sw:null,kbi:0,stab:"learn",
   l2i:0,l2list:[],l2ans:{},l2sub:false,l2sw:null,l2relearn:false,l2relearnSids:[]};
@@ -1996,13 +1997,15 @@ function renderKBContent(tid,sid){
           h+='<div style="font-size:11px;font-weight:700;color:#fff;letter-spacing:.06em">'+sec.title+'</div></div>';
         }else if(sec.type==="connector"){
           var secId='sec_'+S.sid+'_'+sec.num+'_'+idx;
+          var isOpen=window._accOpen[secId]||false;
           h+='<div style="margin-bottom:4px;border:1px solid var(--border);border-radius:12px;overflow:hidden">';
-          h+='<div onclick="var el=document.getElementById(\''+secId+'\');if(!el)return;if(el.style.display===\'none\'){el.style.display=\'block\';this.lastElementChild.textContent=\'\u25be\'}else{el.style.display=\'none\';this.lastElementChild.textContent=\'\u25b8\'}" style="display:flex;gap:10px;align-items:center;padding:12px 14px;cursor:pointer;background:var(--card);-webkit-tap-highlight-color:transparent">';
+          h+='<div onclick="window._accOpen[\''+secId+'\']=!window._accOpen[\''+secId+'\'];R()" style="display:flex;gap:10px;align-items:center;padding:12px 14px;cursor:pointer;background:var(--card);-webkit-tap-highlight-color:transparent">';
           h+='<span style="min-width:26px;height:26px;border-radius:8px;background:var(--accentBg);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--accent);flex-shrink:0">'+sec.num+'</span>';
           h+='<div style="flex:1;font-size:13px;font-weight:600;color:var(--text)">'+sec.title+'</div>';
-          h+='<span style="font-size:16px;color:var(--textMuted);flex-shrink:0">\u25b8</span>';
+          h+='<span style="font-size:16px;color:var(--textMuted);flex-shrink:0;transition:transform .2s;transform:rotate('+(isOpen?'90':'0')+'deg)">\u25b8</span>';
           h+='</div>';
-          h+='<div id="'+secId+'" style="display:none;padding:10px 14px 14px;border-top:1px solid var(--border);background:var(--bg)">';
+          if(isOpen){
+          h+='<div style="padding:10px 14px 14px;border-top:1px solid var(--border);background:var(--bg)">';
           sec.lines.forEach(function(sl){
             if(sl.indexOf("Meaning:")>-1){h+='<div style="margin:6px 0;padding:8px 12px;background:var(--accentBg);border-radius:8px;font-size:12px;line-height:1.6"><span style="font-weight:700;color:var(--accent)">\ud83d\udcd6 </span><span style="color:var(--text)">'+sl+'</span></div>';}
             else if(sl.indexOf("Position:")>-1){h+='<div style="margin:4px 0;padding:8px 12px;background:rgba(54,67,149,.06);border-radius:8px;font-size:12px;line-height:1.6"><span style="font-weight:700;color:var(--primary)">\ud83d\udccd </span><span style="color:var(--text)">'+sl+'</span></div>';}
@@ -2012,22 +2015,28 @@ function renderKBContent(tid,sid){
             else if(sl.indexOf("WARNING")>-1||sl.indexOf("NOTE:")>-1){h+='<div style="margin:4px 0;padding:6px 10px;background:var(--warningBg);border-radius:8px;font-size:11px;color:var(--warning);font-weight:600;line-height:1.5">\u26a0\ufe0f '+sl+'</div>';}
             else{h+='<div style="font-size:12px;color:var(--textSec);line-height:1.6;padding:2px 0">'+sl+'</div>';}
           });
-          h+='</div></div>';
+          h+='</div>';
+          }
+          h+='</div>';
         }else if(sec.type==="trap"){
           var trapId='trap_'+S.sid+'_'+idx;
+          var isTrapOpen=window._accOpen[trapId]||false;
           h+='<div style="margin:6px 0;border:1.5px solid rgba(237,107,6,.25);border-radius:12px;overflow:hidden">';
-          h+='<div onclick="var el=document.getElementById(\''+trapId+'\');if(!el)return;if(el.style.display===\'none\'){el.style.display=\'block\';this.lastElementChild.textContent=\'\u25be\'}else{el.style.display=\'none\';this.lastElementChild.textContent=\'\u25b8\'}" style="display:flex;gap:10px;align-items:center;padding:10px 14px;cursor:pointer;background:rgba(237,107,6,.04);-webkit-tap-highlight-color:transparent">';
+          h+='<div onclick="window._accOpen[\''+trapId+'\']=!window._accOpen[\''+trapId+'\'];R()" style="display:flex;gap:10px;align-items:center;padding:10px 14px;cursor:pointer;background:rgba(237,107,6,.04);-webkit-tap-highlight-color:transparent">';
           h+='<span style="font-size:14px;flex-shrink:0">\u26a0\ufe0f</span>';
           h+='<div style="flex:1;font-size:12px;font-weight:700;color:var(--warning)">'+sec.title+'</div>';
-          h+='<span style="font-size:16px;color:var(--warning);flex-shrink:0">\u25b8</span>';
+          h+='<span style="font-size:16px;color:var(--warning);flex-shrink:0;transition:transform .2s;transform:rotate('+(isTrapOpen?'90':'0')+'deg)">\u25b8</span>';
           h+='</div>';
-          h+='<div id="'+trapId+'" style="display:none;padding:10px 14px 14px;border-top:1px dashed rgba(237,107,6,.2);background:rgba(237,107,6,.02)">';
+          if(isTrapOpen){
+          h+='<div style="padding:10px 14px 14px;border-top:1px dashed rgba(237,107,6,.2);background:rgba(237,107,6,.02)">';
           sec.lines.forEach(function(sl){
             if(sl.indexOf("\u2713")>-1&&sl.indexOf("\u2717")===-1){h+='<div style="margin:3px 0;padding:4px 10px;font-size:11px;color:var(--success);line-height:1.5;background:var(--successBg);border-radius:6px">'+sl+'</div>';}
             else if(sl.indexOf("\u2717")>-1||sl.indexOf("NEVER")>-1){h+='<div style="margin:3px 0;padding:4px 10px;font-size:11px;color:var(--error);line-height:1.5;background:var(--errorBg);border-radius:6px">'+sl+'</div>';}
             else{h+='<div style="font-size:12px;color:var(--textSec);line-height:1.6;padding:2px 0">'+sl+'</div>';}
           });
-          h+='</div></div>';
+          h+='</div>';
+          }
+          h+='</div>';
         }else if(sec.type==="line"){
           if(sec.text.indexOf("YOUR MISTAKE")>-1){h+='<div style="margin:10px 0;padding:10px 14px;background:rgba(211,47,47,.06);border:1.5px solid rgba(211,47,47,.15);border-radius:10px;font-size:12px;font-weight:700;color:var(--error)">\ud83c\udfaf '+sec.text+'</div>';}
           else{h+='<div style="font-size:12px;color:var(--textSec);line-height:1.7;padding:3px 0;margin:0 2px">'+sec.text+'</div>';}
